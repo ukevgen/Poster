@@ -1,4 +1,4 @@
-package com.agilie.poster.view
+package com.agilie.poster.view.activity
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy

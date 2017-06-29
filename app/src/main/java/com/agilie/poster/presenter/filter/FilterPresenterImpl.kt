@@ -5,5 +5,6 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 
 @InjectViewState
-class FilterPresenterImpl : MvpPresenter<FilterView>() {
+class FilterPresenterImpl : MvpPresenter<FilterView>(), FilterPresenter {
+
 }

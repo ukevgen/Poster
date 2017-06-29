@@ -5,5 +5,6 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 
 @InjectViewState
-class FillPresenterImpl: MvpPresenter<FillView>() {
+class FillPresenterImpl : MvpPresenter<FillView>(), FillPresenter {
+
 }

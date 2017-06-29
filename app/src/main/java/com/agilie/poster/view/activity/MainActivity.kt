@@ -1,10 +1,9 @@
-package com.agilie.poster.view
+package com.agilie.poster.view.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.agilie.poster.R
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : BaseActivity(), MainView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
