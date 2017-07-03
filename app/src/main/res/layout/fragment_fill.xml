@@ -9,6 +9,7 @@
     android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/seek_bar_con"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         >
@@ -17,13 +18,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             >
+
             <TextView
                 android:id="@+id/progress_counter"
                 style="@style/ProgressTextZero"
-                android:text="@string/zero"
                 android:layout_below="@+id/seek_bar"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="25dp"
-                android:layout_centerHorizontal="true"/>
+                android:text="@string/zero"/>
 
 
             <SeekBar
@@ -61,76 +63,85 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <Button
-        android:id="@+id/saturation"
-        style="@style/ImageProperties"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/ic_saturation"
-        app:layout_constraintBottom_toBottomOf="@+id/saturation_text"
-        app:layout_constraintLeft_toLeftOf="parent">
-    </Button>
-
-    <TextView
-        android:id="@+id/saturation_text"
-        style="@style/ImageText"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/properties_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="@string/saturation"
+        android:layout_marginRight="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/saturation"
-        app:layout_constraintRight_toRightOf="@+id/saturation"/>
-
-    <TextView
-        android:id="@+id/brightness_text"
-        style="@style/ImageText"
-        android:text="@string/brightness"
-        app:layout_constraintBottom_toBottomOf="@+id/saturation_text"
-        app:layout_constraintLeft_toLeftOf="@+id/brightness"
-        app:layout_constraintRight_toRightOf="@+id/brightness"/>
-
-    <TextView
-        android:id="@+id/contrast_text"
-        style="@style/ImageText"
-        android:text="@string/contrast"
-        app:layout_constraintBottom_toBottomOf="@+id/brightness_text"
-        app:layout_constraintLeft_toLeftOf="@+id/contrast"
-        app:layout_constraintRight_toRightOf="@+id/contrast"/>
-
-    <TextView
-        android:id="@+id/align_text"
-        style="@style/ImageText"
-        android:text="@string/align"
-        app:layout_constraintBottom_toBottomOf="@+id/contrast_text"
-        app:layout_constraintLeft_toLeftOf="@+id/align"
-        app:layout_constraintRight_toRightOf="@+id/align"/>
-
-    <Button
-        android:id="@+id/brightness"
-        style="@style/ImageProperties"
-        android:background="@drawable/ic_brightness"
-        app:layout_constraintBottom_toBottomOf="@+id/saturation"
-        app:layout_constraintLeft_toRightOf="@+id/saturation"
-        app:layout_constraintRight_toLeftOf="@+id/contrast">
-    </Button>
-
-    <Button
-        android:id="@+id/contrast"
-        style="@style/ImageProperties"
-        android:background="@drawable/ic_contrast"
-        app:layout_constraintBottom_toBottomOf="@+id/brightness"
-        app:layout_constraintLeft_toRightOf="@+id/brightness"
-        app:layout_constraintRight_toLeftOf="@+id/align">
-    </Button>
-
-    <Button
-        android:id="@+id/align"
-        style="@style/ImageProperties"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/ic_align"
-        app:layout_constraintBottom_toBottomOf="@+id/contrast"
         app:layout_constraintRight_toRightOf="parent">
-    </Button>
 
+        <Button
+            android:id="@+id/saturation"
+            style="@style/ImageProperties"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/ic_saturation"
+            app:layout_constraintBottom_toBottomOf="@+id/saturation_text"
+            app:layout_constraintLeft_toLeftOf="parent">
+        </Button>
+
+        <TextView
+            android:id="@+id/saturation_text"
+            style="@style/ImageText"
+            android:layout_marginBottom="8dp"
+            android:text="@string/saturation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/saturation"
+            app:layout_constraintRight_toRightOf="@+id/saturation"/>
+
+        <TextView
+            android:id="@+id/brightness_text"
+            style="@style/ImageText"
+            android:text="@string/brightness"
+            app:layout_constraintBottom_toBottomOf="@+id/saturation_text"
+            app:layout_constraintLeft_toLeftOf="@+id/brightness"
+            app:layout_constraintRight_toRightOf="@+id/brightness"/>
+
+        <TextView
+            android:id="@+id/contrast_text"
+            style="@style/ImageText"
+            android:text="@string/contrast"
+            app:layout_constraintBottom_toBottomOf="@+id/brightness_text"
+            app:layout_constraintLeft_toLeftOf="@+id/contrast"
+            app:layout_constraintRight_toRightOf="@+id/contrast"/>
+
+        <TextView
+            android:id="@+id/align_text"
+            style="@style/ImageText"
+            android:text="@string/align"
+            app:layout_constraintBottom_toBottomOf="@+id/contrast_text"
+            app:layout_constraintLeft_toLeftOf="@+id/align"
+            app:layout_constraintRight_toRightOf="@+id/align"/>
+
+        <Button
+            android:id="@+id/brightness"
+            style="@style/ImageProperties"
+            android:background="@drawable/ic_brightness"
+            app:layout_constraintBottom_toBottomOf="@+id/saturation"
+            app:layout_constraintLeft_toRightOf="@+id/saturation"
+            app:layout_constraintRight_toLeftOf="@+id/contrast">
+        </Button>
+
+        <Button
+            android:id="@+id/contrast"
+            style="@style/ImageProperties"
+            android:background="@drawable/ic_contrast"
+            app:layout_constraintBottom_toBottomOf="@+id/brightness"
+            app:layout_constraintLeft_toRightOf="@+id/brightness"
+            app:layout_constraintRight_toLeftOf="@+id/align">
+        </Button>
+
+        <Button
+            android:id="@+id/align"
+            style="@style/ImageProperties"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/ic_align"
+            app:layout_constraintBottom_toBottomOf="@+id/contrast"
+            app:layout_constraintRight_toRightOf="parent">
+        </Button>
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
