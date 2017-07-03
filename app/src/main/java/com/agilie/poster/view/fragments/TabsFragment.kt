@@ -38,7 +38,7 @@ class TabsFragment : Fragment(), TabLayout.OnTabSelectedListener {
 		pager.adapter = adapter
 		//Init TabLayout
 		tabLayout.apply {
-			setOnTabSelectedListener(this@TabsFragment)
+			//setOnTabSelectedListener(this@TabsFragment)
 			setupWithViewPager(pager)
 			getTabAt(0)?.customView = getTabIndicator(context, R.drawable.ic_fill)
 			getTabAt(1)?.customView = getTabIndicator(context, R.drawable.ic_filter)

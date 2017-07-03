@@ -35,9 +35,14 @@ dependencies {
     //Moxy
     compile 'com.arello-mobile:moxy:1.5.3'
     compile 'com.arello-mobile:moxy-app-compat:1.5.3'
-    testCompile 'junit:junit:4.12'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
     kapt 'com.arello-mobile:moxy-compiler:1.5.3'
+    //Text style
+    compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+    //Tests
+    testCompile 'junit:junit:4.12'
+
+
 }
 
 kapt {
