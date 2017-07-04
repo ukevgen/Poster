@@ -17,6 +17,7 @@ import com.agilie.poster.view.fragments.icons.IconsFragment
 import com.agilie.poster.view.fragments.shapebox.ShapeBoxFragment
 import com.agilie.poster.view.fragments.text.TextIconFragment
 
+
 class TabsFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
 
@@ -40,6 +41,7 @@ class TabsFragment : Fragment(), TabLayout.OnTabSelectedListener {
 		tabLayout.apply {
 			//setOnTabSelectedListener(this@TabsFragment)
 			setupWithViewPager(pager)
+
 			getTabAt(0)?.customView = getTabIndicator(context, R.drawable.ic_fill)
 			getTabAt(1)?.customView = getTabIndicator(context, R.drawable.ic_filter)
 			getTabAt(2)?.customView = getTabIndicator(context, R.drawable.ic_text)

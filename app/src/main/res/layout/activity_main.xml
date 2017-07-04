@@ -1,34 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/michele_spinnato_77283"
                 tools:context="com.agilie.poster.view.activity.MainActivity">
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/tab_layout">
+        android:background="@drawable/michele_spinnato_77283">
 
-    </FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="211dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/gradient_background">
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/ToolBar">
     </android.support.v7.widget.Toolbar>
 
-
     <android.support.design.widget.TabLayout
+
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="69dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:background="@android:color/transparent"
         app:tabIndicatorColor="@android:color/white"
-        app:tabMode="fixed"/>
+        app:tabMode="fixed">
+
+
+    </android.support.design.widget.TabLayout>
+
 
 </RelativeLayout>
