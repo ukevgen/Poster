@@ -1,247 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    android:orientation="vertical">
-
-    <RelativeLayout
-
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/properties_container"
-        >
-
-        <TextView
-            android:id="@+id/progress_counter"
-            style="@style/ProgressTextZero"
-            android:layout_below="@+id/seek_bar"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
-            android:text="@string/zero"/>
-
-
-        <SeekBar
-            android:id="@+id/seek_bar"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="82dp"
-            android:layout_marginRight="82dp"
-            android:max="50"
-            android:progress="25"
-            android:progressDrawable="@drawable/progress_properties"
-            android:thumb="@drawable/progress_pointer"
-            >
-        </SeekBar>
-
-        <TextView
-            android:id="@+id/progress_cancel"
-            style="@style/ProgressTexts"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="19dp"
-            android:layout_marginStart="19dp"
-            android:text="@string/cancel">
-        </TextView>
-
-        <TextView
-            style="@style/ProgressTexts"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="23dp"
-            android:text="@string/ok">
-        </TextView>
-    </RelativeLayout>
-
+    android:background="@android:color/transparent">
 
     <HorizontalScrollView
-        android:id="@+id/properties_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/properties_margin_bottom"
+        android:layout_marginBottom="32dp"
         android:fillViewport="true"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/add_icon">
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             >
 
-            <Button
-                android:id="@+id/back_to_original"
-                style="@style/ImageProperties"
+            <ImageView
+                android:id="@+id/flower_icon"
+                style="@style/WrapContentStyle"
                 android:layout_marginLeft="8dp"
-                android:background="@drawable/ic_back_to_original"
-                app:layout_constraintLeft_toLeftOf="parent"
-                >
-            </Button>
+                android:background="@drawable/flower_icon"
+                app:layout_constraintLeft_toLeftOf="parent">
+            </ImageView>
 
+            <ImageView
 
-            <Button
-                android:id="@+id/saturation"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_saturation"
-                app:layout_constraintBottom_toBottomOf="@+id/back_to_original"
-                app:layout_constraintLeft_toRightOf="@+id/back_to_original"
-                app:layout_constraintRight_toLeftOf="@+id/brightness"
-                >
-            </Button>
+                android:id="@+id/heart_icon"
+                style="@style/WrapContentStyle"
+                android:background="@drawable/heart_icon"
+                app:layout_constraintLeft_toRightOf="@+id/flower_icon"
+                app:layout_constraintRight_toLeftOf="@+id/pin_icon"/>
 
-            <TextView
-                android:id="@+id/back_to_original_text"
-                style="@style/ImageText"
-                android:text="@string/back_to_original"
-                app:layout_constraintLeft_toLeftOf="@+id/back_to_original"
-                app:layout_constraintRight_toRightOf="@+id/back_to_original"
-                app:layout_constraintTop_toBottomOf="@+id/back_to_original"/>
-
-            <TextView
-                android:id="@+id/saturation_text"
-                style="@style/ImageText"
-                android:text="@string/saturation"
-                app:layout_constraintBottom_toBottomOf="@id/back_to_original_text"
-                app:layout_constraintLeft_toLeftOf="@+id/saturation"
-                app:layout_constraintRight_toRightOf="@+id/saturation"
+            <ImageView
+                android:id="@+id/pin_icon"
+                style="@style/WrapContentStyle"
+                android:background="@drawable/pin_icon"
+                app:layout_constraintLeft_toRightOf="@+id/heart_icon"
+                app:layout_constraintRight_toLeftOf="@+id/clock_icon"
                 />
 
-            <TextView
-                android:id="@+id/brightness_text"
-                style="@style/ImageText"
-                android:text="@string/brightness"
-                app:layout_constraintBottom_toBottomOf="@+id/saturation_text"
-                app:layout_constraintLeft_toLeftOf="@+id/brightness"
-                app:layout_constraintRight_toRightOf="@+id/brightness"
-                />
 
-            <TextView
-                android:id="@+id/contrast_text"
-                style="@style/ImageText"
-                android:text="@string/contrast"
-                app:layout_constraintBottom_toBottomOf="@+id/brightness_text"
-                app:layout_constraintLeft_toLeftOf="@+id/contrast"
-                app:layout_constraintRight_toRightOf="@+id/contrast"
-                />
+            <ImageView
+                android:id="@+id/clock_icon"
+                style="@style/WrapContentStyle"
+                android:background="@drawable/clock_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/pin_icon"
+                app:layout_constraintRight_toLeftOf="@+id/alien_icon"/>
 
-            <TextView
-                android:id="@+id/details_text"
-                style="@style/ImageText"
-                android:text="@string/details"
-                app:layout_constraintBottom_toBottomOf="@+id/contrast_text"
-                app:layout_constraintLeft_toLeftOf="@+id/details"
-                app:layout_constraintRight_toRightOf="@+id/details"
-                />
-
-            <TextView
-                android:id="@+id/blur_text"
-                style="@style/ImageText"
-                android:text="@string/details"
-                app:layout_constraintBottom_toBottomOf="@+id/details_text"
-                app:layout_constraintLeft_toLeftOf="@+id/blur"
-                app:layout_constraintRight_toRightOf="@+id/blur"
-                />
-
-            <TextView
-                android:id="@+id/harshness_text"
-                style="@style/ImageText"
-                android:text="@string/details"
-                app:layout_constraintBottom_toBottomOf="@+id/blur_text"
-                app:layout_constraintLeft_toLeftOf="@+id/harshness"
-                app:layout_constraintRight_toRightOf="@+id/harshness"
-                />
-
-            <TextView
-                android:id="@+id/warm_text"
-                style="@style/ImageText"
-                android:text="@string/details"
-                app:layout_constraintBottom_toBottomOf="@+id/harshness_text"
-                app:layout_constraintLeft_toLeftOf="@+id/warm"
-                app:layout_constraintRight_toRightOf="@+id/warm"
-                />
-
-            <TextView
-                android:id="@+id/align_text"
-                style="@style/ImageText"
-                android:text="@string/align"
-                app:layout_constraintBottom_toBottomOf="@+id/contrast_text"
-                app:layout_constraintLeft_toLeftOf="@+id/align"
-                app:layout_constraintRight_toRightOf="@+id/align"
-                />
-
-            <Button
-                android:id="@+id/brightness"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_brightness"
-                app:layout_constraintBottom_toBottomOf="@+id/saturation"
-                app:layout_constraintLeft_toRightOf="@+id/saturation"
-                app:layout_constraintRight_toLeftOf="@+id/contrast"
-                >
-            </Button>
-
-            <Button
-                android:id="@+id/contrast"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_contrast"
-                app:layout_constraintBottom_toBottomOf="@+id/brightness"
-                app:layout_constraintLeft_toRightOf="@+id/brightness"
-                app:layout_constraintRight_toLeftOf="@+id/align"
-                >
-            </Button>
-
-            <Button
-                android:id="@+id/align"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_align"
-                app:layout_constraintBottom_toBottomOf="@+id/contrast"
-                app:layout_constraintLeft_toRightOf="@+id/contrast"
-                app:layout_constraintRight_toLeftOf="@+id/details">
-            </Button>
-
-            <Button
-                android:id="@+id/details"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_details"
-                app:layout_constraintBottom_toBottomOf="@+id/align"
-                app:layout_constraintLeft_toRightOf="@+id/align"
-                app:layout_constraintRight_toLeftOf="@+id/blur"/>
-
-            <Button
-                android:id="@+id/blur"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_blur"
-                app:layout_constraintBottom_toBottomOf="@+id/details"
-                app:layout_constraintLeft_toRightOf="@+id/details"
-                app:layout_constraintRight_toLeftOf="@+id/harshness"/>
-
-            <Button
-                android:id="@+id/harshness"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_harshness"
-                app:layout_constraintBottom_toBottomOf="@+id/blur"
-                app:layout_constraintLeft_toRightOf="@+id/blur"
-                app:layout_constraintRight_toLeftOf="@+id/warm"/>
-
-            <Button
-                android:id="@+id/warm"
-                style="@style/ImageProperties"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/ic_warm"
-                app:layout_constraintBottom_toBottomOf="@+id/contrast"
-                app:layout_constraintRight_toRightOf="parent"
-                >
-            </Button>
-
+            <ImageView
+                android:id="@+id/alien_icon"
+                style="@style/WrapContentStyle"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/alien_icon"
+                app:layout_constraintRight_toRightOf="parent"/>
 
         </android.support.constraint.ConstraintLayout>
     </HorizontalScrollView>
 
+    <Button
+        android:id="@+id/add_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="119dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <Button
+        android:id="@+id/undo_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="12dp"
+        android:background="@drawable/ic_undo"
+        app:layout_constraintBottom_toBottomOf="@+id/add_icon"
+        app:layout_constraintLeft_toRightOf="@+id/add_icon"
+        />
+
 </android.support.constraint.ConstraintLayout>
+
+
+

@@ -9,4 +9,7 @@
     <string name="zero">0</string>
     <string name="back_to_original">Back to original</string>
     <string name="details">Details</string>
+    <string name="blur">Blur</string>
+    <string name="harshness">Harshness</string>
+    <string name="warm">Warm</string>
 </resources>

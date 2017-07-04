@@ -29,6 +29,7 @@
             android:id="@+id/gradient2"
             style="@style/WrapContentStyle"
             android:background="@drawable/gradient2"
+
             app:layout_constraintLeft_toRightOf="@+id/gradient1"
             app:layout_constraintRight_toLeftOf="@+id/gradient3"/>
 

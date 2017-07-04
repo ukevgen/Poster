@@ -2,4 +2,5 @@
 <resources>
     <dimen name="ic_properties_size">60dp</dimen>
     <dimen name="properties_margin_bottom">69dp</dimen>
+    <dimen name="image_left_right_margin">40dp</dimen>
 </resources>
