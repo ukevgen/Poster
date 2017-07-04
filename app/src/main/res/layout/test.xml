@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/properties_container"
+        >
+
+        <TextView
+            android:id="@+id/progress_counter"
+            style="@style/ProgressTextZero"
+            android:layout_below="@+id/seek_bar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:text="@string/zero"/>
+
+
+        <SeekBar
+            android:id="@+id/seek_bar"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="82dp"
+            android:layout_marginRight="82dp"
+            android:max="50"
+            android:progress="25"
+            android:progressDrawable="@drawable/progress_properties"
+            android:thumb="@drawable/progress_pointer"
+            >
+        </SeekBar>
+
+        <TextView
+            android:id="@+id/progress_cancel"
+            style="@style/ProgressTexts"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="19dp"
+            android:layout_marginStart="19dp"
+            android:text="@string/cancel">
+        </TextView>
+
+        <TextView
+            style="@style/ProgressTexts"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="23dp"
+            android:text="@string/ok">
+        </TextView>
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:id="@+id/properties_container"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        >
+
+        <android.support.constraint.ConstraintLayout
+
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <Button
+                android:id="@+id/back_to_original"
+                style="@style/ImageProperties"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/ic_back_to_original"
+                app:layout_constraintLeft_toLeftOf="parent"
+                >
+            </Button>
+
+
+            <Button
+                android:id="@+id/saturation"
+                style="@style/ImageProperties"
+                android:background="@drawable/ic_saturation"
+                app:layout_constraintBottom_toBottomOf="@+id/back_to_original"
+                app:layout_constraintLeft_toRightOf="@+id/back_to_original"
+                app:layout_constraintRight_toLeftOf="@+id/brightness"
+                >
+            </Button>
+
+            <TextView
+                android:id="@+id/back_to_original_text"
+                style="@style/ImageText"
+                android:text="@string/back_to_original"
+                app:layout_constraintLeft_toLeftOf="@+id/back_to_original"
+                app:layout_constraintRight_toRightOf="@+id/back_to_original"
+                app:layout_constraintTop_toBottomOf="@+id/back_to_original"/>
+
+            <TextView
+                android:id="@+id/saturation_text"
+                style="@style/ImageText"
+                android:text="@string/saturation"
+                app:layout_constraintBottom_toBottomOf="@id/back_to_original_text"
+                app:layout_constraintLeft_toLeftOf="@+id/saturation"
+                app:layout_constraintRight_toRightOf="@+id/saturation"
+                />
+
+            <TextView
+                android:id="@+id/brightness_text"
+                style="@style/ImageText"
+                android:text="@string/brightness"
+                app:layout_constraintBottom_toBottomOf="@+id/saturation_text"
+                app:layout_constraintLeft_toLeftOf="@+id/brightness"
+                app:layout_constraintRight_toRightOf="@+id/brightness"
+                />
+
+            <TextView
+                android:id="@+id/contrast_text"
+                style="@style/ImageText"
+                android:text="@string/contrast"
+                app:layout_constraintBottom_toBottomOf="@+id/brightness_text"
+                app:layout_constraintLeft_toLeftOf="@+id/contrast"
+                app:layout_constraintRight_toRightOf="@+id/contrast"
+                />
+
+            <TextView
+                android:id="@+id/align_text"
+                style="@style/ImageText"
+                android:text="@string/align"
+                app:layout_constraintBottom_toBottomOf="@+id/contrast_text"
+                app:layout_constraintLeft_toLeftOf="@+id/align"
+                app:layout_constraintRight_toRightOf="@+id/align"
+                />
+
+            <Button
+                android:id="@+id/brightness"
+                style="@style/ImageProperties"
+                android:background="@drawable/ic_brightness"
+                app:layout_constraintBottom_toBottomOf="@+id/saturation"
+                app:layout_constraintLeft_toRightOf="@+id/saturation"
+                app:layout_constraintRight_toLeftOf="@+id/contrast"
+                >
+            </Button>
+
+            <Button
+                android:id="@+id/contrast"
+                style="@style/ImageProperties"
+                android:background="@drawable/ic_contrast"
+                app:layout_constraintBottom_toBottomOf="@+id/brightness"
+                app:layout_constraintLeft_toRightOf="@+id/brightness"
+                app:layout_constraintRight_toLeftOf="@+id/align"
+                >
+            </Button>
+
+            <Button
+                android:id="@+id/align"
+                style="@style/ImageProperties"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ic_align"
+                app:layout_constraintBottom_toBottomOf="@+id/contrast"
+                app:layout_constraintRight_toRightOf="parent"
+                >
+            </Button>
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
