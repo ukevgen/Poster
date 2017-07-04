@@ -1,76 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent">
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:scrollbars="none"
+                      android:background="@android:color/transparent"
+                      android:fillViewport="true">
 
-    <HorizontalScrollView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_gravity="bottom"
+        >
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+        <ImageView
+            android:id="@+id/gradient1"
+            style="@style/FilterStyle"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/gradient1"
+            app:layout_constraintLeft_toLeftOf="parent">
+        </ImageView>
 
-            <ImageView
-                android:id="@+id/gradient1"
-                style="@style/FilterStyle"
-                android:background="@drawable/gradient1"
-                >
-            </ImageView>
+        <ImageView
 
-            <ImageView
+            android:id="@+id/gradient2"
+            style="@style/FilterStyle"
+            android:background="@drawable/gradient2"
+            app:layout_constraintLeft_toRightOf="@+id/gradient1"
+            app:layout_constraintRight_toLeftOf="@+id/gradient3"/>
 
-                android:id="@+id/gradient2"
-                style="@style/FilterStyle"
-                android:background="@drawable/gradient2"
-                app:layout_constraintLeft_toRightOf="@+id/gradient1"
-                app:layout_constraintRight_toLeftOf="@+id/gradient3"/>
-
-            <ImageView
-                android:id="@+id/gradient3"
-                style="@style/FilterStyle"
-                android:background="@drawable/gradient3"
-                app:layout_constraintLeft_toRightOf="@+id/gradient2"
-                app:layout_constraintRight_toLeftOf="@+id/gradient4"
-                />
+        <ImageView
+            android:id="@+id/gradient3"
+            style="@style/FilterStyle"
+            android:background="@drawable/gradient3"
+            app:layout_constraintLeft_toRightOf="@+id/gradient2"
+            app:layout_constraintRight_toLeftOf="@+id/gradient4"
+            />
 
 
-            <ImageView
-                android:id="@+id/gradient4"
-                style="@style/FilterStyle"
-                android:background="@drawable/gradient4"
-                app:layout_constraintLeft_toRightOf="@+id/gradient3"
-                app:layout_constraintRight_toLeftOf="@+id/gradient5"/>
+        <ImageView
+            android:id="@+id/gradient4"
+            style="@style/FilterStyle"
+            android:background="@drawable/gradient4"
+            app:layout_constraintLeft_toRightOf="@+id/gradient3"
+            app:layout_constraintRight_toLeftOf="@+id/gradient5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="24dp"/>
 
-            <ImageView
-                android:id="@+id/gradient5"
-                style="@style/FilterStyle"
-                android:background="@drawable/gradient5"
-                app:layout_constraintLeft_toRightOf="@+id/gradient4"
-                app:layout_constraintRight_toLeftOf="@+id/gradient6"/>
+        <ImageView
+            android:id="@+id/gradient5"
+            style="@style/FilterStyle"
+            android:background="@drawable/gradient5"
+            app:layout_constraintLeft_toRightOf="@+id/gradient4"
+            app:layout_constraintRight_toLeftOf="@+id/gradient6"/>
 
-            <ImageView
-                android:id="@+id/gradient6"
-                style="@style/FilterStyle"
-                android:background="@drawable/gradient6"
-                app:layout_constraintLeft_toRightOf="@+id/gradient5"
-                app:layout_constraintRight_toLeftOf="@+id/gradient7"/>
+        <ImageView
+            android:id="@+id/gradient6"
+            style="@style/FilterStyle"
+            android:background="@drawable/gradient6"
+            app:layout_constraintLeft_toRightOf="@+id/gradient5"
+            app:layout_constraintRight_toLeftOf="@+id/gradient7"/>
 
-            <ImageView
-                android:id="@+id/gradient7"
-                style="@style/FilterStyle"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/gradient7"
-                app:layout_constraintRight_toRightOf="parent"/>
-        </android.support.constraint.ConstraintLayout>
-    </HorizontalScrollView>
+        <ImageView
+            android:id="@+id/gradient7"
+            style="@style/FilterStyle"
+            android:background="@drawable/gradient7"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="8dp"/>
+    </android.support.constraint.ConstraintLayout>
 
-
-</RelativeLayout>
+</HorizontalScrollView>
 
