@@ -61,23 +61,21 @@
     </RelativeLayout>
 
 
-    <ScrollView
+    <HorizontalScrollView
         android:id="@+id/properties_container"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/properties_margin_bottom"
         android:fillViewport="true"
         android:overScrollMode="never"
         android:scrollbars="none"
-        >
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <android.support.constraint.ConstraintLayout
-
-
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            android:layout_gravity="bottom"
+            >
 
             <Button
                 android:id="@+id/back_to_original"
@@ -135,6 +133,42 @@
                 />
 
             <TextView
+                android:id="@+id/details_text"
+                style="@style/ImageText"
+                android:text="@string/details"
+                app:layout_constraintBottom_toBottomOf="@+id/contrast_text"
+                app:layout_constraintLeft_toLeftOf="@+id/details"
+                app:layout_constraintRight_toRightOf="@+id/details"
+                />
+
+            <TextView
+                android:id="@+id/blur_text"
+                style="@style/ImageText"
+                android:text="@string/details"
+                app:layout_constraintBottom_toBottomOf="@+id/details_text"
+                app:layout_constraintLeft_toLeftOf="@+id/blur"
+                app:layout_constraintRight_toRightOf="@+id/blur"
+                />
+
+            <TextView
+                android:id="@+id/harshness_text"
+                style="@style/ImageText"
+                android:text="@string/details"
+                app:layout_constraintBottom_toBottomOf="@+id/blur_text"
+                app:layout_constraintLeft_toLeftOf="@+id/harshness"
+                app:layout_constraintRight_toRightOf="@+id/harshness"
+                />
+
+            <TextView
+                android:id="@+id/warm_text"
+                style="@style/ImageText"
+                android:text="@string/details"
+                app:layout_constraintBottom_toBottomOf="@+id/harshness_text"
+                app:layout_constraintLeft_toLeftOf="@+id/warm"
+                app:layout_constraintRight_toRightOf="@+id/warm"
+                />
+
+            <TextView
                 android:id="@+id/align_text"
                 style="@style/ImageText"
                 android:text="@string/align"
@@ -166,8 +200,41 @@
             <Button
                 android:id="@+id/align"
                 style="@style/ImageProperties"
-                android:layout_marginEnd="8dp"
                 android:background="@drawable/ic_align"
+                app:layout_constraintBottom_toBottomOf="@+id/contrast"
+                app:layout_constraintLeft_toRightOf="@+id/contrast"
+                app:layout_constraintRight_toLeftOf="@+id/details">
+            </Button>
+
+            <Button
+                android:id="@+id/details"
+                style="@style/ImageProperties"
+                android:background="@drawable/ic_details"
+                app:layout_constraintBottom_toBottomOf="@+id/align"
+                app:layout_constraintLeft_toRightOf="@+id/align"
+                app:layout_constraintRight_toLeftOf="@+id/blur"/>
+
+            <Button
+                android:id="@+id/blur"
+                style="@style/ImageProperties"
+                android:background="@drawable/ic_blur"
+                app:layout_constraintBottom_toBottomOf="@+id/details"
+                app:layout_constraintLeft_toRightOf="@+id/details"
+                app:layout_constraintRight_toLeftOf="@+id/harshness"/>
+
+            <Button
+                android:id="@+id/harshness"
+                style="@style/ImageProperties"
+                android:background="@drawable/ic_harshness"
+                app:layout_constraintBottom_toBottomOf="@+id/blur"
+                app:layout_constraintLeft_toRightOf="@+id/blur"
+                app:layout_constraintRight_toLeftOf="@+id/warm"/>
+
+            <Button
+                android:id="@+id/warm"
+                style="@style/ImageProperties"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ic_warm"
                 app:layout_constraintBottom_toBottomOf="@+id/contrast"
                 app:layout_constraintRight_toRightOf="parent"
                 >
@@ -175,6 +242,6 @@
 
 
         </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+    </HorizontalScrollView>
 
 </android.support.constraint.ConstraintLayout>
