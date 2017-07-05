@@ -3,4 +3,11 @@
     <dimen name="ic_properties_size">60dp</dimen>
     <dimen name="properties_margin_bottom">69dp</dimen>
     <dimen name="image_left_right_margin">40dp</dimen>
+    <dimen name="bottom_margin_box_icon">100dp</dimen>
+    <dimen name="global_margin_left_right">8dp</dimen>
+    <dimen name="button_undo_margin_left">12dp</dimen>
+    <dimen name="button_add_margin_left">20dp</dimen>
+    <dimen name="margin_bottom_extra_properties">200dp</dimen>
+    <dimen name="extra_properties_width">60dp</dimen>
+    <dimen name="extra_properties_height">28dp</dimen>
 </resources>

@@ -4,5 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="colorToolBar">#14000000</color>
+    <color name="colorToolBarTransparent">#14000000</color>
+    <color name="colorDisableTransparent">#443A303F</color>
+    <color name="colorWhiteTransparent">#60FFFFFF</color>
+    <color name="colorEnable">#563A303F</color>
 </resources>

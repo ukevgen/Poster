@@ -12,4 +12,8 @@
     <string name="blur">Blur</string>
     <string name="harshness">Harshness</string>
     <string name="warm">Warm</string>
+    <string name="half">0.5</string>
+    <string name="size">Size</string>
+    <string name="place">Place</string>
+    <string name="color">Color</string>
 </resources>

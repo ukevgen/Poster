@@ -1,64 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<HorizontalScrollView
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    android:fillViewport="true"
-    android:overScrollMode="never"
-    android:scrollbars="none">
+    android:background="@android:color/transparent">
 
-    <android.support.constraint.ConstraintLayout
+
+    <Button
+
+        android:id="@+id/size_shape_enable"
+        style="@style/ExtraProperties"
+        android:layout_marginBottom="@dimen/margin_bottom_extra_properties"
+        android:layout_marginLeft="@dimen/button_add_margin_left"
+        android:background="@drawable/size_enable_icon"
+        app:layout_constraintBottom_toTopOf="@+id/add_shape"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+    </Button>
+
+    <Button
+
+        android:id="@+id/size_shape_disable"
+        style="@style/ExtraProperties"
+        android:layout_marginBottom="@dimen/margin_bottom_extra_properties"
+        android:layout_marginLeft="@dimen/button_add_margin_left"
+        android:background="@drawable/size_disable_icon"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/add_shape"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+    </Button>
+
+
+    <Button
+        android:id="@+id/color_shape_enable"
+        style="@style/ExtraProperties"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/extra_button"
+        android:text="@string/color"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toRightOf="@+id/size_shape_enable"
+        app:layout_constraintTop_toTopOf="@+id/size_shape_enable"
+        />
+
+
+    <Button
+        android:id="@+id/color_shape_disable"
+        style="@style/ExtraProperties"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/colour_disable_icon"
+        app:layout_constraintLeft_toRightOf="@+id/size_shape_enable"
+        app:layout_constraintTop_toTopOf="@+id/size_shape_enable"
+        />
+
+    <com.agilie.poster.view.custom.PagerContainer
+        android:id="@+id/pager_container_shapes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="107dp"
+        app:layout_constraintBottom_toTopOf="@+id/add_shape">
+
+        <android.support.v4.view.ViewPager
+            android:layout_width="58dp"
+            android:layout_height="28dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            />
+    </com.agilie.poster.view.custom.PagerContainer>
+
+
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/properties_margin_bottom"
+        app:layout_constraintBottom_toBottomOf="@+id/horizontalScrollView"
         >
 
-        <ImageView
-            android:id="@+id/shape_oval"
-            style="@style/WrapContentStyle"
-            android:layout_marginLeft="8dp"
-            android:background="@drawable/shape_oval"
-            app:layout_constraintLeft_toLeftOf="parent">
-        </ImageView>
+        <TextView
+            android:id="@+id/progress_counter_shapes"
+            style="@style/ProgressTextCounter"
+            android:layout_below="@+id/seek_bar_shapes"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:text="@string/half"/>
 
-        <ImageView
+        <SeekBar
+            android:id="@+id/seek_bar_shapes"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="82dp"
+            android:layout_marginRight="82dp"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@drawable/progress_properties"
+            android:thumb="@drawable/progress_pointer"
+            >
+        </SeekBar>
 
-            android:id="@+id/shape_quadrangle"
-            style="@style/WrapContentStyle"
-            android:background="@drawable/shape_quadrangle"
-            app:layout_constraintLeft_toRightOf="@+id/shape_oval"
-            app:layout_constraintRight_toLeftOf="@+id/shape_rounded_rectangle"/>
-
-        <ImageView
-            android:id="@+id/shape_rounded_rectangle"
-            style="@style/WrapContentStyle"
-            android:background="@drawable/shape_rounded_rectangle"
-            app:layout_constraintLeft_toRightOf="@+id/shape_quadrangle"
-            app:layout_constraintRight_toLeftOf="@+id/shape_triangle"
-            />
+    </RelativeLayout>
 
 
-        <ImageView
-            android:id="@+id/shape_triangle"
-            style="@style/WrapContentStyle"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/shape_triangle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/shape_rounded_rectangle"
-            app:layout_constraintRight_toLeftOf="@+id/shape_polygon"/>
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@+id/add_shape">
 
-        <ImageView
-            android:id="@+id/shape_polygon"
-            style="@style/WrapContentStyle"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/shape_polygon"
-            app:layout_constraintRight_toRightOf="parent"/>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            >
 
-    </android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/shape_oval"
+                style="@style/WrapContentStyle"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/shape_circle"
+                app:layout_constraintLeft_toLeftOf="parent">
+            </ImageView>
 
-</HorizontalScrollView>
+            <ImageView
+
+                android:id="@+id/shape_quadrangle"
+                style="@style/WrapContentStyle"
+                android:background="@drawable/shape_quadrangle"
+                app:layout_constraintLeft_toRightOf="@+id/shape_oval"
+                app:layout_constraintRight_toLeftOf="@+id/shape_rounded_rectangle"/>
+
+            <ImageView
+                android:id="@+id/shape_rounded_rectangle"
+                style="@style/WrapContentStyle"
+                android:background="@drawable/shape_rounded_rectangle"
+                app:layout_constraintLeft_toRightOf="@+id/shape_quadrangle"
+                app:layout_constraintRight_toLeftOf="@+id/shape_triangle"
+                />
+
+
+            <ImageView
+                android:id="@+id/shape_triangle"
+                style="@style/WrapContentStyle"
+                android:background="@drawable/shape_triangle"
+                app:layout_constraintBottom_toBottomOf="@+id/shape_rounded_rectangle"
+                app:layout_constraintLeft_toRightOf="@+id/shape_rounded_rectangle"
+                app:layout_constraintRight_toLeftOf="@+id/shape_polygon"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+
+            <ImageView
+                android:id="@+id/shape_polygon"
+                style="@style/WrapContentStyle"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/shape_polygon"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/add_shape"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="@dimen/bottom_margin_box_icon"
+        android:layout_marginLeft="@dimen/button_add_margin_left"
+        android:background="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <Button
+        android:id="@+id/undo_shape"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="@dimen/button_undo_margin_left"
+        android:background="@drawable/ic_undo"
+        app:layout_constraintBottom_toBottomOf="@+id/add_shape"
+        app:layout_constraintLeft_toRightOf="@+id/add_shape"
+        />
+
+    <Button
+        android:id="@+id/trash_shape"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="@dimen/bottom_margin_box_icon"
+        android:layout_marginLeft="@dimen/button_add_margin_left"
+        android:background="@drawable/ic_trash"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
+
+
 
