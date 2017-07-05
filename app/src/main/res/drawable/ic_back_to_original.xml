@@ -5,11 +5,9 @@
         android:viewportHeight="60.0"
         android:viewportWidth="60.0">
     <group
-        android:translateX="-33"
-        android:translateY="-37">
+        >
         <group
-            android:translateX="33"
-            android:translateY="37">
+            >
             <path
                 android:fillAlpha="0.78"
                 android:fillColor="#000000"

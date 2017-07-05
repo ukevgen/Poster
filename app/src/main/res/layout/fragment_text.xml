@@ -1,7 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
 
-</LinearLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/text_details_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/trash_icon"
+        app:layout_constraintLeft_toLeftOf="@+id/add_icon">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_details"
+            android:layout_width="71dp"
+            android:layout_height="71dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/ic_bb_details"
+            app:layout_constraintBottom_toTopOf="@+id/button_title"
+            app:layout_constraintLeft_toLeftOf="@+id/button_title"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_title"
+            android:layout_width="71dp"
+            android:layout_height="71dp"
+            android:background="@drawable/ic_aa_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/text_details"
+            style="@style/TextFragment"
+            android:layout_height="0dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/details"
+            app:layout_constraintBottom_toBottomOf="@+id/button_details"
+            app:layout_constraintLeft_toRightOf="@+id/button_details"
+            app:layout_constraintTop_toTopOf="@+id/button_details"
+            />
+
+        <TextView
+            android:id="@+id/text_title"
+            style="@style/TextFragment"
+            android:layout_height="0dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/title"
+            app:layout_constraintBottom_toBottomOf="@+id/button_title"
+            app:layout_constraintLeft_toRightOf="@+id/button_title"
+            app:layout_constraintTop_toTopOf="@+id/button_title"
+            />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/add_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="@dimen/bottom_margin_box_icon"
+        android:layout_marginLeft="@dimen/button_add_margin_left"
+        android:layout_marginStart="@dimen/button_add_margin_left"
+        android:background="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/undo_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="@dimen/button_undo_margin_left"
+        android:layout_marginStart="@dimen/button_undo_margin_left"
+        android:background="@drawable/ic_undo"
+        app:layout_constraintBottom_toBottomOf="@+id/add_icon"
+        app:layout_constraintLeft_toRightOf="@+id/add_icon"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/trash_icon"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="@dimen/bottom_margin_box_icon"
+        android:layout_marginLeft="@dimen/button_add_margin_left"
+        android:layout_marginStart="@dimen/button_add_margin_left"
+        android:background="@drawable/ic_trash"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+
+</android.support.constraint.ConstraintLayout>
+
+
+

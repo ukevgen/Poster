@@ -4,23 +4,19 @@
         android:height="24dp"
         android:viewportHeight="60.0"
         android:viewportWidth="60.0">
-    <group
-        android:translateX="-595"
-        android:translateY="-37">
-        <group
-            android:translateX="595"
-            android:translateY="37">
+    <group>
+        <group>
             <path
-                android:pathData="M60 30A30 30 0 0 1 30 60 30 30 0 0 1 0 30 30 30 0 0 1 30 0 30 30 0 0 1 60 30Z"
+                android:fillAlpha="0.7795593"
                 android:fillColor="#000000"
-                android:fillAlpha="0.7795593" />
+                android:pathData="M60 30A30 30 0 0 1 30 60 30 30 0 0 1 0 30 30 30 0 0 1 30 0 30 30 0 0 1 60 30Z"/>
             <path
-                android:pathData="M39 31a9 9 0 0 1 -9 9 9 9 0 0 11 -9 -9 9 9 0 0 1 9 -9 9 9 0 0 1 9 9z"
-                android:fillColor="#ffffff" />
+                android:fillColor="#ffffff"
+                android:pathData="M39 31a9 9 0 0 1 -9 9 9 9 0 0 11 -9 -9 9 9 0 0 1 9 -9 9 9 0 0 1 9 9z"/>
             <path
                 android:pathData="M52 31A22 22 0 0 1 30 53 22 22 0 0 1 8 31 22 22 0 0 1 30 9 22 22 0 0 1 52 31Z"
-                android:strokeWidth="1"
-                android:strokeColor="#ffffff" />
+                android:strokeColor="#ffffff"
+                android:strokeWidth="1"/>
         </group>
     </group>
 </vector>

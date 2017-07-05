@@ -60,6 +60,16 @@
         <item name="android:layout_width">wrap_content</item>
     </style>
 
+    <style name="TextFragment">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.UbuntuMedium</item>
+
+    </style>
+
     <style name="TextAppearance.UbuntuMedium" parent="android:TextAppearance">
         <!-- Custom Attr-->
         <item name="fontPath">fonts/Ubuntu-Medium.ttf</item>
