@@ -9,7 +9,7 @@
         <group
             >
             <path
-                android:fillColor="#443a303f"
+                android:fillColor="#3b303f"
                 android:pathData="M4 0l50 0c2.216 0 4 1.784 4 4l0 20c0 2.216 -1.784 4 -4 4L4 28C1.784 28 0 26.216 0 24L0 4C0 1.784 1.784 0 4 0Z"/>
             <path
                 android:fillColor="#ffffff"

@@ -1,33 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
-    <Button
-        android:id="@+id/button_details"
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/text_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_bb_details"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_title"
-        app:layout_constraintLeft_toLeftOf="@+id/button_title"/>
+        android:text="@string/caption"
+        android:textSize="75sp"
+        app:layout_constraintBottom_toTopOf="@+id/size_text_enable"
+        app:layout_constraintLeft_toLeftOf="@+id/size_text_enable"/>
 
-    <Button
-        android:id="@+id/button_title"
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/text_font"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_aa_title"
+        android:layout_marginTop="8dp"
+        android:text="@string/crimson"
+        android:textAllCaps="true"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/pager_container_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <android.support.v7.widget.AppCompatButton
+
+        android:id="@+id/size_text_enable"
+        style="@style/ExtraProperties"
+        android:layout_marginBottom="@dimen/margin_bottom_extra_properties"
+        android:layout_marginLeft="@dimen/button_add_margin_left"
+        android:background="@drawable/size_enable_icon"
+        app:layout_constraintBottom_toTopOf="@+id/add_text"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+    </android.support.v7.widget.AppCompatButton>
+
+    <android.support.v7.widget.AppCompatButton
+
+        android:id="@+id/size_text_disable"
+        style="@style/ExtraProperties"
+        android:layout_marginBottom="@dimen/margin_bottom_extra_properties"
+        android:layout_marginLeft="@dimen/button_add_margin_left"
+        android:background="@drawable/size_disable_icon"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/add_text"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+    </android.support.v7.widget.AppCompatButton>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/font_text_enable"
+        style="@style/ExtraProperties"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/font_enable_icon"
+        app:layout_constraintLeft_toRightOf="@+id/size_text_enable"
+        app:layout_constraintTop_toTopOf="@+id/size_text_enable"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/font_text_disable"
+        style="@style/ExtraProperties"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/font_disable_icon"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toRightOf="@+id/size_text_enable"
+        app:layout_constraintTop_toTopOf="@+id/size_text_enable"
+        />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/color_text_enable"
+        style="@style/ExtraProperties"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/colour_enable_icon"
+        app:layout_constraintLeft_toRightOf="@+id/font_text_disable"
+        app:layout_constraintTop_toTopOf="@+id/font_text_disable"
+        />
+
+
+    <com.agilie.poster.view.custom.PagerContainer
+        android:id="@+id/pager_container_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="107dp"
+        app:layout_constraintBottom_toTopOf="@+id/add_text">
+
+        <android.support.v4.view.ViewPager
+            android:layout_width="58dp"
+            android:layout_height="28dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            />
+    </com.agilie.poster.view.custom.PagerContainer>
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/undo_text">
+
+        <TextView
+            android:id="@+id/progress_counter_text"
+            style="@style/ProgressTextCounter"
+            android:layout_below="@+id/seek_bar_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:text="@string/half"/>
+
+        <SeekBar
+            android:id="@+id/seek_bar_text"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="82dp"
+            android:layout_marginRight="82dp"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@drawable/progress_properties"
+            android:thumb="@drawable/progress_pointer"
+            >
+        </SeekBar>
+
+    </RelativeLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/text_details_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/trash_text"
+        app:layout_constraintLeft_toLeftOf="@+id/add_text">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_details"
+            android:layout_width="71dp"
+            android:layout_height="71dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/ic_bb_details"
+            app:layout_constraintBottom_toTopOf="@+id/button_title"
+            app:layout_constraintLeft_toLeftOf="@+id/button_title"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_title"
+            android:layout_width="71dp"
+            android:layout_height="71dp"
+            android:background="@drawable/ic_aa_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/text_details"
+            style="@style/TextFragment"
+            android:layout_height="0dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/details"
+            app:layout_constraintBottom_toBottomOf="@+id/button_details"
+            app:layout_constraintLeft_toRightOf="@+id/button_details"
+            app:layout_constraintTop_toTopOf="@+id/button_details"
+            />
+
+        <TextView
+            android:id="@+id/text_title"
+            style="@style/TextFragment"
+            android:layout_height="0dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/title"
+            app:layout_constraintBottom_toBottomOf="@+id/button_title"
+            app:layout_constraintLeft_toRightOf="@+id/button_title"
+            app:layout_constraintTop_toTopOf="@+id/button_title"
+            />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <Button
+        android:id="@+id/add_text"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="@dimen/bottom_margin_box_icon"
+        android:layout_marginLeft="@dimen/button_add_margin_left"
+        android:background="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/button_details"
-        android:layout_marginStart="43dp"/>
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
+    <Button
+        android:id="@+id/undo_text"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="@dimen/button_undo_margin_left"
+        android:background="@drawable/ic_undo"
+        app:layout_constraintBottom_toBottomOf="@+id/add_text"
+        app:layout_constraintLeft_toRightOf="@+id/add_text"
+        />
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/trash_text"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="@dimen/bottom_margin_box_icon"
+        android:layout_marginLeft="@dimen/button_add_margin_left"
+        android:background="@drawable/ic_trash"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
 
 
 

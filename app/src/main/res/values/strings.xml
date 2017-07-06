@@ -17,4 +17,6 @@
     <string name="place">Place</string>
     <string name="color">Color</string>
     <string name="title">Title</string>
+    <string name="caption">Caption</string>
+    <string name="crimson">Crimson</string>
 </resources>

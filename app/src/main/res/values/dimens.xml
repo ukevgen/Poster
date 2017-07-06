@@ -8,6 +8,6 @@
     <dimen name="button_undo_margin_left">12dp</dimen>
     <dimen name="button_add_margin_left">20dp</dimen>
     <dimen name="margin_bottom_extra_properties">200dp</dimen>
-    <dimen name="extra_properties_width">60dp</dimen>
-    <dimen name="extra_properties_height">28dp</dimen>
+    <dimen name="extra_properties_width">64dp</dimen>
+    <dimen name="extra_properties_height">32dp</dimen>
 </resources>
