@@ -10,23 +10,23 @@
     android:orientation="vertical">
 
     <RelativeLayout
-
+        android:id="@+id/fill_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/properties_container"
         >
 
         <TextView
-            android:id="@+id/progress_counter"
+            android:id="@+id/progress_fill_counter"
             style="@style/ProgressTextCounter"
-            android:layout_below="@+id/seek_bar"
+            android:layout_below="@+id/seek_bar_fill"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
             android:text="@string/zero"/>
 
 
-        <SeekBar
-            android:id="@+id/seek_bar"
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/seek_bar_fill"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_alignParentStart="true"
@@ -39,9 +39,9 @@
             android:progressDrawable="@drawable/progress_properties"
             android:thumb="@drawable/progress_pointer"
             >
-        </SeekBar>
+        </android.support.v7.widget.AppCompatSeekBar>
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/progress_cancel"
             style="@style/ProgressTexts"
             android:layout_alignParentStart="true"
@@ -49,15 +49,15 @@
             android:layout_marginLeft="19dp"
             android:layout_marginStart="19dp"
             android:text="@string/cancel">
-        </TextView>
+        </android.support.v7.widget.AppCompatTextView>
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             style="@style/ProgressTexts"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="23dp"
             android:text="@string/ok">
-        </TextView>
+        </android.support.v7.widget.AppCompatTextView>
     </RelativeLayout>
 
 
@@ -77,7 +77,7 @@
             android:layout_gravity="bottom"
             >
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
 
                 android:id="@+id/back_to_original"
                 style="@style/ImageProperties"
@@ -85,10 +85,10 @@
                 android:background="@drawable/ic_back_to_original"
                 app:layout_constraintLeft_toLeftOf="parent"
                 >
-            </Button>
+            </android.support.v7.widget.AppCompatButton>
 
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/saturation"
                 style="@style/ImageProperties"
                 android:background="@drawable/ic_saturation"
@@ -98,7 +98,7 @@
                 app:layout_constraintLeft_toRightOf="@+id/back_to_original"
                 app:layout_constraintRight_toLeftOf="@+id/brightness"
                 >
-            </Button>
+            </android.support.v7.widget.AppCompatButton>
 
             <TextView
 
@@ -181,7 +181,7 @@
                 app:layout_constraintRight_toRightOf="@+id/align"
                 />
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/brightness"
                 style="@style/ImageProperties"
                 android:background="@drawable/ic_brightness"
@@ -189,9 +189,9 @@
                 app:layout_constraintLeft_toRightOf="@+id/saturation"
                 app:layout_constraintRight_toLeftOf="@+id/contrast"
                 >
-            </Button>
+            </android.support.v7.widget.AppCompatButton>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/contrast"
                 style="@style/ImageProperties"
                 android:background="@drawable/ic_contrast"
@@ -199,18 +199,18 @@
                 app:layout_constraintLeft_toRightOf="@+id/brightness"
                 app:layout_constraintRight_toLeftOf="@+id/align"
                 >
-            </Button>
+            </android.support.v7.widget.AppCompatButton>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/align"
                 style="@style/ImageProperties"
                 android:background="@drawable/ic_align"
                 app:layout_constraintBottom_toBottomOf="@+id/contrast"
                 app:layout_constraintLeft_toRightOf="@+id/contrast"
                 app:layout_constraintRight_toLeftOf="@+id/details">
-            </Button>
+            </android.support.v7.widget.AppCompatButton>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/details"
                 style="@style/ImageProperties"
                 android:background="@drawable/ic_details"
@@ -218,7 +218,7 @@
                 app:layout_constraintLeft_toRightOf="@+id/align"
                 app:layout_constraintRight_toLeftOf="@+id/blur"/>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/blur"
                 style="@style/ImageProperties"
                 android:background="@drawable/ic_blur"
@@ -226,7 +226,7 @@
                 app:layout_constraintLeft_toRightOf="@+id/details"
                 app:layout_constraintRight_toLeftOf="@+id/harshness"/>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/harshness"
                 style="@style/ImageProperties"
                 android:background="@drawable/ic_harshness"
@@ -234,7 +234,7 @@
                 app:layout_constraintLeft_toRightOf="@+id/blur"
                 app:layout_constraintRight_toLeftOf="@+id/warm"/>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/warm"
                 style="@style/ImageProperties"
                 android:layout_marginEnd="8dp"
@@ -242,7 +242,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/contrast"
                 app:layout_constraintRight_toRightOf="parent"
                 >
-            </Button>
+            </android.support.v7.widget.AppCompatButton>
 
 
         </android.support.constraint.ConstraintLayout>

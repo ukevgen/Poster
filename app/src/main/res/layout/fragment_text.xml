@@ -26,9 +26,9 @@
         android:text="@string/crimson"
         android:textAllCaps="true"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/pager_container_text"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/pager_container_text"/>
 
     <android.support.v7.widget.AppCompatButton
 
@@ -101,6 +101,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/text_seekbar_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/undo_text">
@@ -113,7 +114,7 @@
             android:layout_marginTop="25dp"
             android:text="@string/half"/>
 
-        <SeekBar
+        <android.support.v7.widget.AppCompatSeekBar
             android:id="@+id/seek_bar_text"
             android:layout_width="match_parent"
             android:layout_height="20dp"
@@ -127,7 +128,7 @@
             android:progressDrawable="@drawable/progress_properties"
             android:thumb="@drawable/progress_pointer"
             >
-        </SeekBar>
+        </android.support.v7.widget.AppCompatSeekBar>
 
     </RelativeLayout>
 
@@ -185,7 +186,7 @@
     </android.support.constraint.ConstraintLayout>
 
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/add_text"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -195,7 +196,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/undo_text"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -205,7 +206,7 @@
         app:layout_constraintLeft_toRightOf="@+id/add_text"
         />
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/trash_text"
         android:layout_width="48dp"
         android:layout_height="48dp"

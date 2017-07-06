@@ -8,7 +8,7 @@
     android:background="@android:color/transparent">
 
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
 
         android:id="@+id/size_shape_enable"
         style="@style/ExtraProperties"
@@ -18,9 +18,9 @@
         app:layout_constraintBottom_toTopOf="@+id/add_shape"
         app:layout_constraintLeft_toLeftOf="parent">
 
-    </Button>
+    </android.support.v7.widget.AppCompatButton>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
 
         android:id="@+id/size_shape_disable"
         style="@style/ExtraProperties"
@@ -31,29 +31,19 @@
         app:layout_constraintBottom_toTopOf="@+id/add_shape"
         app:layout_constraintLeft_toLeftOf="parent">
 
-    </Button>
+    </android.support.v7.widget.AppCompatButton>
 
 
-    <Button
+    <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/color_shape_enable"
         style="@style/ExtraProperties"
         android:layout_marginLeft="8dp"
-        android:background="@drawable/extra_button"
+        android:background="@drawable/colour_enable_icon"
         android:text="@string/color"
-        android:visibility="invisible"
         app:layout_constraintLeft_toRightOf="@+id/size_shape_enable"
         app:layout_constraintTop_toTopOf="@+id/size_shape_enable"
         />
 
-
-    <Button
-        android:id="@+id/color_shape_disable"
-        style="@style/ExtraProperties"
-        android:layout_marginLeft="8dp"
-        android:background="@drawable/colour_disable_icon"
-        app:layout_constraintLeft_toRightOf="@+id/size_shape_enable"
-        app:layout_constraintTop_toTopOf="@+id/size_shape_enable"
-        />
 
     <com.agilie.poster.view.custom.PagerContainer
         android:id="@+id/pager_container_shapes"
@@ -72,6 +62,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/shapes_seekbar_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/horizontalScrollView"
@@ -85,7 +76,7 @@
             android:layout_marginTop="25dp"
             android:text="@string/half"/>
 
-        <SeekBar
+        <android.support.v7.widget.AppCompatSeekBar
             android:id="@+id/seek_bar_shapes"
             android:layout_width="match_parent"
             android:layout_height="20dp"
@@ -99,7 +90,7 @@
             android:progressDrawable="@drawable/progress_properties"
             android:thumb="@drawable/progress_pointer"
             >
-        </SeekBar>
+        </android.support.v7.widget.AppCompatSeekBar>
 
     </RelativeLayout>
 
@@ -119,34 +110,34 @@
             android:layout_gravity="bottom"
             >
 
-            <ImageView
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/shape_oval"
-                style="@style/WrapContentStyle"
+                style="@style/FilterIconStyle"
                 android:layout_marginLeft="8dp"
                 android:background="@drawable/shape_circle"
                 app:layout_constraintLeft_toLeftOf="parent">
-            </ImageView>
+            </android.support.v7.widget.AppCompatButton>
 
-            <ImageView
+            <android.support.v7.widget.AppCompatButton
 
                 android:id="@+id/shape_quadrangle"
-                style="@style/WrapContentStyle"
+                style="@style/FilterIconStyle"
                 android:background="@drawable/shape_quadrangle"
                 app:layout_constraintLeft_toRightOf="@+id/shape_oval"
                 app:layout_constraintRight_toLeftOf="@+id/shape_rounded_rectangle"/>
 
-            <ImageView
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/shape_rounded_rectangle"
-                style="@style/WrapContentStyle"
+                style="@style/FilterIconStyle"
                 android:background="@drawable/shape_rounded_rectangle"
                 app:layout_constraintLeft_toRightOf="@+id/shape_quadrangle"
                 app:layout_constraintRight_toLeftOf="@+id/shape_triangle"
                 />
 
 
-            <ImageView
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/shape_triangle"
-                style="@style/WrapContentStyle"
+                style="@style/FilterIconStyle"
                 android:background="@drawable/shape_triangle"
                 app:layout_constraintBottom_toBottomOf="@+id/shape_rounded_rectangle"
                 app:layout_constraintLeft_toRightOf="@+id/shape_rounded_rectangle"
@@ -155,9 +146,9 @@
 
                 />
 
-            <ImageView
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/shape_polygon"
-                style="@style/WrapContentStyle"
+                style="@style/FilterIconStyle"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/shape_polygon"
                 app:layout_constraintRight_toRightOf="parent"/>
@@ -165,7 +156,7 @@
         </android.support.constraint.ConstraintLayout>
     </HorizontalScrollView>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/add_shape"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -175,7 +166,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/undo_shape"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -185,7 +176,7 @@
         app:layout_constraintLeft_toRightOf="@+id/add_shape"
         />
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/trash_shape"
         android:layout_width="48dp"
         android:layout_height="48dp"
