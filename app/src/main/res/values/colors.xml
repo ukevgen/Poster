@@ -8,4 +8,29 @@
     <color name="colorDisableTransparent">#443A303F</color>
     <color name="colorWhiteTransparent">#60FFFFFF</color>
     <color name="colorEnable">#563A303F</color>
+
+    <color name="purple">#A200FF</color>
+    <color name="orange">#F86D1C</color>
+    <color name="limeGreen">#00FF93</color>
+    <color name="turquoise">#00FFFF</color>
+    <color name="green">#008000</color>
+    <color name="pink">#FF00FF</color>
+    <color name="blue">#0000FF</color>
+    <color name="red">#FF0000</color>
+    <color name="yellow">#FFFF00</color>
+
+    <array name="colorsArray">
+        <item>@color/green</item>
+        <item>@color/orange</item>
+        <item>@color/purple</item>
+        <item>@color/limeGreen</item>
+        <item>@color/turquoise</item>
+        <item>@android:color/black</item>
+        <item>@color/blue</item>
+        <item>@android:color/white</item>
+        <item>@color/pink</item>
+        <item>@color/red</item>
+        <item>@color/yellow</item>
+    </array>
+
 </resources>

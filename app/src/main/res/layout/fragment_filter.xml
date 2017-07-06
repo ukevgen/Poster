@@ -16,7 +16,7 @@
         android:overScrollMode="never"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/properties_margin_bottom">
+        android:layout_marginBottom="100dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"

@@ -15,6 +15,7 @@ class MainActivity : BaseActivity(), MainView {
 	}
 
 	private fun initViews() {
+
 		supportFragmentManager
 				.beginTransaction()
 				.replace(R.id.fragment_container, TabsFragment())
