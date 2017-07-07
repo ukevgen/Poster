@@ -5,7 +5,7 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
 
-class PosterPagerAdapter : PagerAdapter() {
+class ViewsPagerAdapter : PagerAdapter() {
 	val views = ArrayList<View>()
 
 	override fun instantiateItem(container: ViewGroup, position: Int): Any {

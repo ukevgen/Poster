@@ -91,11 +91,24 @@
         android:layout_marginBottom="76dp"
         app:layout_constraintBottom_toTopOf="@+id/add_text">
 
-        <android.support.v4.view.ViewPager
-            android:layout_width="58dp"
-            android:layout_height="28dp"
+        <!--<android.support.v4.view.ViewPager
+            android:id="@+id/view_pager_text_color"
+            android:overScrollMode="never"
+            android:layout_width="78dp"
+            android:layout_height="48dp"
+            android:visibility="gone"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            />-->
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager_text"
+            android:layout_width="@dimen/font_text_size"
+            android:layout_height="@dimen/font_text_size"
+            android:layout_alignParentTop="true"
+
+            android:layout_centerHorizontal="true"
+            android:overScrollMode="never"
             />
     </com.agilie.poster.view.custom.PagerContainer>
 
@@ -202,6 +215,7 @@
         android:layout_height="48dp"
         android:layout_marginLeft="@dimen/button_undo_margin_left"
         android:background="@drawable/ic_undo"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/add_text"
         app:layout_constraintLeft_toRightOf="@+id/add_text"
         />

@@ -10,4 +10,7 @@
     <dimen name="margin_bottom_extra_properties">200dp</dimen>
     <dimen name="extra_properties_width">64dp</dimen>
     <dimen name="extra_properties_height">32dp</dimen>
+    <dimen name="font_text_size">85dp</dimen>
+    <dimen name="color_view_width">78dp</dimen>
+    <dimen name="color_view_height">48dp</dimen>
 </resources>

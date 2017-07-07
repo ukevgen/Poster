@@ -28,11 +28,8 @@ class IconsFragment : BaseFragment() {
 		view_pager_icons.apply {
 			adapter = colorViewsAdapter
 			offscreenPageLimit = adapter.count
-			pageMargin = 15
 			clipChildren = false
-			setPageTransformer(false, PagerTransformer(context, 100))
+			setPageTransformer(false, PagerTransformer())
 		}
-
-
 	}
 }

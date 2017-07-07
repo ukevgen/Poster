@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="colorsArray">
+        <item>@color/green</item>
+        <item>@color/orange</item>
+        <item>@color/purple</item>
+        <item>@color/limeGreen</item>
+        <item>@color/turquoise</item>
+        <item>@android:color/black</item>
+        <item>@color/blue</item>
+        <item>@android:color/white</item>
+        <item>@color/pink</item>
+        <item>@color/red</item>
+        <item>@color/yellow</item>
+    </array>
+
+    <array name="fontsArray">
+        <item>@drawable/crimston_font</item>
+        <item>@drawable/patua_one_regular_font</item>
+        <item>@drawable/helvetica_regular_font</item>
+        <item>@drawable/montserat_bold_font</item>
+        <item>@drawable/optima_extrablack_font</item>
+        <item>@drawable/raleway_bold_font</item>
+        <item>@drawable/raleway_regular_font</item>
+        <item>@drawable/titilium_web_bold_font</item>
+        <item>@drawable/rubik_regular_font</item>
+        <item>@drawable/titilium_web_regular_font</item>
+
+    </array>
+</resources>

@@ -8,19 +8,21 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import com.agilie.poster.R
-import com.agilie.poster.adapter.PosterPagerAdapter
+import com.agilie.poster.adapter.ViewsPagerAdapter
 import com.agilie.poster.utils.FixedSpeedScroller
 import java.lang.reflect.Field
 
 
 open class BaseFragment : Fragment() {
 
-	protected var colorViewsAdapter = PosterPagerAdapter()
+	protected var colorViewsAdapter = ViewsPagerAdapter()
+	protected var fontViewsAdapter = ViewsPagerAdapter()
 
 	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		initColorViews()
+		createColorViews()
+		createFontViews()
 	}
 
 	protected fun setViewPagerScrollSpeed(viewPager: ViewPager) {
@@ -28,7 +30,6 @@ open class BaseFragment : Fragment() {
 			val mScroller: Field = ViewPager::class.java.getDeclaredField("mScroller")
 			mScroller.isAccessible = true
 			val scroller = FixedSpeedScroller(viewPager.context, LinearInterpolator())
-			// scroller.setFixedDuration(5000);
 			mScroller.set(viewPager, scroller)
 		} catch (e: NoSuchFieldException) {
 		} catch (e: IllegalArgumentException) {
@@ -37,16 +38,23 @@ open class BaseFragment : Fragment() {
 
 	}
 
-	private fun initColorViews() {
-
-		val colors = (
-				context.resources.getIntArray(R.array.colorsArray))
+	private fun createColorViews() {
+		val colors = (context.resources.getIntArray(R.array.colorsArray))
 
 		colors.forEach {
 			val image = ImageView(context)
 			image.setImageResource(R.drawable.rect)
 			image.setColorFilter(it, PorterDuff.Mode.SRC_IN)
 			colorViewsAdapter.addView(image)
+		}
+	}
+
+	private fun createFontViews() {
+		val fonts = (context.resources.obtainTypedArray(R.array.fontsArray))
+		for (i in 0..fonts.length() - 1) {
+			val image = ImageView(context)
+			image.setImageResource(fonts.getResourceId(i, -1))
+			fontViewsAdapter.addView(image)
 		}
 	}
 

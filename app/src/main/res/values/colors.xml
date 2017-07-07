@@ -19,18 +19,5 @@
     <color name="red">#FF0000</color>
     <color name="yellow">#FFFF00</color>
 
-    <array name="colorsArray">
-        <item>@color/green</item>
-        <item>@color/orange</item>
-        <item>@color/purple</item>
-        <item>@color/limeGreen</item>
-        <item>@color/turquoise</item>
-        <item>@android:color/black</item>
-        <item>@color/blue</item>
-        <item>@android:color/white</item>
-        <item>@color/pink</item>
-        <item>@color/red</item>
-        <item>@color/yellow</item>
-    </array>
 
 </resources>

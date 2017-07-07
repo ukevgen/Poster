@@ -19,10 +19,6 @@
         <item name="colorPrimary">@android:color/transparent</item>
     </style>
 
-    <style name="TransparentButtonStyle" parent="Widget.AppCompat.Button">
-        <item name="android:colorButtonNormal">@android:color/transparent</item>
-    </style>
-
     <style name="Transparent">
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@color/colorToolBarTransparent</item>

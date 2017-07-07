@@ -31,7 +31,6 @@ class PagerContainer : RelativeLayout {
 
 	override fun onFinishInflate() {
 		pager = getChildAt(0) as ViewPager
-		//pager?.setOnPageChangeListener(this)
 		pager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 			override fun onPageScrollStateChanged(state: Int) {
 				needsRedraw = state != ViewPager.SCROLL_STATE_IDLE
