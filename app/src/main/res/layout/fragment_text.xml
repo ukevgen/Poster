@@ -8,13 +8,16 @@
     android:background="@android:color/transparent">
 
 
-    <android.support.v7.widget.AppCompatTextView
+    <android.support.v7.widget.AppCompatEditText
         android:id="@+id/text_description"
+        android:textColorHint="@android:color/transparent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="@string/caption"
-        android:textSize="75sp"
+        android:focusableInTouchMode="true"
+        android:text="@string/title"
+        android:textSize="15sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/size_text_enable"
         app:layout_constraintLeft_toLeftOf="@+id/size_text_enable"/>
 
@@ -24,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/crimson"
+        android:visibility="invisible"
         android:textAllCaps="true"
         android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -33,6 +37,7 @@
     <android.support.v7.widget.AppCompatButton
 
         android:id="@+id/size_text_enable"
+        android:visibility="invisible"
         style="@style/ExtraProperties"
         android:layout_marginBottom="@dimen/margin_bottom_extra_properties"
         android:layout_marginLeft="@dimen/button_add_margin_left"
@@ -45,17 +50,18 @@
     <android.support.v7.widget.AppCompatButton
 
         android:id="@+id/size_text_disable"
+        android:visibility="invisible"
         style="@style/ExtraProperties"
         android:layout_marginBottom="@dimen/margin_bottom_extra_properties"
         android:layout_marginLeft="@dimen/button_add_margin_left"
         android:background="@drawable/size_disable_icon"
-        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/add_text"
         app:layout_constraintLeft_toLeftOf="parent">
 
     </android.support.v7.widget.AppCompatButton>
 
     <android.support.v7.widget.AppCompatButton
+        android:visibility="invisible"
         android:id="@+id/font_text_enable"
         style="@style/ExtraProperties"
         android:layout_marginLeft="8dp"
@@ -65,16 +71,17 @@
         />
 
     <android.support.v7.widget.AppCompatButton
+        android:visibility="invisible"
         android:id="@+id/font_text_disable"
         style="@style/ExtraProperties"
         android:layout_marginLeft="8dp"
         android:background="@drawable/font_disable_icon"
-        android:visibility="invisible"
         app:layout_constraintLeft_toRightOf="@+id/size_text_enable"
         app:layout_constraintTop_toTopOf="@+id/size_text_enable"
         />
 
     <android.support.v7.widget.AppCompatImageView
+        android:visibility="invisible"
         android:id="@+id/color_text_enable"
         style="@style/ExtraProperties"
         android:layout_marginLeft="8dp"
@@ -83,23 +90,24 @@
         app:layout_constraintTop_toTopOf="@+id/font_text_disable"
         />
 
+    <android.support.v7.widget.AppCompatButton
+        android:visibility="invisible"
+        android:id="@+id/color_text_disable"
+        style="@style/ExtraProperties"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/colour_disable_icon"
+        app:layout_constraintLeft_toRightOf="@+id/font_text_disable"
+        app:layout_constraintTop_toTopOf="@+id/font_text_disable"
+        />
+
 
     <com.agilie.poster.view.custom.PagerContainer
+        android:visibility="invisible"
         android:id="@+id/pager_container_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="76dp"
         app:layout_constraintBottom_toTopOf="@+id/add_text">
-
-        <!--<android.support.v4.view.ViewPager
-            android:id="@+id/view_pager_text_color"
-            android:overScrollMode="never"
-            android:layout_width="78dp"
-            android:layout_height="48dp"
-            android:visibility="gone"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            />-->
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager_text"
@@ -114,6 +122,7 @@
 
 
     <RelativeLayout
+        android:visibility="invisible"
         android:id="@+id/text_seekbar_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -151,7 +160,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/trash_text"
+        app:layout_constraintBottom_toTopOf="@+id/button_trash"
         app:layout_constraintLeft_toLeftOf="@+id/add_text">
 
         <android.support.v7.widget.AppCompatButton
@@ -221,7 +230,7 @@
         />
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/trash_text"
+        android:id="@+id/button_trash"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginBottom="@dimen/bottom_margin_box_icon"

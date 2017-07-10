@@ -9,6 +9,7 @@
         <group
             >
             <path
+                android:fillAlpha="0.84"
                 android:fillColor="#312936"
                 android:pathData="M4 0l72 0c2.216 0 4 1.784 4 4l0 72c0 2.216 -1.784 4 -4 4L4 80C1.784 80 0 78.216 0 76L0 4C0 1.784 1.784 0 4 0Z"/>
             <path

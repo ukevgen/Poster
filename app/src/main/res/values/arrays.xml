@@ -2,12 +2,12 @@
 <resources>
 
     <array name="colorsArray">
+        <item>@android:color/black</item>
         <item>@color/green</item>
         <item>@color/orange</item>
         <item>@color/purple</item>
         <item>@color/limeGreen</item>
         <item>@color/turquoise</item>
-        <item>@android:color/black</item>
         <item>@color/blue</item>
         <item>@android:color/white</item>
         <item>@color/pink</item>
@@ -20,12 +20,25 @@
         <item>@drawable/patua_one_regular_font</item>
         <item>@drawable/helvetica_regular_font</item>
         <item>@drawable/montserat_bold_font</item>
-        <item>@drawable/optima_extrablack_font</item>
+        <item>@drawable/maven_pro_font</item>
         <item>@drawable/raleway_bold_font</item>
         <item>@drawable/raleway_regular_font</item>
         <item>@drawable/titilium_web_bold_font</item>
-        <item>@drawable/rubik_regular_font</item>
         <item>@drawable/titilium_web_regular_font</item>
+        <item>@drawable/rubik_regular_font</item>
 
     </array>
+
+    <string-array name="assetsArray">
+        <item>"CrimsonText-Bold.ttf"</item>
+        <item>"PatuaOne-Regular.ttf"</item>
+        <item>"Roboto-Regular.ttf"</item>
+        <item>"Montserrat-Bold.ttf"</item>
+        <item>"MavenPro-Regular.ttf"</item>
+        <item>"Raleway-Bold.ttf"</item>
+        <item>"Raleway-Regular.ttf"</item>
+        <item>"TitilliumWeb-Bold.ttf"</item>
+        <item>"TitilliumWeb-Regular.ttf"</item>
+        <item>"Rubik-Regular.ttf"</item>
+    </string-array>
 </resources>

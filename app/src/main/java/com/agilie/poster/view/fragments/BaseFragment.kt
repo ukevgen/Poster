@@ -39,10 +39,11 @@ open class BaseFragment : Fragment() {
 	}
 
 	private fun createColorViews() {
-		val colors = (context.resources.getIntArray(R.array.colorsArray))
+		val colors = context.resources.getIntArray(R.array.colorsArray)
 
 		colors.forEach {
 			val image = ImageView(context)
+			image.tag = it
 			image.setImageResource(R.drawable.rect)
 			image.setColorFilter(it, PorterDuff.Mode.SRC_IN)
 			colorViewsAdapter.addView(image)
@@ -50,10 +51,14 @@ open class BaseFragment : Fragment() {
 	}
 
 	private fun createFontViews() {
-		val fonts = (context.resources.obtainTypedArray(R.array.fontsArray))
-		for (i in 0..fonts.length() - 1) {
+		val fontImages = context.resources.obtainTypedArray(R.array.fontsArray)
+		val fonts = context.resources.getStringArray(R.array.assetsArray)
+		for (i in 0..fontImages.length() - 1) {
 			val image = ImageView(context)
-			image.setImageResource(fonts.getResourceId(i, -1))
+			image.apply {
+				setImageResource(fontImages.getResourceId(i, -1))
+				tag = fonts[i]
+			}
 			fontViewsAdapter.addView(image)
 		}
 	}
