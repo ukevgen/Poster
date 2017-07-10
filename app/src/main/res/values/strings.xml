@@ -24,4 +24,7 @@
     <string name="textIcon">TextIcon</string>
     <string name="shapeBox">ShapeBox</string>
     <string name="icons">Icons</string>
+    <string name="flash_auto">Splash auto</string>
+    <string name="flash_on">Flash on</string>
+    <string name="flash_off">Flash off</string>
 </resources>

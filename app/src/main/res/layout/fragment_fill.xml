@@ -10,6 +10,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:visibility="invisible"
         android:id="@+id/fill_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
