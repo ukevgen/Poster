@@ -171,17 +171,21 @@ class TextIconFragment : BaseFragment(), View.OnClickListener, ViewPager.OnPageC
 			PropertiesType.COLOR -> {
 				layoutParams.height = dpToPx(context, R.dimen.color_view_height)
 				layoutParams.width = dpToPx(context, R.dimen.color_view_width)
-				view_pager_text.layoutParams = layoutParams
-				view_pager_text.adapter = colorViewsAdapter
-				// Set previous position
-				view_pager_text.currentItem = colorAdapterPosition
+				view_pager_text.apply {
+					this.layoutParams = layoutParams
+					adapter = colorViewsAdapter
+					// Set previous position
+					currentItem = colorAdapterPosition
+				}
 			}
 			PropertiesType.FONT -> {
 				layoutParams.height = dpToPx(context, R.dimen.font_text_size)
 				layoutParams.width = dpToPx(context, R.dimen.font_text_size)
-				view_pager_text.layoutParams = layoutParams
-				view_pager_text.adapter = fontViewsAdapter
-				view_pager_text.currentItem = fontAdapterPosition
+				view_pager_text.apply {
+					this.layoutParams = layoutParams
+					adapter = fontViewsAdapter
+					currentItem = fontAdapterPosition
+				}
 			}
 		}
 		view_pager_text.offscreenPageLimit = view_pager_text.adapter.count

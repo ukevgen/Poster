@@ -13,4 +13,9 @@
     <dimen name="font_text_size">85dp</dimen>
     <dimen name="color_view_width">78dp</dimen>
     <dimen name="color_view_height">48dp</dimen>
+    <dimen name="gallery_image_width">90dp</dimen>
+    <dimen name="gallery_image_height">90dp</dimen>
+    <dimen name="gallery_image_padding">4dp</dimen>
+
+
 </resources>

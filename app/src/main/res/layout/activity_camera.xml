@@ -12,7 +12,7 @@
         >
     </FrameLayout>
 
-    <SurfaceView
+    <TextureView
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
@@ -47,7 +47,7 @@
         app:layout_constraintRight_toLeftOf="@+id/flash_on_view"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <android.support.v7.widget.AppCompatEditText
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/flash_off"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
         app:layout_constraintTop_toTopOf="@+id/flash_off_view"
         />
 
-    <android.support.v7.widget.AppCompatEditText
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/flash_on"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toTopOf="@+id/flash_off_view"
         />
 
-    <android.support.v7.widget.AppCompatEditText
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/flash_auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

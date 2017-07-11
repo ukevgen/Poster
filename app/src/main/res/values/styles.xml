@@ -16,6 +16,7 @@
     <style name="AppTheme.ActionBar.Transparent" parent="AppTheme">
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name="navigationIcon">@drawable/ic_back_to_cam_icon</item>
         <item name="colorPrimary">@android:color/transparent</item>
     </style>
 
@@ -26,6 +27,7 @@
 
     <style name="ToolBar" parent="Transparent">
         <item name="android:layout_height">48dp</item>
+
 
     </style>
 

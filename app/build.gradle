@@ -7,7 +7,7 @@ android {
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.agilie.poster"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -31,14 +31,17 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    //Moxy
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    // Moxy
     compile 'com.arello-mobile:moxy:1.5.3'
     compile 'com.arello-mobile:moxy-app-compat:1.5.3'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
     kapt 'com.arello-mobile:moxy-compiler:1.5.3'
-    //Text style
+    // Text style
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
-    //Tests
+    // Permission
+    compile 'pub.devrel:easypermissions:0.2.1'
+    // Tests
     testCompile 'junit:junit:4.12'
 }
 
