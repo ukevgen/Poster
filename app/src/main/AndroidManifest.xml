@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.BaseActivity"/>
-        <activity android:name=".view.activity.CameraActivity"></activity>
+        <activity android:name=".view.activity.CameraActivity"/>
+        <activity android:name=".view.activity.PreviewActivity">
+        </activity>
     </application>
 
 </manifest>

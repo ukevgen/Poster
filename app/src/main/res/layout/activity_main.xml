@@ -25,7 +25,7 @@
     </RelativeLayout>
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_main"
         style="@style/ToolBar">
     </android.support.v7.widget.Toolbar>
 

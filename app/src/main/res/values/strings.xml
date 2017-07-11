@@ -27,4 +27,11 @@
     <string name="flash_auto">Splash auto</string>
     <string name="flash_on">Flash on</string>
     <string name="flash_off">Flash off</string>
+    <string name="on">on</string>
+    <string name="off">off</string>
+    <string name="auto">auto</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
