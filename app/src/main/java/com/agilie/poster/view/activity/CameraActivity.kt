@@ -46,7 +46,14 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 		append(Surface.ROTATION_270, 180)
 	}
 
-	private val REQUEST_CAMERA_PERMISSION = 1
+	private enum class FlashMode {
+		AUTO, ON, OFF
+	}
+
+	private var flashMode = FlashMode.AUTO
+
+	private
+	val REQUEST_CAMERA_PERMISSION = 1
 	private val FRAGMENT_DIALOG = "dialog"
 	private val TAG = "Camera2BasicFragment"
 
@@ -309,16 +316,15 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 		val notBigEnough = ArrayList<Size>()
 		val w = aspectRatio.width
 		val h = aspectRatio.height
-		for (option in choices) {
-			if (option.width <= maxWidth && option.height <= maxHeight &&
-					option.height == option.width * h / w) {
-				if (option.width >= textureViewWidth && option.height >= textureViewHeight) {
-					bigEnough.add(option)
-				} else {
-					notBigEnough.add(option)
+		choices
+				.filter { it.width <= maxWidth && it.height <= maxHeight && it.height == it.width * h / w }
+				.forEach {
+					if (it.width >= textureViewWidth && it.height >= textureViewHeight) {
+						bigEnough.add(it)
+					} else {
+						notBigEnough.add(it)
+					}
 				}
-			}
-		}
 
 		// Pick the smallest of those big enough. If there is no one big enough, pick the
 		// largest of those not big enough.
@@ -332,14 +338,22 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 		}
 	}
 
-
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_camera)
+
+		manager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
+
 		button_snap.setOnClickListener { takePicture() }
+		button_change_cam.setOnClickListener { changeCamera() }
+		flash_off.setOnClickListener { flashMode = FlashMode.OFF }
+		flash_on.setOnClickListener { flashMode = FlashMode.ON }
+		flash_auto.setOnClickListener { flashMode = FlashMode.AUTO }
+
+		mFile = File(getExternalFilesDir(null), "pic.jpg")
 	}
 
-	public override fun onResume() {
+	override fun onResume() {
 		super.onResume()
 		startBackgroundThread()
 		// When the screen is turned off and turned back on, the SurfaceTexture is already
@@ -353,7 +367,7 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 		}
 	}
 
-	public override fun onPause() {
+	override fun onPause() {
 		closeCamera()
 		stopBackgroundThread()
 		super.onPause()
@@ -378,6 +392,7 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 	override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>?) {
 	}
 
+	private lateinit var manager: CameraManager
 
 	/**
 	 * Sets up member variables related to camera.
@@ -387,14 +402,14 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 	 * @param height The height of available size for camera preview
 	 */
 	private fun setUpCameraOutputs(width: Int, height: Int) {
-		val manager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
+		manager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
 		try {
 			for (cameraId in manager.cameraIdList) {
 				val characteristics = manager.getCameraCharacteristics(cameraId)
 
 				// We don't use a front facing camera in this sample.
 				val facing = characteristics.get(CameraCharacteristics.LENS_FACING)
-				if (facing != null && facing === CameraCharacteristics.LENS_FACING_FRONT) {
+				if (facing != null && facing === lensFacing) {
 					continue
 				}
 
@@ -474,6 +489,19 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 		}
 	}
 
+	private fun setCurrentFlash(requestBuilder: CaptureRequest.Builder?) {
+		if (mFlashSupported) {
+			when (flashMode) {
+				FlashMode.AUTO -> requestBuilder?.set(CaptureRequest.CONTROL_AE_MODE,
+						CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)
+				FlashMode.OFF -> requestBuilder?.set(CaptureRequest.FLASH_MODE,
+						CaptureRequest.FLASH_MODE_OFF)
+				FlashMode.ON -> requestBuilder?.set(CaptureRequest.CONTROL_AE_MODE,
+						CaptureRequest.CONTROL_AE_MODE_ON_ALWAYS_FLASH);
+			}
+		}
+	}
+
 	/**
 	 * Opens the camera specified by [Camera2BasicFragment.mCameraId].
 	 */
@@ -484,7 +512,7 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 		}
 		setUpCameraOutputs(width, height)
 		configureTransform(width, height)
-		val manager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
+		//val manager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
 		try {
 			if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
 				throw RuntimeException("Time out waiting to lock camera opening.")
@@ -651,6 +679,17 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 		lockFocus()
 	}
 
+	private var lensFacing = CameraCharacteristics.LENS_FACING_FRONT
+
+	private fun changeCamera() {
+		when (lensFacing) {
+			CameraCharacteristics.LENS_FACING_BACK -> lensFacing = CameraCharacteristics.LENS_FACING_FRONT
+			CameraCharacteristics.LENS_FACING_FRONT -> lensFacing = CameraCharacteristics.LENS_FACING_BACK
+		}
+		closeCamera()
+		openCamera(camera_preview.width, camera_preview.height)
+	}
+
 	/**
 	 * Lock the focus as the first step for a still image capture.
 	 */
@@ -675,6 +714,7 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 	 */
 	private fun runPrecaptureSequence() {
 		try {
+			//setCurrentFlash(mPreviewRequestBuilder)
 			// This is how to tell the camera to trigger.
 			mPreviewRequestBuilder?.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
 					CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START)
@@ -766,10 +806,12 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 
 	}
 
+
 	private fun setAutoFlash(requestBuilder: CaptureRequest.Builder?) {
 		if (mFlashSupported) {
-			requestBuilder?.set(CaptureRequest.CONTROL_AE_MODE,
-					CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)
+			setCurrentFlash(requestBuilder)
+			/*requestBuilder?.set(CaptureRequest.CONTROL_AE_MODE,
+					CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)*/
 		}
 	}
 
