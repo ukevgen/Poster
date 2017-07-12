@@ -64,7 +64,7 @@ class PagerContainer : RelativeLayout {
 
 
 	private fun init(attrs: AttributeSet?) {
-		clipChildren = false
+		//clipChildren = false
 		setLayerType(View.LAYER_TYPE_SOFTWARE, null)
 	}
 

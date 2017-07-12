@@ -86,7 +86,7 @@ class TextIconFragment : BaseFragment(), View.OnClickListener, ViewPager.OnPageC
 
 		// Create View Pager
 		view_pager_text.apply {
-			clipChildren = false
+			clipChildren = true
 			setPageTransformer(false, PagerTransformer())
 			addOnPageChangeListener(this@TextIconFragment)
 		}

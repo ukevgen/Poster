@@ -32,7 +32,7 @@ import java.util.*
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 
-class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
+class Camera2Activity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 
 
 	/**
@@ -161,7 +161,7 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 			mCameraOpenCloseLock.release()
 			cameraDevice.close()
 			mCameraDevice = null
-			this@CameraActivity.finish()
+			this@Camera2Activity.finish()
 		}
 
 	}
@@ -346,9 +346,9 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 
 		button_snap.setOnClickListener { takePicture() }
 		button_change_cam.setOnClickListener { changeCamera() }
-		flash_off.setOnClickListener { flashMode = FlashMode.OFF }
-		flash_on.setOnClickListener { flashMode = FlashMode.ON }
-		flash_auto.setOnClickListener { flashMode = FlashMode.AUTO }
+		flash_auto.setOnClickListener { flashMode = FlashMode.OFF }
+		flash_off.setOnClickListener { flashMode = FlashMode.ON }
+		flash_on.setOnClickListener { flashMode = FlashMode.AUTO }
 
 		mFile = File(getExternalFilesDir(null), "pic.jpg")
 	}
@@ -401,6 +401,9 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 	 * *
 	 * @param height The height of available size for camera preview
 	 */
+
+	private var mAutoFocusSupported = false
+
 	private fun setUpCameraOutputs(width: Int, height: Int) {
 		manager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
 		try {
@@ -477,6 +480,13 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 				val available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)
 				mFlashSupported = available ?: false
 
+				//Check autofocus is supported or not
+
+				val afAvailableModes = characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES)
+
+				mAutoFocusSupported = !(afAvailableModes.isEmpty() || (afAvailableModes.size == 1
+						&& afAvailableModes[0] == CameraMetadata.CONTROL_AF_MODE_OFF))
+
 				mCameraId = cameraId
 				return
 			}
@@ -497,7 +507,7 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 				FlashMode.OFF -> requestBuilder?.set(CaptureRequest.FLASH_MODE,
 						CaptureRequest.FLASH_MODE_OFF)
 				FlashMode.ON -> requestBuilder?.set(CaptureRequest.CONTROL_AE_MODE,
-						CaptureRequest.CONTROL_AE_MODE_ON_ALWAYS_FLASH);
+						CaptureRequest.CONTROL_AE_MODE_ON_ALWAYS_FLASH)
 			}
 		}
 	}
@@ -635,7 +645,7 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 	}
 
 	private fun showToast(text: String) {
-		this@CameraActivity.runOnUiThread({ Toast.makeText(this, text, Toast.LENGTH_SHORT).show() })
+		this@Camera2Activity.runOnUiThread({ Toast.makeText(this, text, Toast.LENGTH_SHORT).show() })
 	}
 
 
@@ -653,6 +663,7 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 			return
 		}
 		val rotation = windowManager.defaultDisplay.rotation
+		Log.d(TAG, "$rotation $mAutoFocusSupported")
 		val matrix = Matrix()
 		val viewRect = RectF(0f, 0f, viewWidth.toFloat(), viewHeight.toFloat())
 		val bufferRect = RectF(0f, 0f, mPreviewSize?.height!!.toFloat(), mPreviewSize?.width!!.toFloat())
@@ -676,7 +687,11 @@ class CameraActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 	 * Initiate a still image capture.
 	 */
 	private fun takePicture() {
-		lockFocus()
+		if (mAutoFocusSupported) {
+			lockFocus()
+		} else {
+			captureStillPicture()
+		}
 	}
 
 	private var lensFacing = CameraCharacteristics.LENS_FACING_FRONT
