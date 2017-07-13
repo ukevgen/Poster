@@ -5,26 +5,29 @@ import android.hardware.Camera
 import android.view.*
 import java.io.IOException
 
-class CameraView : SurfaceView, SurfaceHolder.Callback {
+class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 
-	private var TAG = "CameraView"
-	private val camera: Camera?
+	var camera: Camera?
+	private val mCameraView: View?
 	private var mPreviewSize: Camera.Size? = null
+	private lateinit var mSupportedPreviewSizes: List<Camera.Size>
+	private var mSupportedFlashModes: List<String>? = null
 
-	// List of supported preview sizes
-	private var mSupportedPreviewSizes: List<Camera.Size>? = null
+	constructor(context: Context, camera: Camera?, cameraView: View?) : super(context) {
 
-	constructor(context: Context, camera: Camera?) : super(context) {
+		// Capture the context
+		/*mCameraView = cameraView
+		mContext = context*/
 		this.camera = camera
-		setupCameraProperties(camera)
+		mCameraView = cameraView
+		setCamera()
 		// Install a SurfaceHolder.Callback so we get notified when the
 		// underlying surface is created and destroyed.
 		holder.addCallback(this)
+		holder.setKeepScreenOn(true)
 		// deprecated setting, but required on Android versions prior to 3.0
 		holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
-		holder.setKeepScreenOn(true)
 	}
-
 
 	override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
 		// If your preview can change or rotate, take care of those events here.
@@ -41,14 +44,17 @@ class CameraView : SurfaceView, SurfaceHolder.Callback {
 			parameters?.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
 
 			// Preview size must exist.
-			if (mPreviewSize != null) {
+			/*if (mPreviewSize != null) {
 				val previewSize = mPreviewSize
 				parameters?.setPreviewSize(previewSize!!.width, previewSize.height)
+			}*/
+			mPreviewSize?.let {
+				parameters?.setPreviewSize(it.width, it.height)
 			}
-			camera?.let {
-				it.parameters = parameters
-				it.startPreview()
-			}
+
+			camera?.parameters = parameters
+			camera?.startPreview()
+
 		} catch (e: Exception) {
 			e.printStackTrace()
 		}
@@ -66,48 +72,9 @@ class CameraView : SurfaceView, SurfaceHolder.Callback {
 		} catch (e: IOException) {
 			e.printStackTrace()
 		}
-
 	}
 
-	fun startCameraPreview() {
-		try {
-			camera?.setPreviewDisplay(holder)
-			camera?.startPreview()
-		} catch (e: Exception) {
-			e.printStackTrace()
-		}
-
-	}
-
-	private fun setupCameraProperties(camera: Camera?) {
-		mSupportedPreviewSizes = camera?.parameters?.supportedPreviewSizes
-		val mSupportedFlashModes = camera?.parameters?.supportedFlashModes
-
-		// Set the camera to Auto Flash mode.
-		if (mSupportedFlashModes != null && mSupportedFlashModes.contains(Camera.Parameters.FLASH_MODE_AUTO)) {
-			val parameters = camera.parameters
-			parameters?.flashMode = Camera.Parameters.FLASH_MODE_AUTO
-			camera.parameters = parameters
-		}
-	}
-
-	/**
-	 * Calculate the measurements of the layout
-	 * @param widthMeasureSpec
-	 * *
-	 * @param heightMeasureSpec
-	 */
-	override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-		// Source: http://stackoverflow.com/questions/7942378/android-camera-will-not-work-startpreview-fails
-		val width = View.resolveSize(suggestedMinimumWidth, widthMeasureSpec)
-		val height = View.resolveSize(suggestedMinimumHeight, heightMeasureSpec)
-		setMeasuredDimension(width, height)
-
-		if (mSupportedPreviewSizes != null) {
-			mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes!!, width, height)
-		}
-	}
-
+	/**	 * Update the layout based on rotation and orientation changes.	 */
 	override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
 		// Source: http://stackoverflow.com/questions/7942378/android-camera-will-not-work-startpreview-fails
 		if (changed) {
@@ -141,22 +108,49 @@ class CameraView : SurfaceView, SurfaceHolder.Callback {
 					}
 				}
 			}
-
 			val scaledChildHeight = previewHeight * width / previewWidth
-			layout(0, height - scaledChildHeight, width, height)
+			mCameraView?.layout(0, height - scaledChildHeight, width, height)
+		}
+	}
+
+	override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+		val width = View.resolveSize(suggestedMinimumWidth, widthMeasureSpec)
+		val height = View.resolveSize(suggestedMinimumHeight, heightMeasureSpec)
+		setMeasuredDimension(width, height)
+
+		if (mSupportedPreviewSizes != null) {
+			mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, width, height)
 		}
 	}
 
 	/**
-
-	 * @param sizes
-	 * *
-	 * @param width
-	 * *
-	 * @param height
-	 * *
-	 * @return
+	 * Begin the preview of the camera input.
 	 */
+	fun startCameraPreview() {
+		try {
+			camera?.setPreviewDisplay(holder)
+			camera?.startPreview()
+		} catch (e: Exception) {
+			e.printStackTrace()
+		}
+
+	}
+
+	/** Extract supported preview and flash modes from the camera.*/
+	fun setCamera() {
+		mSupportedPreviewSizes = camera?.parameters!!.supportedPreviewSizes
+		mSupportedFlashModes = camera?.parameters!!.supportedFlashModes
+
+		// Set the camera to Auto Flash mode.
+		if (mSupportedFlashModes != null && mSupportedFlashModes!!.contains(Camera.Parameters.FLASH_MODE_AUTO)) {
+			val parameters = this.camera?.parameters
+			parameters?.flashMode = Camera.Parameters.FLASH_MODE_AUTO
+			this.camera?.parameters = parameters
+		}
+
+		requestLayout()
+	}
+
 	private fun getOptimalPreviewSize(sizes: List<Camera.Size>, width: Int, height: Int): Camera.Size? {
 		var optimalSize: Camera.Size? = null
 
@@ -180,6 +174,5 @@ class CameraView : SurfaceView, SurfaceHolder.Callback {
 
 		return optimalSize
 	}
-
 
 }

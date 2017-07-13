@@ -14,7 +14,7 @@ open class BaseActivity : AppCompatActivity() {
 
 	protected fun addFragment(containerViewId: Int, fragment: Fragment) {
 		val fragmentTransaction = this.fragmentManager.beginTransaction()
-		fragmentTransaction.add(containerViewId, fragment)
+		fragmentTransaction.replace(containerViewId, fragment)
 		fragmentTransaction.commit()
 	}
 }
