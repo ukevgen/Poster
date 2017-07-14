@@ -15,6 +15,8 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import android.media.MediaScannerConnection
+import android.net.Uri
 
 
 class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.Behavior {
@@ -22,9 +24,11 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 	private val FRAGMENT_DIALOG = "dialog"
 	private val TAG = "CameraPresenterImpl"
 	private var camera: Camera? = null
+	private var cameraOpen = false
 	private var preview: CameraPreview? = null
 	private var cameraView: View? = null
 	private val pictureCallback = Camera.PictureCallback { data, camera ->
+		//reOpenCamera()
 		preview?.startCameraPreview()
 		SaveImageTask().execute(data)
 	}
@@ -32,7 +36,7 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 	private var lensFacing = Camera.CameraInfo.CAMERA_FACING_BACK
 
 	override fun resume() {
-
+		reOpenCamera()
 	}
 
 	override fun pause() {
@@ -50,25 +54,28 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 			Camera.CameraInfo.CAMERA_FACING_BACK -> lensFacing = Camera.CameraInfo.CAMERA_FACING_FRONT
 			Camera.CameraInfo.CAMERA_FACING_FRONT -> lensFacing = Camera.CameraInfo.CAMERA_FACING_BACK
 		}
-
-		/*camera?.stopPreview()
-		camera?.release()*/
-		releaseCameraAndPreview()
-		camera = Camera.open(lensFacing)
-		camera?.setPreviewDisplay(preview?.holder)
-		camera?.setDisplayOrientation(90)
-		camera?.startPreview()
-
+		reOpenCamera()
 	}
 
 	override fun closeCamera() {
-
+		releaseCameraAndPreview()
+		fragment.activity.finish()
 	}
 
 	override fun takePicture() {
 		camera?.takePicture(null, null, pictureCallback)
 	}
 
+	private fun reOpenCamera(){
+		releaseCameraAndPreview()
+		camera = Camera.open(lensFacing)
+		camera?.setPreviewDisplay(preview?.holder)
+		// Set correct orientation
+		camera?.setDisplayOrientation(90)
+		preview?.camera = camera
+		preview?.startCameraPreview()
+		camera?.startPreview()
+	}
 	fun safeCameraOpenInView(view: View?): Boolean {
 		releaseCameraAndPreview()
 
@@ -81,7 +88,7 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 			preview = CameraPreview(fragment.activity.baseContext, camera, view)
 			val preview = view?.findViewById(R.id.camera_preview) as FrameLayout
 			preview.addView(this.preview)
-			this.preview?.startCameraPreview()
+			this@CameraPresenterImpl.preview?.startCameraPreview()
 		}
 		return opened
 	}
@@ -115,7 +122,8 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 	fun checkCamera() = fragment.activity.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
 
 	fun showErrorDialog() {
-		ErrorDialog.newInstance("Camera, can't be open").show(fragment.childFragmentManager, FRAGMENT_DIALOG)
+		ErrorDialog.newInstance(fragment.activity.getString(R.string.cannot_open_camera))
+				.show(fragment.childFragmentManager, FRAGMENT_DIALOG)
 	}
 
 	fun getNumberOfCameras() = Camera.getNumberOfCameras()
@@ -123,22 +131,25 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 	private inner class SaveImageTask : AsyncTask<ByteArray, Void, Void>() {
 
 		override fun doInBackground(vararg data: ByteArray): Void? {
-			var outStream: FileOutputStream? = null
-
 			// Write to SD Card
 			try {
 				val sdCard = Environment.getExternalStorageDirectory()
-				val dir = File(sdCard.absolutePath + "/camtest")
+				val dir = File(sdCard.absolutePath + "/poster")
 				dir.mkdirs()
 
 				val fileName = String.format("%d.jpg", System.currentTimeMillis())
 				val outFile = File(dir, fileName)
 
-				outStream = FileOutputStream(outFile)
+				val outStream = FileOutputStream(outFile)
 				outStream.write(data[0])
 				outStream.flush()
 				outStream.close()
 
+				MediaScannerConnection.scanFile(fragment.activity, arrayOf<String>(outFile.absolutePath),
+						null) { path, uri ->
+					Log.i("TAG", "Scanned $path:")
+					Log.i("TAG", "-> uri=" + uri)
+				}
 				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.size + " to " + outFile.absolutePath)
 
 			} catch (e: FileNotFoundException) {
@@ -149,7 +160,6 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 			}
 			return null
 		}
-
 	}
 
 }

@@ -48,10 +48,17 @@ class CameraNativeFragment : Fragment() {
 		}
 	}
 
+	override fun onResume() {
+
+		cameraPresenterImpl.resume()
+		super.onResume()
+	}
+
 	override fun onDestroy() {
 		cameraPresenterImpl.destroy()
 		super.onDestroy()
 	}
+
 
 	/** Check if this device has a camera  */
 	private fun checkCameraHardware() = cameraPresenterImpl.checkCamera()

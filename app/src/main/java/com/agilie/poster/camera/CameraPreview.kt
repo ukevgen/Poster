@@ -15,14 +15,9 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 
 	constructor(context: Context, camera: Camera?, cameraView: View?) : super(context) {
 
-		// Capture the context
-		/*mCameraView = cameraView
-		mContext = context*/
 		this.camera = camera
 		mCameraView = cameraView
 		setCamera()
-		// Install a SurfaceHolder.Callback so we get notified when the
-		// underlying surface is created and destroyed.
 		holder.addCallback(this)
 		holder.setKeepScreenOn(true)
 		// deprecated setting, but required on Android versions prior to 3.0
@@ -30,29 +25,21 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 	}
 
 	override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
-		// If your preview can change or rotate, take care of those events here.
-		// Make sure to stop the preview before resizing or reformatting it.
 		if (holder?.surface == null) {
-			// preview surface does not exist
 			return
 		}
-		// stop preview before making changes
 		try {
 			val parameters = camera?.parameters
 
-			// Set the auto-focus mode to "continuous"
 			parameters?.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
 
-			// Preview size must exist.
-			/*if (mPreviewSize != null) {
-				val previewSize = mPreviewSize
-				parameters?.setPreviewSize(previewSize!!.width, previewSize.height)
-			}*/
 			mPreviewSize?.let {
 				parameters?.setPreviewSize(it.width, it.height)
 			}
 
 			camera?.parameters = parameters
+			setCameraDisplayOrientation()
+
 			camera?.startPreview()
 
 		} catch (e: Exception) {
@@ -76,7 +63,6 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 
 	/**	 * Update the layout based on rotation and orientation changes.	 */
 	override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-		// Source: http://stackoverflow.com/questions/7942378/android-camera-will-not-work-startpreview-fails
 		if (changed) {
 			val width = right - left
 			val height = bottom - top
@@ -87,26 +73,30 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 			if (mPreviewSize != null) {
 				val display = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
 
-				when (display.rotation) {
+				/*when (display.rotation) {
 					Surface.ROTATION_0 -> {
 						previewWidth = mPreviewSize!!.height
 						previewHeight = mPreviewSize!!.width
 						camera?.setDisplayOrientation(90)
+						Log.d("TAG", "ROTATION_0" )
 					}
 					Surface.ROTATION_90 -> {
 						previewWidth = mPreviewSize!!.width
 						previewHeight = mPreviewSize!!.height
+						Log.d("TAG", "ROTATION_90" )
 					}
 					Surface.ROTATION_180 -> {
 						previewWidth = mPreviewSize!!.height
 						previewHeight = mPreviewSize!!.width
+						Log.d("TAG", "ROTATION_180" )
 					}
 					Surface.ROTATION_270 -> {
 						previewWidth = mPreviewSize!!.width
 						previewHeight = mPreviewSize!!.height
+						Log.d("TAG", "ROTATION_270" )
 						camera?.setDisplayOrientation(180)
 					}
-				}
+				}*/
 			}
 			val scaledChildHeight = previewHeight * width / previewWidth
 			mCameraView?.layout(0, height - scaledChildHeight, width, height)
@@ -123,9 +113,47 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 		}
 	}
 
-	/**
-	 * Begin the preview of the camera input.
-	 */
+	private fun setCameraDisplayOrientation() {
+		val camInfo = Camera.CameraInfo()
+		Camera.getCameraInfo(getBackFacingCameraId(), camInfo)
+
+		val display = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+		val rotation = display.rotation
+		var degrees = 0
+		when (rotation) {
+			Surface.ROTATION_0 -> degrees = 0
+			Surface.ROTATION_90 -> degrees = 90
+			Surface.ROTATION_180 -> degrees = 180
+			Surface.ROTATION_270 -> degrees = 270
+		}
+
+		var result: Int
+		if (camInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+			result = (camInfo.orientation + degrees) % 360
+			result = (360 - result) % 360  // compensate the mirror
+		} else {  // back-facing
+			result = (camInfo.orientation - degrees + 360) % 360
+		}
+		camera?.setDisplayOrientation(result)
+	}
+
+	private fun getBackFacingCameraId(): Int {
+		var cameraId = -1
+		// Search for the front facing camera
+		val numberOfCameras = Camera.getNumberOfCameras()
+		for (i in 0..numberOfCameras - 1) {
+			val info = Camera.CameraInfo()
+			Camera.getCameraInfo(i, info)
+			if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+
+				cameraId = i
+				break
+			}
+		}
+		return cameraId
+	}
+
+	/** Begin the preview of the camera input. */
 	fun startCameraPreview() {
 		try {
 			camera?.setPreviewDisplay(holder)
@@ -133,7 +161,6 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 		} catch (e: Exception) {
 			e.printStackTrace()
 		}
-
 	}
 
 	/** Extract supported preview and flash modes from the camera.*/
@@ -147,7 +174,6 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 			parameters?.flashMode = Camera.Parameters.FLASH_MODE_AUTO
 			this.camera?.parameters = parameters
 		}
-
 		requestLayout()
 	}
 
@@ -156,7 +182,6 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 
 		val ASPECT_TOLERANCE = 0.1
 		val targetRatio = height.toDouble() / width
-
 		// Try to find a size match which suits the whole screen minus the menu on the left.
 		for (size in sizes) {
 
@@ -166,7 +191,6 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 				optimalSize = size
 			}
 		}
-
 		// If we cannot find the one that matches the aspect ratio, ignore the requirement.
 		if (optimalSize == null) {
 			// TODO : Backup in case we don't get a size.
