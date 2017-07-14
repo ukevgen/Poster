@@ -8,16 +8,14 @@ import com.agilie.poster.R
 import com.agilie.poster.dialog.ErrorDialog
 import com.agilie.poster.view.fragments.camera.CameraNativeFragment
 
-/**Action flow
- * 1. Check current build version
- * 2. Select the desired fragment depending on the build
- * */
-
 class CameraActivity : BaseActivity() {
 
-	private val REQUEST_CAMERA_PERMISSION = 1
-	private val REQUEST_STORAGE_PERMISSION = 2
-	private val FRAGMENT_DIALOG = "dialog"
+	companion object {
+		val PFOTO_FOLDER = "/poster"
+		private val REQUEST_CAMERA_PERMISSION = 1
+		private val REQUEST_STORAGE_PERMISSION = 2
+		private val FRAGMENT_DIALOG = "dialog"
+	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -25,8 +23,6 @@ class CameraActivity : BaseActivity() {
 		if (savedInstanceState == null) {
 			requestStoragePermission()
 		}
-
-
 	}
 
 	private fun requestStoragePermission() {
@@ -89,6 +85,4 @@ class CameraActivity : BaseActivity() {
 			else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		}
 	}
-
-
 }

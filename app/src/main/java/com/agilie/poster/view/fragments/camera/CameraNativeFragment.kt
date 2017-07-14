@@ -3,7 +3,6 @@ package com.agilie.poster.view.fragments.camera
 import android.app.Fragment
 import android.hardware.Camera
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,18 +11,11 @@ import com.agilie.poster.presenter.camera.CameraPresenterImpl
 import kotlinx.android.synthetic.main.fragment_native_camera.*
 
 
-/**Action flow
- *
- * 1. Check camera hardware
- * 2. Get Camera instance
- * 3. Try to open camera
- * */
-
 class CameraNativeFragment : Fragment() {
 
 	private lateinit var cameraPresenterImpl: CameraPresenterImpl
 	private var FACING = "FACING"
-	private var currentLensFacing = Camera.CameraInfo.CAMERA_FACING_BACK
+	private val FLASH_MODE = "FLASH_MODE"
 
 	companion object {
 		fun newInstance() = CameraNativeFragment()
@@ -32,7 +24,10 @@ class CameraNativeFragment : Fragment() {
 	override fun onActivityCreated(savedInstanceState: Bundle?) {
 		super.onActivityCreated(savedInstanceState)
 		savedInstanceState?.let {
-			cameraPresenterImpl.lensFacing = it.getInt(FACING, currentLensFacing)
+			cameraPresenterImpl.apply {
+				lensFacing = it.getInt(FACING)
+				flashMode = it.getString(FLASH_MODE)
+			}
 		}
 	}
 
@@ -41,11 +36,11 @@ class CameraNativeFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-		Log.d("TAG", "view created")
 		cameraPresenterImpl = CameraPresenterImpl(this)
 
 		button_snap.setOnClickListener { cameraPresenterImpl.takePicture() }
 
+		// Check front camera is exist
 		button_change_cam.setOnClickListener {
 			if (cameraPresenterImpl.getNumberOfCameras() == 1) {
 				button_change_cam.visibility = View.INVISIBLE
@@ -53,10 +48,18 @@ class CameraNativeFragment : Fragment() {
 				cameraPresenterImpl.changeCamera()
 			}
 		}
+
+		flash_off.setOnClickListener { cameraPresenterImpl.flashMode = Camera.Parameters.FLASH_MODE_OFF }
+		flash_on.setOnClickListener { cameraPresenterImpl.flashMode = Camera.Parameters.FLASH_MODE_ON }
+		flash_auto.setOnClickListener { cameraPresenterImpl.flashMode = Camera.Parameters.FLASH_MODE_AUTO }
+		close.setOnClickListener {
+			cameraPresenterImpl.destroy()
+			activity.finish()
+		}
+
 	}
 
 	override fun onResume() {
-		Log.d("TAG", "${cameraPresenterImpl.opened}")
 		if (!cameraPresenterImpl.opened) {
 			if (!checkCameraHardware() || !cameraOpen(view)) {
 				cameraPresenterImpl.showErrorDialog()
@@ -73,15 +76,15 @@ class CameraNativeFragment : Fragment() {
 
 	override fun onSaveInstanceState(outState: Bundle?) {
 		super.onSaveInstanceState(outState)
-		outState?.putInt(FACING, cameraPresenterImpl.lensFacing)
+		outState?.apply {
+			putInt(FACING, cameraPresenterImpl.lensFacing)
+			putString(FLASH_MODE, cameraPresenterImpl.flashMode)
+		}
 	}
-
 
 	/** Check if this device has a camera  */
 	private fun checkCameraHardware() = cameraPresenterImpl.checkCamera()
 
 	/** Check the camera open  */
 	private fun cameraOpen(view: View) = cameraPresenterImpl.safeCameraOpenInView(view)
-
-
 }

@@ -9,10 +9,12 @@ import java.io.IOException
 class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 
 	var camera: Camera?
+	var cameraOrientation = 0
 	private val cameraView: View?
 	private var previewSize: Camera.Size? = null
 	private lateinit var supportedPreviewSizes: List<Camera.Size>
 	private var supportedFlashModes: List<String>? = null
+
 
 	constructor(context: Context, camera: Camera?, cameraView: View?) : super(context) {
 
@@ -68,37 +70,9 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 			val width = right - left
 			val height = bottom - top
 
-			var previewWidth = width
-			var previewHeight = height
+			val previewWidth = width
+			val previewHeight = height
 
-			if (previewSize != null) {
-				val display = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
-
-				/*when (display.rotation) {
-					Surface.ROTATION_0 -> {
-						previewWidth = previewSize!!.height
-						previewHeight = previewSize!!.width
-						camera?.setDisplayOrientation(90)
-						Log.d("TAG", "ROTATION_0" )
-					}
-					Surface.ROTATION_90 -> {
-						previewWidth = previewSize!!.width
-						previewHeight = previewSize!!.height
-						Log.d("TAG", "ROTATION_90" )
-					}
-					Surface.ROTATION_180 -> {
-						previewWidth = previewSize!!.height
-						previewHeight = previewSize!!.width
-						Log.d("TAG", "ROTATION_180" )
-					}
-					Surface.ROTATION_270 -> {
-						previewWidth = previewSize!!.width
-						previewHeight = previewSize!!.height
-						Log.d("TAG", "ROTATION_270" )
-						camera?.setDisplayOrientation(180)
-					}
-				}*/
-			}
 			val scaledChildHeight = previewHeight * width / previewWidth
 			cameraView?.layout(0, height - scaledChildHeight, width, height)
 		}
@@ -114,6 +88,7 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 		}
 	}
 
+
 	fun setCameraDisplayOrientation() {
 		val camInfo = Camera.CameraInfo()
 		Camera.getCameraInfo(getBackFacingCameraId(), camInfo)
@@ -128,15 +103,14 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 			Surface.ROTATION_270 -> degrees = 270
 		}
 
-		var result: Int
 		if (camInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-			result = (camInfo.orientation + degrees) % 360
-			result = (360 - result) % 360  // compensate the mirror
+			cameraOrientation = (camInfo.orientation + degrees) % 360
+			cameraOrientation = (360 - cameraOrientation) % 360  // compensate the mirror
 		} else {  // back-facing
-			result = (camInfo.orientation - degrees + 360) % 360
+			cameraOrientation = (camInfo.orientation - degrees + 360) % 360
 		}
-		camera?.setDisplayOrientation(result)
-		Log.d("TAG", " ${result}")
+		camera?.setDisplayOrientation(cameraOrientation)
+		Log.d("TAG", " ${cameraOrientation}")
 	}
 
 	private fun getBackFacingCameraId(): Int {
@@ -165,7 +139,7 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 		}
 	}
 
-	/** Extract supported preview and flash modes from the camera.*/
+	/** Extract supported preview and flashMode modes from the camera.*/
 	fun setCamera() {
 		supportedPreviewSizes = camera?.parameters!!.supportedPreviewSizes
 		supportedFlashModes = camera?.parameters!!.supportedFlashModes

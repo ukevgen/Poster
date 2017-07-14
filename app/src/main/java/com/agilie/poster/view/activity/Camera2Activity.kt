@@ -537,7 +537,7 @@ class Camera2Activity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 				// We fit the aspect ratio of TextureView to the size of preview we picked.
 				val orientation = resources.configuration.orientation
 
-				// Check if the flash is supported.
+				// Check if the flashMode is supported.
 				val available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)
 				mFlashSupported = available ?: false
 
