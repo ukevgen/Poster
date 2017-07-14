@@ -1,7 +1,9 @@
 package com.agilie.poster.view.fragments.camera
 
 import android.app.Fragment
+import android.hardware.Camera
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,9 +22,18 @@ import kotlinx.android.synthetic.main.fragment_native_camera.*
 class CameraNativeFragment : Fragment() {
 
 	private lateinit var cameraPresenterImpl: CameraPresenterImpl
+	private var FACING = "FACING"
+	private var currentLensFacing = Camera.CameraInfo.CAMERA_FACING_BACK
 
 	companion object {
 		fun newInstance() = CameraNativeFragment()
+	}
+
+	override fun onActivityCreated(savedInstanceState: Bundle?) {
+		super.onActivityCreated(savedInstanceState)
+		savedInstanceState?.let {
+			cameraPresenterImpl.lensFacing = it.getInt(FACING, currentLensFacing)
+		}
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
@@ -30,12 +41,8 @@ class CameraNativeFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+		Log.d("TAG", "view created")
 		cameraPresenterImpl = CameraPresenterImpl(this)
-
-		// Create our Preview view and set it as the content of our activity.
-		if (!checkCameraHardware() || !cameraOpen(view)) {
-			cameraPresenterImpl.showErrorDialog()
-		}
 
 		button_snap.setOnClickListener { cameraPresenterImpl.takePicture() }
 
@@ -49,14 +56,24 @@ class CameraNativeFragment : Fragment() {
 	}
 
 	override fun onResume() {
-
-		cameraPresenterImpl.resume()
+		Log.d("TAG", "${cameraPresenterImpl.opened}")
+		if (!cameraPresenterImpl.opened) {
+			if (!checkCameraHardware() || !cameraOpen(view)) {
+				cameraPresenterImpl.showErrorDialog()
+			}
+		}
+		cameraPresenterImpl.opened = true
 		super.onResume()
 	}
 
 	override fun onDestroy() {
 		cameraPresenterImpl.destroy()
 		super.onDestroy()
+	}
+
+	override fun onSaveInstanceState(outState: Bundle?) {
+		super.onSaveInstanceState(outState)
+		outState?.putInt(FACING, cameraPresenterImpl.lensFacing)
 	}
 
 

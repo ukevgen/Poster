@@ -17,23 +17,23 @@ import java.io.FileOutputStream
 import java.io.IOException
 import android.media.MediaScannerConnection
 import android.net.Uri
+import android.view.Surface
 
 
 class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.Behavior {
 
 	private val FRAGMENT_DIALOG = "dialog"
 	private val TAG = "CameraPresenterImpl"
+	var opened = false
 	private var camera: Camera? = null
-	private var cameraOpen = false
 	private var preview: CameraPreview? = null
 	private var cameraView: View? = null
 	private val pictureCallback = Camera.PictureCallback { data, camera ->
-		//reOpenCamera()
 		preview?.startCameraPreview()
 		SaveImageTask().execute(data)
 	}
 
-	private var lensFacing = Camera.CameraInfo.CAMERA_FACING_BACK
+	var lensFacing = Camera.CameraInfo.CAMERA_FACING_BACK
 
 	override fun resume() {
 		reOpenCamera()
@@ -66,23 +66,24 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 		camera?.takePicture(null, null, pictureCallback)
 	}
 
-	private fun reOpenCamera(){
+	private fun reOpenCamera() {
 		releaseCameraAndPreview()
 		camera = Camera.open(lensFacing)
 		camera?.setPreviewDisplay(preview?.holder)
 		// Set correct orientation
-		camera?.setDisplayOrientation(90)
 		preview?.camera = camera
+		preview?.setCameraDisplayOrientation()
 		preview?.startCameraPreview()
-		camera?.startPreview()
 	}
+
+
 	fun safeCameraOpenInView(view: View?): Boolean {
 		releaseCameraAndPreview()
 
 		camera = getCameraInstance()
 		cameraView = view
 
-		val opened = camera != null
+		opened = camera != null
 
 		if (opened) {
 			preview = CameraPreview(fragment.activity.baseContext, camera, view)
@@ -112,7 +113,7 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 	fun getCameraInstance(): Camera? {
 		var camera: Camera? = null
 		try {
-			camera = Camera.open() // attempt to get a Camera instance
+			camera = Camera.open(lensFacing) // attempt to get a Camera instance
 		} catch (e: Exception) {
 			e.printStackTrace()
 		}
@@ -147,8 +148,8 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 
 				MediaScannerConnection.scanFile(fragment.activity, arrayOf<String>(outFile.absolutePath),
 						null) { path, uri ->
-					Log.i("TAG", "Scanned $path:")
-					Log.i("TAG", "-> uri=" + uri)
+					Log.i(TAG, "Scanned $path:")
+					Log.i(TAG, "-> uri=" + uri)
 				}
 				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.size + " to " + outFile.absolutePath)
 

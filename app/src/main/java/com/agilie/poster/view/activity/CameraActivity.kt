@@ -22,8 +22,11 @@ class CameraActivity : BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_camera)
+		if (savedInstanceState == null) {
+			requestStoragePermission()
+		}
 
-		requestStoragePermission()
+
 	}
 
 	private fun requestStoragePermission() {
