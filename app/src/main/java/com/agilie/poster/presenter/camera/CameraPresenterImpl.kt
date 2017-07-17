@@ -1,18 +1,17 @@
 package com.agilie.poster.presenter.camera
 
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.hardware.Camera
-import android.media.ExifInterface
 import android.media.MediaScannerConnection
-import android.os.AsyncTask
 import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import com.agilie.poster.R
 import com.agilie.poster.camera.CameraPreview
-import com.agilie.poster.dialog.ErrorDialog
-import com.agilie.poster.utils.getCameraPhotoOrientation
 import com.agilie.poster.view.activity.CameraActivity
 import com.agilie.poster.view.fragments.camera.CameraNativeFragment
 import kotlinx.coroutines.experimental.CommonPool
@@ -23,36 +22,29 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 
-class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.Behavior {
+class CameraPresenterImpl(val view: CameraNativeFragment) : CameraContract.CameraBehavior {
 
-	private val FRAGMENT_DIALOG = "dialog"
+
 	private val TAG = "CameraPresenterImpl"
+	var preview: CameraPreview? = null
 	private var camera: Camera? = null
-	private var preview: CameraPreview? = null
-	private var cameraView: View? = null
-
 	private val pictureCallback = Camera.PictureCallback { data, camera ->
 
-		saveImageAsync(data,preview!!.cameraOrientation)
-		//SaveImageTask().execute(data, preview.cameraOrientation)
+		saveImageAsync(data, preview!!.cameraOrientation)
 		preview?.startCameraPreview()
 	}
 
+	var flashMode = Camera.Parameters.FLASH_MODE_TORCH
 	var opened = false
 	var lensFacing = Camera.CameraInfo.CAMERA_FACING_BACK
-	var flashMode = Camera.Parameters.FLASH_MODE_TORCH
-		set(value) {
-			val param = camera?.parameters?.apply {
-				flashMode = value
-			}
-			camera?.parameters = param
-		}
+
 
 	override fun resume() {
 		reOpenCamera()
 	}
 
 	override fun pause() {
+		releaseCameraAndPreview()
 	}
 
 	override fun destroy() {
@@ -72,11 +64,22 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 
 	override fun closeCamera() {
 		releaseCameraAndPreview()
-		fragment.activity.finish()
+		view.activity.finish()
 	}
 
 	override fun takePicture() {
 		camera?.takePicture(null, null, pictureCallback)
+	}
+
+	override fun changeFlashMode(value: String) {
+		val param = camera?.parameters?.apply {
+			flashMode = value
+		}
+		camera?.parameters = param
+	}
+
+	override fun startPreview() {
+		preview?.startCameraPreview()
 	}
 
 	private fun reOpenCamera() {
@@ -91,21 +94,16 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 		}
 	}
 
-	fun safeCameraOpenInView(view: View?): Boolean {
+	fun addCameraPreview(view: View) {
 		releaseCameraAndPreview()
 
 		camera = getCameraInstance()
-		cameraView = view
 
-		opened = camera != null
-
-		if (opened) {
-			preview = CameraPreview(fragment.activity.baseContext, camera, view)
-			val preview = view?.findViewById(R.id.camera_preview) as FrameLayout
-			preview.addView(this.preview)
-			this@CameraPresenterImpl.preview?.startCameraPreview()
+		if (preview == null) {
+			preview = CameraPreview(this.view.activity.baseContext, camera, view)
+			val frameLayout = view?.findViewById(R.id.camera_preview) as FrameLayout
+			frameLayout.addView(this.preview)
 		}
-		return opened
 	}
 
 	/** Clear any existing preview / camera. */
@@ -134,38 +132,39 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 		return camera // returns null if camera is unavailable
 	}
 
-	fun checkCamera() = fragment.activity.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
+	fun checkCamera() = view.activity.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
 
 	fun showErrorDialog() {
-		ErrorDialog.newInstance(fragment.activity.getString(R.string.cannot_open_camera))
-				.show(fragment.childFragmentManager, FRAGMENT_DIALOG)
+		view.onShowErrorDialog()
 	}
 
 	fun getNumberOfCameras() = Camera.getNumberOfCameras()
 
 	private fun saveImageAsync(data: ByteArray, cameraOrientation: Int) = async(CommonPool) {
+
+		var bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
+		val matrix = Matrix().apply { postRotate(cameraOrientation.toFloat()) }
+
+		bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 		// Write to SD Card
 		try {
 			val sdCard = Environment.getExternalStorageDirectory()
-			val dir = File(sdCard.absolutePath + CameraActivity.PFOTO_FOLDER)
+			val dir = File(sdCard.absolutePath + CameraActivity.PHOTO_FOLDER)
 			dir.mkdirs()
 
-			val fileName = String.format("%d.jpg", System.currentTimeMillis())
+			val fileName = String.format(CameraActivity.PHOTO_FORMAT, System.currentTimeMillis())
 			val outFile = File(dir, fileName)
 
-			FileOutputStream(outFile).apply {
-				write(data)
+			val fos = FileOutputStream(outFile)
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+
+			fos.apply {
 				flush()
 				close()
 			}
-
 			// Update user gallery
-			MediaScannerConnection.scanFile(fragment.activity, arrayOf<String>(outFile.absolutePath),
+			MediaScannerConnection.scanFile(view.activity, arrayOf<String>(outFile.absolutePath),
 					null) { path, uri ->
-				val exif = ExifInterface(path)
-				exif.setAttribute(ExifInterface.TAG_ORIENTATION, cameraOrientation.toString())
-				exif.saveAttributes()
-				val imageOrientation = getCameraPhotoOrientation(fragment.activity, uri, path)
 				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.size + " to " + outFile.absolutePath)
 			}
 
@@ -176,43 +175,4 @@ class CameraPresenterImpl(val fragment: CameraNativeFragment) : CameraContract.B
 		} finally {
 		}
 	}
-
-	/*private inner class SaveImageTask : AsyncTask<ByteArray, Void, Void>() {
-
-		override fun doInBackground(vararg data: ByteArray): Void? {
-			// Write to SD Card
-			try {
-				val sdCard = Environment.getExternalStorageDirectory()
-				val dir = File(sdCard.absolutePath + CameraActivity.PFOTO_FOLDER)
-				dir.mkdirs()
-
-				val fileName = String.format("%d.jpg", System.currentTimeMillis())
-				val outFile = File(dir, fileName)
-
-				FileOutputStream(outFile).apply {
-					write(data[0])
-					flush()
-					close()
-				}
-
-				// Update user gallery
-				MediaScannerConnection.scanFile(fragment.activity, arrayOf<String>(outFile.absolutePath),
-						null) { path, uri ->
-					val exif = ExifInterface(path)
-					exif.setAttribute(ExifInterface.TAG_ORIENTATION, )
-					val imageOrientation = getCameraPhotoOrientation(fragment.activity, uri, path)
-
-				}
-				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.size + " to " + outFile.absolutePath)
-
-			} catch (e: FileNotFoundException) {
-				e.printStackTrace()
-			} catch (e: IOException) {
-				e.printStackTrace()
-			} finally {
-			}
-			return null
-		}
-	}*/
-
 }

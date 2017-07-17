@@ -11,7 +11,8 @@ import com.agilie.poster.view.fragments.camera.CameraNativeFragment
 class CameraActivity : BaseActivity() {
 
 	companion object {
-		val PFOTO_FOLDER = "/poster"
+		val PHOTO_FOLDER = "/poster"
+		val PHOTO_FORMAT = "%d.jpg"
 		private val REQUEST_CAMERA_PERMISSION = 1
 		private val REQUEST_STORAGE_PERMISSION = 2
 		private val FRAGMENT_DIALOG = "dialog"

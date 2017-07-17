@@ -2,7 +2,6 @@ package com.agilie.poster.camera
 
 import android.content.Context
 import android.hardware.Camera
-import android.util.Log
 import android.view.*
 import java.io.IOException
 
@@ -110,7 +109,6 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 			cameraOrientation = (camInfo.orientation - degrees + 360) % 360
 		}
 		camera?.setDisplayOrientation(cameraOrientation)
-		Log.d("TAG", " ${cameraOrientation}")
 	}
 
 	private fun getBackFacingCameraId(): Int {
