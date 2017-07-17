@@ -66,22 +66,19 @@ class CameraNativeFragment : Fragment() {
 			cameraPresenterImpl.destroy()
 			activity.finish()
 		}
-
 	}
 
 	override fun onPause() {
-		//cameraPresenterImpl.pause()
+		cameraPresenterImpl.pause()
 		super.onPause()
 	}
 
 	override fun onResume() {
-		//if (!cameraPresenterImpl.opened) {
-		/*if (!checkCameraHardware() || !createPreview(view)) {
-			cameraPresenterImpl.showErrorDialog()
+		if (!cameraPresenterImpl.opened) {
+			cameraPresenterImpl.resume()
 		}
-		//}*/
 		cameraPresenterImpl.opened = true
-		//cameraPresenterImpl.resume()
+
 		super.onResume()
 	}
 

@@ -1,5 +1,6 @@
 package com.agilie.poster.presenter.camera
 
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -7,9 +8,11 @@ import android.graphics.Matrix
 import android.hardware.Camera
 import android.media.MediaScannerConnection
 import android.os.Environment
-import android.util.Log
+import android.view.Surface
 import android.view.View
+import android.view.WindowManager
 import android.widget.FrameLayout
+import android.widget.Toast
 import com.agilie.poster.R
 import com.agilie.poster.camera.CameraPreview
 import com.agilie.poster.view.activity.CameraActivity
@@ -21,30 +24,29 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 
-
 class CameraPresenterImpl(val view: CameraNativeFragment) : CameraContract.CameraBehavior {
 
-
 	private val TAG = "CameraPresenterImpl"
+	var opened = true
 	var preview: CameraPreview? = null
 	private var camera: Camera? = null
 	private val pictureCallback = Camera.PictureCallback { data, camera ->
 
-		saveImageAsync(data, preview!!.cameraOrientation)
+		saveImageAsync(data)
 		preview?.startCameraPreview()
 	}
 
 	var flashMode = Camera.Parameters.FLASH_MODE_TORCH
-	var opened = false
 	var lensFacing = Camera.CameraInfo.CAMERA_FACING_BACK
 
 
 	override fun resume() {
-		reOpenCamera()
+		reOpenCamera(lensFacing)
 	}
 
 	override fun pause() {
 		releaseCameraAndPreview()
+		opened = false
 	}
 
 	override fun destroy() {
@@ -59,7 +61,7 @@ class CameraPresenterImpl(val view: CameraNativeFragment) : CameraContract.Camer
 			Camera.CameraInfo.CAMERA_FACING_BACK -> lensFacing = Camera.CameraInfo.CAMERA_FACING_FRONT
 			Camera.CameraInfo.CAMERA_FACING_FRONT -> lensFacing = Camera.CameraInfo.CAMERA_FACING_BACK
 		}
-		reOpenCamera()
+		reOpenCamera(lensFacing)
 	}
 
 	override fun closeCamera() {
@@ -82,14 +84,14 @@ class CameraPresenterImpl(val view: CameraNativeFragment) : CameraContract.Camer
 		preview?.startCameraPreview()
 	}
 
-	private fun reOpenCamera() {
+	private fun reOpenCamera(lensFacing: Int) {
 		releaseCameraAndPreview()
 		camera = Camera.open(lensFacing).apply { setPreviewDisplay(preview?.holder) }
 
 		preview?.camera = camera
 		preview?.apply {
 			// Set correct orientation
-			setCameraDisplayOrientation()
+			setCameraDisplayOrientation(lensFacing)
 			startCameraPreview()
 		}
 	}
@@ -140,10 +142,29 @@ class CameraPresenterImpl(val view: CameraNativeFragment) : CameraContract.Camer
 
 	fun getNumberOfCameras() = Camera.getNumberOfCameras()
 
-	private fun saveImageAsync(data: ByteArray, cameraOrientation: Int) = async(CommonPool) {
+	private fun saveImageAsync(data: ByteArray) = async(CommonPool) {
 
 		var bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
-		val matrix = Matrix().apply { postRotate(cameraOrientation.toFloat()) }
+
+		val display = (view.activity.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+		val rotation = display.rotation
+		var degrees = 0f
+
+		when (rotation) {
+			Surface.ROTATION_0 -> {
+				// Previous camera was CAMERA_FACING_BACK
+				if (lensFacing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+					degrees = 90f
+				} else {
+					degrees = 270f
+				}
+			}
+			Surface.ROTATION_90 -> degrees = 360f
+			Surface.ROTATION_180 -> 270f // Can't detached
+			Surface.ROTATION_270 -> degrees = 180f
+		}
+
+		val matrix = Matrix().apply { postRotate(degrees) }
 
 		bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 		// Write to SD Card
@@ -162,10 +183,11 @@ class CameraPresenterImpl(val view: CameraNativeFragment) : CameraContract.Camer
 				flush()
 				close()
 			}
+
+			Toast.makeText(view.activity, "Saved $dir", Toast.LENGTH_SHORT).show()
 			// Update user gallery
 			MediaScannerConnection.scanFile(view.activity, arrayOf<String>(outFile.absolutePath),
 					null) { path, uri ->
-				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.size + " to " + outFile.absolutePath)
 			}
 
 		} catch (e: FileNotFoundException) {

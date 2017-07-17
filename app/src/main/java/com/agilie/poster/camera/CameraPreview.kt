@@ -2,13 +2,15 @@ package com.agilie.poster.camera
 
 import android.content.Context
 import android.hardware.Camera
+import android.util.Log
 import android.view.*
 import java.io.IOException
+
 
 class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 
 	var camera: Camera?
-	var cameraOrientation = 0
+	var cameraId = 0
 	private val cameraView: View?
 	private var previewSize: Camera.Size? = null
 	private lateinit var supportedPreviewSizes: List<Camera.Size>
@@ -40,8 +42,8 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 			}
 
 			camera?.parameters = parameters
-			setCameraDisplayOrientation()
-
+			//setCameraDisplayOrientation(Camera.CameraInfo.CAMERA_FACING_BACK)
+			setCameraDisplayOrientation(cameraId)
 			camera?.startPreview()
 
 		} catch (e: Exception) {
@@ -88,9 +90,9 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 	}
 
 
-	fun setCameraDisplayOrientation() {
+	fun setCameraDisplayOrientation(facing: Int) {
 		val camInfo = Camera.CameraInfo()
-		Camera.getCameraInfo(getBackFacingCameraId(), camInfo)
+		Camera.getCameraInfo(getFacingCameraId(facing), camInfo)
 
 		val display = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
 		val rotation = display.rotation
@@ -101,29 +103,36 @@ class CameraPreview : SurfaceView, SurfaceHolder.Callback {
 			Surface.ROTATION_180 -> degrees = 180
 			Surface.ROTATION_270 -> degrees = 270
 		}
+		var cameraOrientation = 0
 
 		if (camInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
 			cameraOrientation = (camInfo.orientation + degrees) % 360
-			cameraOrientation = (360 - cameraOrientation) % 360  // compensate the mirror
+			cameraOrientation = (360 - cameraOrientation) % 360
 		} else {  // back-facing
 			cameraOrientation = (camInfo.orientation - degrees + 360) % 360
 		}
 		camera?.setDisplayOrientation(cameraOrientation)
+
+		/*val parameters = camera?.parameters
+		parameters?.setRotation(rotation) //set rotation to save the picture
+		camera?.parameters = parameters*/
+
 	}
 
-	private fun getBackFacingCameraId(): Int {
+	private fun getFacingCameraId(facing: Int): Int {
 		var cameraId = -1
 		// Search for the front facing camera
 		val numberOfCameras = Camera.getNumberOfCameras()
 		for (i in 0..numberOfCameras - 1) {
 			val info = Camera.CameraInfo()
 			Camera.getCameraInfo(i, info)
-			if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+			if (info.facing == facing) {
 
 				cameraId = i
 				break
 			}
 		}
+		this.cameraId = cameraId
 		return cameraId
 	}
 
