@@ -12,7 +12,6 @@ import android.view.Surface
 import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
-import android.widget.Toast
 import com.agilie.poster.R
 import com.agilie.poster.camera.CameraPreview
 import com.agilie.poster.view.activity.CameraActivity
@@ -160,7 +159,7 @@ class CameraPresenterImpl(val view: CameraNativeFragment) : CameraContract.Camer
 				}
 			}
 			Surface.ROTATION_90 -> degrees = 360f
-			Surface.ROTATION_180 -> 270f // Can't detached
+			Surface.ROTATION_180 -> degrees = 270f // Can't detached
 			Surface.ROTATION_270 -> degrees = 180f
 		}
 
@@ -183,8 +182,6 @@ class CameraPresenterImpl(val view: CameraNativeFragment) : CameraContract.Camer
 				flush()
 				close()
 			}
-
-			Toast.makeText(view.activity, "Saved $dir", Toast.LENGTH_SHORT).show()
 			// Update user gallery
 			MediaScannerConnection.scanFile(view.activity, arrayOf<String>(outFile.absolutePath),
 					null) { path, uri ->
