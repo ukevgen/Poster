@@ -2,14 +2,13 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/camera_preview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+      <FrameLayout
+          android:id="@+id/camera_preview"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"/>
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/flash_auto_view"
@@ -44,14 +43,17 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/flash_container"
-        android:layout_width="wrap_content"
+
+        android:layout_width="81dp"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/flash_off_view"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/flash_off_view">
+        app:layout_constraintLeft_toLeftOf="parent">
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/flash_off"
@@ -66,23 +68,21 @@
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/flash_on"
             style="@style/FlashButtonStyle"
-            android:layout_marginRight="16dp"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:text="@string/on"
             app:layout_constraintRight_toLeftOf="@+id/flash_off"
             />
 
-        <android.support.v7.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/flash_auto"
             style="@style/FlashButtonStyle"
-            android:layout_marginLeft="16dp"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:text="@string/auto"
             app:layout_constraintLeft_toRightOf="@+id/flash_off"
             />
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/close"
