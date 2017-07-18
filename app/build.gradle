@@ -47,6 +47,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+    compile project(':googlecamera')
 
     kapt 'com.arello-mobile:moxy-compiler:1.5.3'
 }

@@ -38,4 +38,5 @@
     <string name="request_storage_permission">The poster needs storage permission</string>
     <string name="cannot_open_camera">Camera, can\'t be open</string>
     <string name="done">done</string>
+    <string name="picture_taken">picture_taken</string>
 </resources>
