@@ -5,33 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.agilie.poster.view.activity.PreviewActivity">
+    tools:context="com.agilie.poster.view.activity.CameraPreviewActivity">
 
-    <LinearLayout
+
+    <ImageView
+        android:id="@+id/image_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/photo_preview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/gallery"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            />
-
-    </LinearLayout>
+        android:layout_gravity="center_horizontal"
+        android:adjustViewBounds="true"/>
 
     <FrameLayout
-        style="@style/ToolBar"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-    </FrameLayout>
+        style="@style/ToolBar"></FrameLayout>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/back_to_cam"
@@ -42,7 +27,18 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/ic_back_to_cam_icon"/>
-    
 
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/done"
+        style="@style/ButtonDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"
+        android:text="@string/done"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        />
 
 </RelativeLayout>

@@ -113,4 +113,12 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textAppearance">@style/TextAppearance.UbuntuMedium</item>
     </style>
+
+    <style name="ButtonDone" parent="AppTheme">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAppearance">@style/TextAppearance.UbuntuMedium</item>
+    </style>
 </resources>
