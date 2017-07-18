@@ -42,16 +42,16 @@ class CameraActivity : BaseActivity() {
 
 	override fun onResume() {
 		super.onResume()
-		camera.start()
+		//camera.start()
 	}
 
 	override fun onPause() {
-		camera.stop()
+		//camera.stop()
 		super.onPause()
 	}
 
 	override fun onDestroy() {
-		camera.stop()
+		//camera.stop()
 		super.onDestroy()
 	}
 

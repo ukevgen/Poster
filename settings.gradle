@@ -1,1 +1,1 @@
-include ':app', ':paint-code'
+include ':app', ':paint-code', ':googlecamera'

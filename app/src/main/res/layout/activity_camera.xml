@@ -13,20 +13,14 @@
          android:id="@+id/camera_preview"
          android:layout_width="match_parent"
          android:layout_height="match_parent"/>-->
-    <com.flurgle.camerakit.CameraView
+    <com.agilie.googlecamera.CameraView
         android:id="@+id/camera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
-        app:ckCropOutput="false"
-        app:ckFacing="back"
-        app:ckFlash="auto"
-        app:ckFocus="tapWithMarker"
-        app:ckJpegQuality="100"
-        app:ckMethod="standard"
-        app:ckPermissions="lazy"
-        app:ckZoom="pinch"/>
+        android:background="@android:color/black">
+
+    </com.agilie.googlecamera.CameraView>
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/flash_auto_view"
