@@ -14,6 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
+        app:autoFocus="true"
+        app:aspectRatio="4:3"
+        app:facing="back"
+        app:flash="auto"
         android:background="@android:color/black">
     </com.agilie.googlecamera.CameraView>
 
@@ -50,8 +54,9 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/flash_container"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
@@ -62,9 +67,13 @@
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/flash_off"
             style="@style/FlashButtonStyle"
+            android:layout_marginRight="16dp"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:text="@string/off"
+            app:layout_constraintBottom_toBottomOf="@+id/flash_on"
+            app:layout_constraintRight_toLeftOf="@+id/flash_on"
+            app:layout_constraintTop_toTopOf="@+id/flash_on"
             />
 
 
@@ -72,28 +81,25 @@
             android:id="@+id/flash_on"
             style="@style/FlashButtonStyle"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="19dp"
-            android:layout_toEndOf="@+id/flash_off"
-            android:layout_toRightOf="@+id/flash_off"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:text="@string/on"
-            />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/flash_auto"
             style="@style/FlashButtonStyle"
-            android:layout_alignBaseline="@+id/flash_on"
-            android:layout_alignBottom="@+id/flash_on"
-            android:layout_marginLeft="19dp"
-            android:layout_toEndOf="@+id/flash_on"
-            android:layout_toRightOf="@+id/flash_on"
+            android:layout_marginLeft="16dp"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:text="@string/auto"
-            />
-    </RelativeLayout>
+            app:layout_constraintBottom_toBottomOf="@+id/flash_on"
+            app:layout_constraintLeft_toRightOf="@+id/flash_on"
+            app:layout_constraintTop_toTopOf="@+id/flash_on"/>
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/close"

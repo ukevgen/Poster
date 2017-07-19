@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.agilie.poster.view.activity.CameraPreviewActivity">
+    tools:context="com.agilie.poster.view.activity.PhotoPreviewActivity">
 
 
     <ImageView
@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
+
         android:adjustViewBounds="true"/>
 
     <FrameLayout
@@ -33,12 +34,12 @@
         style="@style/ButtonDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:layout_marginEnd="16dp"
         android:background="@android:color/transparent"
         android:text="@string/done"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         />
 
 </RelativeLayout>

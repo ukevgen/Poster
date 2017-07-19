@@ -347,6 +347,12 @@ class Camera2 extends CameraViewImpl {
         mPreview.setDisplayOrientation(mDisplayOrientation);
     }
 
+    @Override
+    int getCameraId() {
+        return Integer.parseInt(mCameraId);
+    }
+
+
     /**
      * <p>Chooses a camera ID by the specified camera facing ({@link #mFacing}).</p>
      * <p>This rewrites {@link #mCameraId}, {@link #mCameraCharacteristics}, and optionally
@@ -640,8 +646,8 @@ class Camera2 extends CameraViewImpl {
                     new CameraCaptureSession.CaptureCallback() {
                         @Override
                         public void onCaptureCompleted(@NonNull CameraCaptureSession session,
-                                @NonNull CaptureRequest request,
-                                @NonNull TotalCaptureResult result) {
+                                                       @NonNull CaptureRequest request,
+                                                       @NonNull TotalCaptureResult result) {
                             unlockFocus();
                         }
                     }, null);
@@ -695,13 +701,13 @@ class Camera2 extends CameraViewImpl {
 
         @Override
         public void onCaptureProgressed(@NonNull CameraCaptureSession session,
-                @NonNull CaptureRequest request, @NonNull CaptureResult partialResult) {
+                                        @NonNull CaptureRequest request, @NonNull CaptureResult partialResult) {
             process(partialResult);
         }
 
         @Override
         public void onCaptureCompleted(@NonNull CameraCaptureSession session,
-                @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
+                                       @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
             process(result);
         }
 

@@ -19,8 +19,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dexOptions {
+        javaMaxHeapSize "2g"
+    }
 }
-
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -29,26 +31,30 @@ dependencies {
     })
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    // Camera
-    // Moxy
-    // Text style
-    // Permission
-    // Tests
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.16'
+    //Android
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:recyclerview-v7:25.3.1'
+
+    // Image compressor
+    compile 'id.zelory:compressor:2.1.0'
+    // RX
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    // Moxy
     compile 'com.arello-mobile:moxy:1.5.3'
     compile 'com.arello-mobile:moxy-app-compat:1.5.3'
-    compile 'uk.co.chrisjenx:calligraphy:2.3.0'
-    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
-    testCompile 'junit:junit:4.12'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+    kapt 'com.arello-mobile:moxy-compiler:1.5.3'
+    // Text style
+    compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+    // Tests
+    testCompile 'junit:junit:4.12'
+    // Coroutines
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.16'
+    // Camera
     compile project(':googlecamera')
 
-    kapt 'com.arello-mobile:moxy-compiler:1.5.3'
 }
 
 kapt {

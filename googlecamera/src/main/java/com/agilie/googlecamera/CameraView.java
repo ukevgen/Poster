@@ -22,34 +22,52 @@ import java.util.Set;
 
 public class CameraView extends FrameLayout {
 
-    /** The camera device faces the opposite direction as the device's screen. */
+    /**
+     * The camera device faces the opposite direction as the device's screen.
+     */
     public static final int FACING_BACK = Constants.FACING_BACK;
 
-    /** The camera device faces the same direction as the device's screen. */
+    /**
+     * The camera device faces the same direction as the device's screen.
+     */
     public static final int FACING_FRONT = Constants.FACING_FRONT;
 
-    /** Direction the camera faces relative to device screen. */
+    /**
+     * Direction the camera faces relative to device screen.
+     */
     @IntDef({FACING_BACK, FACING_FRONT})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Facing {
     }
 
-    /** Flash will not be fired. */
+    /**
+     * Flash will not be fired.
+     */
     public static final int FLASH_OFF = Constants.FLASH_OFF;
 
-    /** Flash will always be fired during snapshot. */
+    /**
+     * Flash will always be fired during snapshot.
+     */
     public static final int FLASH_ON = Constants.FLASH_ON;
 
-    /** Constant emission of light during preview, auto-focus and snapshot. */
+    /**
+     * Constant emission of light during preview, auto-focus and snapshot.
+     */
     public static final int FLASH_TORCH = Constants.FLASH_TORCH;
 
-    /** Flash will be fired automatically when required. */
+    /**
+     * Flash will be fired automatically when required.
+     */
     public static final int FLASH_AUTO = Constants.FLASH_AUTO;
 
-    /** Flash will be fired in red-eye reduction mode. */
+    /**
+     * Flash will be fired in red-eye reduction mode.
+     */
     public static final int FLASH_RED_EYE = Constants.FLASH_RED_EYE;
 
-    /** The mode for for the camera device's flash control */
+    /**
+     * The mode for for the camera device's flash control
+     */
     @IntDef({FLASH_OFF, FLASH_ON, FLASH_TORCH, FLASH_AUTO, FLASH_RED_EYE})
     public @interface Flash {
     }
@@ -73,7 +91,7 @@ public class CameraView extends FrameLayout {
     @SuppressWarnings("WrongConstant")
     public CameraView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        if (isInEditMode()){
+        if (isInEditMode()) {
             mCallbacks = null;
             mDisplayOrientationDetector = null;
             return;
@@ -140,7 +158,7 @@ public class CameraView extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (isInEditMode()){
+        if (isInEditMode()) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;
         }
@@ -229,7 +247,7 @@ public class CameraView extends FrameLayout {
     public void start() {
         if (!mImpl.start()) {
             //store the state ,and restore this state after fall back o Camera1
-            Parcelable state=onSaveInstanceState();
+            Parcelable state = onSaveInstanceState();
             // Camera2 uses legacy hardware layer; fall back to Camera1
             mImpl = new Camera1(mCallbacks, createPreviewImpl(getContext()));
             onRestoreInstanceState(state);
@@ -264,7 +282,8 @@ public class CameraView extends FrameLayout {
 
     /**
      * Remove a callback.
-     *c
+     * c
+     *
      * @param callback The {@link Callback} to remove.
      * @see #addCallback(Callback)
      */
@@ -519,6 +538,10 @@ public class CameraView extends FrameLayout {
          */
         public void onPictureTaken(CameraView cameraView, byte[] data) {
         }
+    }
+
+    public int getCameraId() {
+        return mImpl.getCameraId();
     }
 
 }

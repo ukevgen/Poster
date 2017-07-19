@@ -1,6 +1,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/flash_container"
 
     android:layout_width="match_parent"
@@ -16,32 +17,10 @@
         android:background="@android:color/transparent"
         android:gravity="center"
         android:text="@string/off"
-        />
-
-
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/flash_on"
-        style="@style/FlashButtonStyle"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="19dp"
-        android:layout_toEndOf="@+id/flash_off"
-        android:layout_toRightOf="@+id/flash_off"
-        android:background="@android:color/transparent"
-        android:gravity="center"
-        android:text="@string/on"
-        />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="104dp"/>
 
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/flash_auto"
-        style="@style/FlashButtonStyle"
-        android:layout_alignBaseline="@+id/flash_on"
-        android:layout_alignBottom="@+id/flash_on"
-        android:layout_marginLeft="19dp"
-        android:layout_toEndOf="@+id/flash_on"
-        android:layout_toRightOf="@+id/flash_on"
-        android:background="@android:color/transparent"
-        android:gravity="center"
-        android:text="@string/auto"
-        />
+
 </RelativeLayout>

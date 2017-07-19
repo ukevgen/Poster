@@ -2,10 +2,13 @@ package com.agilie.poster.view.activity
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.media.AudioManager
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -15,10 +18,6 @@ import com.agilie.googlecamera.CameraView
 import com.agilie.poster.R
 import com.agilie.poster.dialog.ErrorDialog
 import kotlinx.android.synthetic.main.activity_camera.*
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
 import java.lang.ref.WeakReference
 
 
@@ -33,7 +32,9 @@ class CameraActivity : BaseActivity() {
 		val FRAGMENT_DIALOG = "dialog"
 
 		object CameraResult {
-			var image: WeakReference<Bitmap>? = null
+			var imageData: WeakReference<ByteArray>? = null
+			var cameraId: Int? = null
+			var rotation: Int? = null
 		}
 
 		private var savedStreamMuted = true
@@ -57,17 +58,6 @@ class CameraActivity : BaseActivity() {
 
 		// Add sound when picture is taking
 		//enableSound()
-	}
-
-
-	private fun changeCamera() {
-		camera?.let {
-			val facing = camera.facing
-			camera.facing = if (facing == CameraView.FACING_FRONT)
-				CameraView.FACING_BACK
-			else
-				CameraView.FACING_FRONT
-		}
 	}
 
 	override fun onResume() {
@@ -115,23 +105,18 @@ class CameraActivity : BaseActivity() {
 		}
 	}
 
+	private fun changeCamera() {
+		camera?.let {
+			val facing = camera.facing
+			camera.facing = if (facing == CameraView.FACING_FRONT)
+				CameraView.FACING_BACK
+			else
+				CameraView.FACING_FRONT
+		}
+	}
+
 	private fun takePicture() {
 		camera.takePicture()
-
-		/*camera.setCameraListener(object : CameraListener() {
-			override fun onPictureTaken(picture: ByteArray) {
-				super.onPictureTaken(picture)
-
-				// Create a bitmap
-				val result = BitmapFactory.decodeByteArray(picture, 0, picture.size)
-
-				CameraResult.image = WeakReference<Bitmap>(result)
-
-				val intent = Intent(this@CameraActivity, CameraPreviewActivity::class.java)
-				startActivity(intent)
-			}
-		})
-		camera.captureImage()*/
 	}
 
 	private fun requestStoragePermission() {
@@ -169,34 +154,25 @@ class CameraActivity : BaseActivity() {
 
 		override
 		fun onPictureTaken(cameraView: CameraView, data: ByteArray) {
-			Log.d(TAG, "onPictureTaken " + data.size)
-			Toast.makeText(cameraView.context, R.string.picture_taken, Toast.LENGTH_SHORT)
+			Toast.makeText(this@CameraActivity, R.string.picture_taken, Toast.LENGTH_SHORT)
 					.show()
+
+
+			CameraResult.apply {
+				imageData = WeakReference<ByteArray>(data)
+				cameraId = cameraView.cameraId
+				rotation = windowManager.defaultDisplay.rotation
+			}
+
+			val intent = Intent(this@CameraActivity, PhotoPreviewActivity::class.java)
+			startActivity(intent)
 			//disableSound()
-			getBackgroundHandler()?.post({
-				val file = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-						"picture.jpg")
-				var os: OutputStream? = null
-				try {
-					os = FileOutputStream(file)
-					os.write(data)
-					os.close()
-				} catch (e: IOException) {
-					Log.d(TAG, "Cannot write to " + file, e)
-				} finally {
-					if (os != null) {
-						try {
-							os.close()
-						} catch (e: IOException) {
-							// Ignore
-						}
+			/*getBackgroundHandler()?.post({
 
-					}
-				}
-			})
+			})*/
 		}
-
 	}
+
 
 	private fun enableSound() {
 		val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
