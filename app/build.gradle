@@ -35,7 +35,6 @@ dependencies {
     // Permission
     // Tests
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.16'
-    compile 'com.flurgle:camerakit:0.9.18'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'

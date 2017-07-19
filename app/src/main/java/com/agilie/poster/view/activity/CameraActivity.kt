@@ -1,11 +1,15 @@
 package com.agilie.poster.view.activity
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.media.AudioManager
 import android.os.*
 import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.agilie.googlecamera.CameraView
 import com.agilie.poster.R
@@ -17,24 +21,23 @@ import java.io.IOException
 import java.io.OutputStream
 import java.lang.ref.WeakReference
 
-class CameraActivity : BaseActivity() {
 
+class CameraActivity : BaseActivity() {
 
 	companion object {
 		val PHOTO_FOLDER = "/poster"
 		val PHOTO_FORMAT = "%d.jpg"
 		val TAG = "MainActivity"
+		val REQUEST_CAMERA_PERMISSION = 1
+		val REQUEST_STORAGE_PERMISSION = 2
+		val FRAGMENT_DIALOG = "dialog"
 
 		object CameraResult {
 			var image: WeakReference<Bitmap>? = null
 		}
 
-		private val REQUEST_CAMERA_PERMISSION = 1
-		private val REQUEST_STORAGE_PERMISSION = 2
-		private val REQUEST_PORTRAIT_FFC = 3
-		private val FRAGMENT_DIALOG = "dialog"
-
-		private var mBackgroundHandler: Handler? = null
+		private var savedStreamMuted = true
+		private var backgroundHandler: Handler? = null
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,11 +47,27 @@ class CameraActivity : BaseActivity() {
 			requestStoragePermission()
 		}
 
-		if (camera != null) {
-			camera.addCallback(mCallback)
-		}
+		camera?.addCallback(cameraCallback)
 
 		button_snap.setOnClickListener { takePicture() }
+
+		button_change_cam.setOnClickListener { changeCamera() }
+
+		initFlashSupportLogic()
+
+		// Add sound when picture is taking
+		//enableSound()
+	}
+
+
+	private fun changeCamera() {
+		camera?.let {
+			val facing = camera.facing
+			camera.facing = if (facing == CameraView.FACING_FRONT)
+				CameraView.FACING_BACK
+			else
+				CameraView.FACING_FRONT
+		}
 	}
 
 	override fun onResume() {
@@ -63,13 +82,13 @@ class CameraActivity : BaseActivity() {
 
 	override fun onDestroy() {
 		super.onDestroy()
-		if (mBackgroundHandler != null) {
+		if (backgroundHandler != null) {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-				mBackgroundHandler?.looper?.quitSafely()
+				backgroundHandler?.looper?.quitSafely()
 			} else {
-				mBackgroundHandler?.looper?.quit()
+				backgroundHandler?.looper?.quit()
 			}
-			mBackgroundHandler = null
+			backgroundHandler = null
 		}
 	}
 
@@ -97,6 +116,8 @@ class CameraActivity : BaseActivity() {
 	}
 
 	private fun takePicture() {
+		camera.takePicture()
+
 		/*camera.setCameraListener(object : CameraListener() {
 			override fun onPictureTaken(picture: ByteArray) {
 				super.onPictureTaken(picture)
@@ -135,7 +156,7 @@ class CameraActivity : BaseActivity() {
 		ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
 	}
 
-	private val mCallback = object : CameraView.Callback() {
+	private val cameraCallback = object : CameraView.Callback() {
 		override
 		fun onCameraOpened(cameraView: CameraView) {
 			Log.d(TAG, "onCameraOpened")
@@ -151,6 +172,7 @@ class CameraActivity : BaseActivity() {
 			Log.d(TAG, "onPictureTaken " + data.size)
 			Toast.makeText(cameraView.context, R.string.picture_taken, Toast.LENGTH_SHORT)
 					.show()
+			//disableSound()
 			getBackgroundHandler()?.post({
 				val file = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
 						"picture.jpg")
@@ -160,7 +182,7 @@ class CameraActivity : BaseActivity() {
 					os.write(data)
 					os.close()
 				} catch (e: IOException) {
-					Log.w(TAG, "Cannot write to " + file, e)
+					Log.d(TAG, "Cannot write to " + file, e)
 				} finally {
 					if (os != null) {
 						try {
@@ -176,12 +198,99 @@ class CameraActivity : BaseActivity() {
 
 	}
 
+	private fun enableSound() {
+		val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			if (!audioManager.isStreamMute(AudioManager.STREAM_SYSTEM)) {
+				savedStreamMuted = true
+				audioManager.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_MUTE, 0)
+			}
+		} else {
+			audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, true)
+		}
+	}
+
+	private fun disableSound() {
+		val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			if (savedStreamMuted) {
+				audioManager.adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_UNMUTE, 0)
+				savedStreamMuted = false
+			}
+		} else {
+			audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, false)
+		}
+	}
+
 	private fun getBackgroundHandler(): Handler? {
-		if (mBackgroundHandler == null) {
+		if (backgroundHandler == null) {
 			val thread = HandlerThread("background")
 			thread.start()
-			mBackgroundHandler = Handler(thread.looper)
+			backgroundHandler = Handler(thread.looper)
 		}
-		return mBackgroundHandler
+		return backgroundHandler
+	}
+
+	private fun initFlashSupportLogic() {
+
+		flash_off.setOnClickListener { changeFlashButtonsVisibility(it) }
+		flash_on.setOnClickListener { changeFlashButtonsVisibility(it) }
+		flash_auto.setOnClickListener { changeFlashButtonsVisibility(it) }
+
+		flash_auto_view.setOnClickListener { updateFlashContainerStyle(it) }
+		flash_off_view.setOnClickListener { updateFlashContainerStyle(it) }
+		flash_on_view.setOnClickListener { updateFlashContainerStyle(it) }
+		close.setOnClickListener {
+			finish()
+		}
+	}
+
+	private fun updateFlashContainerStyle(view: View) {
+		when (view) {
+			flash_auto_view -> {
+				flash_auto.setTextColor(ContextCompat.getColor(this, R.color.button_flash_state_enable))
+				flash_on.setTextColor(ContextCompat.getColor(this, R.color.white))
+				flash_off.setTextColor(ContextCompat.getColor(this, R.color.white))
+			}
+			flash_off_view -> {
+				flash_off.setTextColor(ContextCompat.getColor(this, R.color.button_flash_state_enable))
+				flash_auto.setTextColor(ContextCompat.getColor(this, R.color.white))
+				flash_on.setTextColor(ContextCompat.getColor(this, R.color.white))
+			}
+			flash_on_view -> {
+				flash_on.setTextColor(ContextCompat.getColor(this, R.color.button_flash_state_enable))
+				flash_auto.setTextColor(ContextCompat.getColor(this, R.color.white))
+				flash_auto.setTextColor(ContextCompat.getColor(this, R.color.white))
+			}
+		}
+
+		flash_container.visibility = View.VISIBLE
+	}
+
+	private fun changeFlashButtonsVisibility(view: View) {
+		when (view) {
+			flash_auto -> {
+				camera.flash = CameraView.FLASH_AUTO
+
+				flash_auto_view.visibility = View.VISIBLE
+				flash_off_view.visibility = View.INVISIBLE
+				flash_on_view.visibility = View.INVISIBLE
+			}
+			flash_on -> {
+				camera.flash = CameraView.FLASH_ON
+
+				flash_on_view.visibility = View.VISIBLE
+				flash_off_view.visibility = View.INVISIBLE
+				flash_auto_view.visibility = View.INVISIBLE
+			}
+			flash_off -> {
+				camera.flash = CameraView.FLASH_OFF
+
+				flash_off_view.visibility = View.VISIBLE
+				flash_on_view.visibility = View.INVISIBLE
+				flash_auto_view.visibility = View.INVISIBLE
+			}
+		}
+		flash_container.visibility = View.INVISIBLE
 	}
 }
