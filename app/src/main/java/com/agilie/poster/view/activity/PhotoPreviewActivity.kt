@@ -4,17 +4,16 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.hardware.Camera
+import android.media.MediaScannerConnection
 import android.os.Bundle
 import android.os.Environment
 import android.view.Surface
 import android.view.ViewTreeObserver
 import com.agilie.poster.Constants
+import com.agilie.poster.ImageLoader
 import com.agilie.poster.R
 import kotlinx.android.synthetic.main.activity_photo_preview.*
 import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
 
 class PhotoPreviewActivity : BaseActivity() {
 
@@ -40,17 +39,14 @@ class PhotoPreviewActivity : BaseActivity() {
 			}
 		})
 
-		//setPic(imageData)
-
-
-		//image_preview.setImageBitmap(bitmap)
-
 		back_to_cam.setOnClickListener { onBackPressed() }
 
 		done.setOnClickListener {
 			val bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
 			onPreparePicture(bitmap, cameraId, rotation, preview = false)
 		}
+
+		ImageLoader.instance.getLastPhoto(this)
 	}
 
 	private fun resizingImage(data: ByteArray): Bitmap {
@@ -104,7 +100,6 @@ class PhotoPreviewActivity : BaseActivity() {
 		val info = Camera.CameraInfo()
 		Camera.getCameraInfo(cameraId, info)
 
-		//val rotation = windowManager.defaultDisplay.rotation
 		var degrees = 0
 		when (rotation) {
 			Surface.ROTATION_0 -> degrees = 0
@@ -112,40 +107,24 @@ class PhotoPreviewActivity : BaseActivity() {
 			Surface.ROTATION_180 -> degrees = 180
 			Surface.ROTATION_270 -> degrees = 270
 		}
-		//var result: Int
-		/*if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-			result = (info.orientation + degrees) % 360
-			result = (360 - result) % 360 // compensate the mirror
-		} else { // back-facing*/
-		var result = (info.orientation - degrees + 360) % 360
-		//}
-		return result.toFloat()
-	}
 
+		return ((info.orientation - degrees + 360) % 360).toFloat()
+	}
 
 	private fun saveImage(bitmap: Bitmap) {
-		try {
-			val sdCard = Environment.getExternalStorageDirectory()
-			val dir = File(sdCard.absolutePath + Constants.PHOTO_FOLDER)
-			dir.mkdirs()
 
-			val fileName = String.format(Constants.PHOTO_FORMAT, System.currentTimeMillis())
-			val outFile = File(dir, fileName)
 
-			val fos = FileOutputStream(outFile)
-			bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos)
+		val sdCard = Environment.getExternalStorageDirectory()
+		val dir = File(sdCard.absolutePath + Constants.PHOTO_FOLDER)
+		dir.mkdirs()
+		val fileName = String.format(Constants.PHOTO_FORMAT, System.currentTimeMillis())
 
-			fos.apply {
-				flush()
-				close()
+		val path = ImageLoader.instance.saveImage(dir, fileName, bitmap)
+		// Update user gallery
+		path?.let {
+			MediaScannerConnection.scanFile(this, arrayOf(path),
+					null) { _, _ ->
 			}
-
-		} catch (e: FileNotFoundException) {
-			e.printStackTrace()
-		} catch (e: IOException) {
-			e.printStackTrace()
-		} finally {
 		}
 	}
-
 }
