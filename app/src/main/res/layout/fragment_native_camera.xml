@@ -57,7 +57,7 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/flash_off"
-            style="@style/FlashButtonStyle"
+            style="@style/FlashTextStyle"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:text="@string/off"
@@ -67,7 +67,7 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/flash_on"
-            style="@style/FlashButtonStyle"
+            style="@style/FlashTextStyle"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:text="@string/on"
@@ -76,7 +76,7 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/flash_auto"
-            style="@style/FlashButtonStyle"
+            style="@style/FlashTextStyle"
             android:background="@android:color/transparent"
             android:gravity="center"
             android:text="@string/auto"
@@ -103,7 +103,7 @@
         android:background="@drawable/snap_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/gallery"
-        app:layout_constraintRight_toLeftOf="@+id/button_change_cam"
+        app:layout_constraintRight_toLeftOf="@+id/change_cam"
         />
 
     <android.support.v7.widget.AppCompatImageView
@@ -116,7 +116,7 @@
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/button_change_cam"
+        android:id="@+id/change_cam"
         android:layout_width="30dp"
         android:layout_height="27dp"
         android:layout_marginRight="40dp"

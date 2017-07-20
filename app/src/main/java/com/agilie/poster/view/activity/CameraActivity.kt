@@ -14,7 +14,8 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.agilie.googlecamera.CameraView
+import com.agilie.camera.CameraView
+import com.agilie.poster.Constants
 import com.agilie.poster.R
 import com.agilie.poster.dialog.ErrorDialog
 import kotlinx.android.synthetic.main.activity_camera.*
@@ -24,9 +25,7 @@ import java.lang.ref.WeakReference
 class CameraActivity : BaseActivity() {
 
 	companion object {
-		val PHOTO_FOLDER = "/poster"
-		val PHOTO_FORMAT = "%d.jpg"
-		val TAG = "MainActivity"
+		val TAG = "CameraActivity"
 		val REQUEST_CAMERA_PERMISSION = 1
 		val REQUEST_STORAGE_PERMISSION = 2
 		val FRAGMENT_DIALOG = "dialog"
@@ -52,7 +51,7 @@ class CameraActivity : BaseActivity() {
 
 		button_snap.setOnClickListener { takePicture() }
 
-		button_change_cam.setOnClickListener { changeCamera() }
+		change_cam.setOnClickListener { changeCamera() }
 
 		initFlashSupportLogic()
 
@@ -115,6 +114,17 @@ class CameraActivity : BaseActivity() {
 		}
 	}
 
+	private fun setAspectRatio() {
+		val ratios = camera.supportedAspectRatios
+		if (ratios.contains(Constants.ASPECT_RATIO_16_9)) {
+			camera.setAspectRatio(Constants.ASPECT_RATIO_16_9)
+		} else if (ratios.contains(Constants.DEFAULT_ASPECT_RATIO)) {
+			camera.setAspectRatio(Constants.DEFAULT_ASPECT_RATIO)
+		} else {
+			camera.setAspectRatio(ratios.first())
+		}
+	}
+
 	private fun takePicture() {
 		camera.takePicture()
 	}
@@ -144,7 +154,8 @@ class CameraActivity : BaseActivity() {
 	private val cameraCallback = object : CameraView.Callback() {
 		override
 		fun onCameraOpened(cameraView: CameraView) {
-			Log.d(TAG, "onCameraOpened")
+			setAspectRatio()
+			Log.d(TAG, "onCameraOpened ${camera.aspectRatio}")
 		}
 
 		override
@@ -236,7 +247,7 @@ class CameraActivity : BaseActivity() {
 			flash_on_view -> {
 				flash_on.setTextColor(ContextCompat.getColor(this, R.color.button_flash_state_enable))
 				flash_auto.setTextColor(ContextCompat.getColor(this, R.color.white))
-				flash_auto.setTextColor(ContextCompat.getColor(this, R.color.white))
+				flash_off.setTextColor(ContextCompat.getColor(this, R.color.white))
 			}
 		}
 

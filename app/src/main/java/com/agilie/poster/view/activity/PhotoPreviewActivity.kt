@@ -8,19 +8,13 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.Surface
 import android.view.ViewTreeObserver
+import com.agilie.poster.Constants
 import com.agilie.poster.R
 import kotlinx.android.synthetic.main.activity_photo_preview.*
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
-
-/** Action Flow
- * 1) Rotate bitmap
- * 2)Create resizing bitmap from ByteArray
- * 3) Set into view
- * */
-
 
 class PhotoPreviewActivity : BaseActivity() {
 
@@ -61,8 +55,8 @@ class PhotoPreviewActivity : BaseActivity() {
 
 	private fun resizingImage(data: ByteArray): Bitmap {
 		// Get the dimensions of the View
-		val targetW = image_preview.width
-		val targetH = image_preview.height
+		val targetW = image_preview.width.toDouble()
+		val targetH = image_preview.height.toDouble()
 
 		// Get the dimensions of the bitmap
 		val bmOptions = BitmapFactory.Options()
@@ -78,7 +72,7 @@ class PhotoPreviewActivity : BaseActivity() {
 
 		// Decode the image file into a Bitmap sized to fill the View
 		bmOptions.inJustDecodeBounds = false
-		bmOptions.inSampleSize = scaleFactor
+		bmOptions.inSampleSize = (Math.ceil(scaleFactor)).toInt()
 		bmOptions.inPurgeable = true
 
 		// Resizing bitmap with new options
@@ -118,13 +112,13 @@ class PhotoPreviewActivity : BaseActivity() {
 			Surface.ROTATION_180 -> degrees = 180
 			Surface.ROTATION_270 -> degrees = 270
 		}
-		var result: Int
-		if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+		//var result: Int
+		/*if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
 			result = (info.orientation + degrees) % 360
 			result = (360 - result) % 360 // compensate the mirror
-		} else { // back-facing
-			result = (info.orientation - degrees + 360) % 360
-		}
+		} else { // back-facing*/
+		var result = (info.orientation - degrees + 360) % 360
+		//}
 		return result.toFloat()
 	}
 
@@ -132,10 +126,10 @@ class PhotoPreviewActivity : BaseActivity() {
 	private fun saveImage(bitmap: Bitmap) {
 		try {
 			val sdCard = Environment.getExternalStorageDirectory()
-			val dir = File(sdCard.absolutePath + CameraActivity.PHOTO_FOLDER)
+			val dir = File(sdCard.absolutePath + Constants.PHOTO_FOLDER)
 			dir.mkdirs()
 
-			val fileName = String.format(CameraActivity.PHOTO_FORMAT, System.currentTimeMillis())
+			val fileName = String.format(Constants.PHOTO_FORMAT, System.currentTimeMillis())
 			val outFile = File(dir, fileName)
 
 			val fos = FileOutputStream(outFile)

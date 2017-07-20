@@ -7,11 +7,12 @@ android {
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.agilie.poster"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -53,7 +54,7 @@ dependencies {
     // Coroutines
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.16'
     // Camera
-    compile project(':googlecamera')
+    compile project(':camera')
 
 }
 

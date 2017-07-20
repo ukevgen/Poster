@@ -13,7 +13,7 @@
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/flash_off"
-        style="@style/FlashButtonStyle"
+        style="@style/FlashTextStyle"
         android:background="@android:color/transparent"
         android:gravity="center"
         android:text="@string/off"
