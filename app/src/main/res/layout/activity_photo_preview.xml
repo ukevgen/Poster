@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -17,30 +17,31 @@
 
         android:adjustViewBounds="true"/>
 
-    <FrameLayout
-        style="@style/ToolBar"></FrameLayout>
+    <include
+        android:id="@+id/tt"
+        layout="@layout/toolbar"
+        ></include>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/back_to_cam"
         android:layout_width="32dp"
-        android:layout_height="16dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/ic_back_to_cam_icon"/>
+        android:layout_height="0dp"
+        android:background="@drawable/ic_back_to_cam_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/done"
+        app:layout_constraintTop_toTopOf="@+id/done"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="@+id/tt"/>
 
-    <android.support.v7.widget.AppCompatButton
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/done"
         style="@style/ButtonDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="16dp"
         android:background="@android:color/transparent"
         android:text="@string/done"
-        />
+        app:layout_constraintBottom_toBottomOf="@+id/tt"
+        app:layout_constraintTop_toTopOf="@+id/tt"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="@+id/tt"/>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

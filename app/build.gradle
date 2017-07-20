@@ -55,7 +55,8 @@ dependencies {
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.16'
     // Camera
     compile project(':camera')
-
+    // Glide
+    compile 'com.github.bumptech.glide:glide:3.8.0'
 }
 
 kapt {

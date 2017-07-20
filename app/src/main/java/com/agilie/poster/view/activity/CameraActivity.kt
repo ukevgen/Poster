@@ -7,18 +7,22 @@ import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.HandlerThread
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.agilie.camera.CameraView
 import com.agilie.poster.Constants
+import com.agilie.poster.ImageLoader
 import com.agilie.poster.R
 import com.agilie.poster.dialog.ErrorDialog
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_camera.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
+import java.io.File
 import java.lang.ref.WeakReference
 
 
@@ -37,7 +41,6 @@ class CameraActivity : BaseActivity() {
 		}
 
 		private var savedStreamMuted = true
-		private var backgroundHandler: Handler? = null
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,11 +50,12 @@ class CameraActivity : BaseActivity() {
 			requestStoragePermission()
 		}
 
+		async(CommonPool) { loadImageAsync() }
+
 		camera?.addCallback(cameraCallback)
-
 		button_snap.setOnClickListener { takePicture() }
-
 		change_cam.setOnClickListener { changeCamera() }
+		gallery.setOnClickListener { showUserGallery() }
 
 		initFlashSupportLogic()
 
@@ -67,18 +71,6 @@ class CameraActivity : BaseActivity() {
 	override fun onPause() {
 		camera.stop()
 		super.onPause()
-	}
-
-	override fun onDestroy() {
-		super.onDestroy()
-		if (backgroundHandler != null) {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-				backgroundHandler?.looper?.quitSafely()
-			} else {
-				backgroundHandler?.looper?.quit()
-			}
-			backgroundHandler = null
-		}
 	}
 
 	override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -102,6 +94,21 @@ class CameraActivity : BaseActivity() {
 			}
 			else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 		}
+	}
+
+	private fun loadImageAsync() {
+		val imagePath = ImageLoader.instance.getLastPhotoPath(this@CameraActivity)
+		launch(UI) {
+			Glide.with(this@CameraActivity)
+					.load(File(imagePath))
+					.fitCenter()
+					.into(this@CameraActivity.gallery)
+
+		}
+	}
+
+	private fun showUserGallery() {
+
 	}
 
 	private fun changeCamera() {
@@ -155,12 +162,11 @@ class CameraActivity : BaseActivity() {
 		override
 		fun onCameraOpened(cameraView: CameraView) {
 			setAspectRatio()
-			Log.d(TAG, "onCameraOpened ${camera.aspectRatio}")
 		}
 
 		override
 		fun onCameraClosed(cameraView: CameraView) {
-			Log.d(TAG, "onCameraClosed")
+			// Empty
 		}
 
 		override
@@ -178,9 +184,6 @@ class CameraActivity : BaseActivity() {
 			val intent = Intent(this@CameraActivity, PhotoPreviewActivity::class.java)
 			startActivity(intent)
 			//disableSound()
-			/*getBackgroundHandler()?.post({
-
-			})*/
 		}
 	}
 
@@ -207,15 +210,6 @@ class CameraActivity : BaseActivity() {
 		} else {
 			audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, false)
 		}
-	}
-
-	private fun getBackgroundHandler(): Handler? {
-		if (backgroundHandler == null) {
-			val thread = HandlerThread("background")
-			thread.start()
-			backgroundHandler = Handler(thread.looper)
-		}
-		return backgroundHandler
 	}
 
 	private fun initFlashSupportLogic() {

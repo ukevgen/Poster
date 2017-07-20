@@ -3,7 +3,6 @@ package com.agilie.poster
 import android.content.Context
 import android.graphics.Bitmap
 import android.provider.MediaStore
-import android.util.Log
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -42,7 +41,7 @@ class ImageLoader private constructor() {
 		return outFile?.absolutePath
 	}
 
-	fun getLastPhoto(context: Context) {
+	fun getLastPhotoPath(context: Context): String? {
 		val projection = arrayOf(
 				MediaStore.Images.ImageColumns.DATA,
 				MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
@@ -61,30 +60,16 @@ class ImageLoader private constructor() {
 				orderBy // Ordering
 		)
 
+		var imageLocation: String? = null
 		if (cursor.moveToFirst()) {
-			var imageLocation: String
-			var date: String
-			var bucket: String
 
 			val imageColumn = cursor.getColumnIndex(
 					MediaStore.Images.ImageColumns.DATA)
 
-			val dateColumn = cursor.getColumnIndex(
-					MediaStore.Images.Media.DATE_TAKEN)
-
-			val bucketColumn = cursor.getColumnIndex(
-					MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
-
 			do {
-				// Get the field values
 				imageLocation = cursor.getString(imageColumn)
-				date = cursor.getString(dateColumn)
-				bucket = cursor.getString(bucketColumn)
-
-				// Do something with the values.
-				Log.i("ListingImages", " imageLocation=" + imageLocation
-						+ "  date_taken=" + date + "bucket $bucket")
 			} while (cursor.moveToNext())
 		}
+		return imageLocation
 	}
 }

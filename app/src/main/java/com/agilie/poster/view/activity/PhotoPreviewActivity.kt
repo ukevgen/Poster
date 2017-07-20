@@ -45,8 +45,6 @@ class PhotoPreviewActivity : BaseActivity() {
 			val bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
 			onPreparePicture(bitmap, cameraId, rotation, preview = false)
 		}
-
-		ImageLoader.instance.getLastPhoto(this)
 	}
 
 	private fun resizingImage(data: ByteArray): Bitmap {
@@ -112,7 +110,6 @@ class PhotoPreviewActivity : BaseActivity() {
 	}
 
 	private fun saveImage(bitmap: Bitmap) {
-
 
 		val sdCard = Environment.getExternalStorageDirectory()
 		val dir = File(sdCard.absolutePath + Constants.PHOTO_FOLDER)
