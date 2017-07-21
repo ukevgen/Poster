@@ -4,16 +4,19 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import com.agilie.poster.R
+import com.agilie.poster.adapter.AdapterBehavior
 import com.agilie.poster.adapter.ViewsPagerAdapter
 import com.agilie.poster.utils.FixedSpeedScroller
 import java.lang.reflect.Field
 
 
-open class BaseFragment : Fragment() {
+open class BaseFragment : Fragment(), AdapterBehavior {
+
 
 	protected var colorViewsAdapter = ViewsPagerAdapter()
 	protected var fontViewsAdapter = ViewsPagerAdapter()
@@ -23,6 +26,10 @@ open class BaseFragment : Fragment() {
 
 		createColorViews()
 		createFontViews()
+	}
+
+	override fun <VH : RecyclerView.ViewHolder?> getAdapter(): RecyclerView.Adapter<VH>? {
+		return null
 	}
 
 	protected fun setViewPagerScrollSpeed(viewPager: ViewPager) {

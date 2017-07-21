@@ -65,7 +65,7 @@
         android:id="@+id/icons_seekbar_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/horizontalScrollView"
+        app:layout_constraintBottom_toBottomOf="@+id/shape_recycler"
         >
 
         <TextView
@@ -96,63 +96,13 @@
     </RelativeLayout>
 
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/icons_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:overScrollMode="never"
-        android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/add_icon">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            >
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/flower_icon"
-                style="@style/FilterIconStyle"
-                android:layout_marginLeft="@dimen/global_margin_left_right"
-                android:background="@drawable/flower_icon"
-                app:layout_constraintLeft_toLeftOf="parent">
-            </android.support.v7.widget.AppCompatButton>
-
-            <android.support.v7.widget.AppCompatButton
-
-                android:id="@+id/heart_icon"
-                style="@style/FilterIconStyle"
-                android:background="@drawable/heart_icon"
-                app:layout_constraintLeft_toRightOf="@+id/flower_icon"
-                app:layout_constraintRight_toLeftOf="@+id/pin_icon"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/pin_icon"
-                style="@style/FilterIconStyle"
-                android:background="@drawable/pin_icon"
-                app:layout_constraintLeft_toRightOf="@+id/heart_icon"
-                app:layout_constraintRight_toLeftOf="@+id/clock_icon"
-                />
-
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/clock_icon"
-                style="@style/FilterIconStyle"
-                android:background="@drawable/clock_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/pin_icon"
-                app:layout_constraintRight_toLeftOf="@+id/alien_icon"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/alien_icon"
-                style="@style/FilterIconStyle"
-                android:layout_marginRight="@dimen/global_margin_left_right"
-                android:background="@drawable/alien_icon"
-                app:layout_constraintRight_toRightOf="parent"/>
-
-        </android.support.constraint.ConstraintLayout>
-    </HorizontalScrollView>
+    </android.support.v7.widget.RecyclerView>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/add_icon"

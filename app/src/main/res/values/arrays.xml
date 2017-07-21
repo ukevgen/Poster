@@ -41,4 +41,54 @@
         <item>"TitilliumWeb-Regular.ttf"</item>
         <item>"Rubik-Regular.ttf"</item>
     </string-array>
+
+    <array name="settingImages">
+        <item>@drawable/ic_back_to_original</item>
+        <item>@drawable/ic_saturation</item>
+        <item>@drawable/ic_brightness</item>
+        <item>@drawable/ic_contrast</item>
+        <item>@drawable/ic_align</item>
+        <item>@drawable/ic_details</item>
+        <item>@drawable/ic_blur</item>
+        <item>@drawable/ic_harshness</item>
+        <item>@drawable/ic_warm</item>
+    </array>
+
+    <string-array name="settingsText">
+        <item>""</item>
+        <item>@string/saturation</item>
+        <item>@string/brightness</item>
+        <item>@string/contrast</item>
+        <item>@string/align</item>
+        <item>@string/details</item>
+        <item>@string/blur</item>
+        <item>@string/harshness</item>
+        <item>@string/warm</item>
+    </string-array>
+
+    <array name="filterImages">
+        <item>@drawable/gradient1</item>
+        <item>@drawable/gradient2</item>
+        <item>@drawable/gradient3</item>
+        <item>@drawable/gradient4</item>
+        <item>@drawable/gradient5</item>
+        <item>@drawable/gradient6</item>
+        <item>@drawable/gradient7</item>
+    </array>
+
+    <array name="shapeImages">
+        <item>@drawable/shape_circle</item>
+        <item>@drawable/shape_quadrangle</item>
+        <item>@drawable/shape_rounded_rectangle</item>
+        <item>@drawable/shape_triangle</item>
+        <item>@drawable/shape_polygon</item>
+    </array>
+
+    <array name="iconImages">
+        <item>@drawable/flower_icon</item>
+        <item>@drawable/heart_icon</item>
+        <item>@drawable/pin_icon</item>
+        <item>@drawable/clock_icon</item>
+        <item>@drawable/alien_icon</item>
+    </array>
 </resources>

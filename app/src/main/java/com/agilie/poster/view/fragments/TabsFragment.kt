@@ -50,19 +50,6 @@ class TabsFragment : Fragment() {
 
 		}
 
-		tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-			override fun onTabReselected(tab: TabLayout.Tab?) {
-				//empty
-			}
-
-			override fun onTabUnselected(tab: TabLayout.Tab?) {
-				//empty
-			}
-
-			override fun onTabSelected(tab: TabLayout.Tab?) {
-				tab?.position?.let { viewPager.setCurrentItem(it, false) }
-			}
-		})
 		return rootView
 	}
 

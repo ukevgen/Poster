@@ -1,9 +1,10 @@
 package com.agilie.poster.view.activity
 
-import android.app.Fragment
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.agilie.poster.R
 
@@ -19,7 +20,7 @@ open class BaseActivity : AppCompatActivity() {
 	}
 
 	protected fun addFragment(containerViewId: Int, fragment: Fragment) {
-		val fragmentTransaction = this.fragmentManager.beginTransaction()
+		val fragmentTransaction = this.supportFragmentManager.beginTransaction()
 		fragmentTransaction.replace(containerViewId, fragment)
 		fragmentTransaction.commit()
 	}

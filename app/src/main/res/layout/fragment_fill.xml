@@ -10,11 +10,10 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:visibility="invisible"
         android:id="@+id/fill_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/properties_container"
+        android:visibility="invisible"
         >
 
         <TextView
@@ -61,192 +60,11 @@
         </android.support.v7.widget.AppCompatTextView>
     </RelativeLayout>
 
-
-    <HorizontalScrollView
-        android:id="@+id/properties_container"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fill_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:overScrollMode="never"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_marginBottom="97dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            >
-
-            <android.support.v7.widget.AppCompatButton
-
-                android:id="@+id/back_to_original"
-                style="@style/ImageProperties"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/ic_back_to_original"
-                app:layout_constraintLeft_toLeftOf="parent"
-                >
-            </android.support.v7.widget.AppCompatButton>
-
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/saturation"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_saturation"
-                android:layout_marginLeft="@dimen/image_left_right_margin"
-                android:layout_marginRight="@dimen/image_left_right_margin"
-                app:layout_constraintBottom_toBottomOf="@+id/back_to_original"
-                app:layout_constraintLeft_toRightOf="@+id/back_to_original"
-                app:layout_constraintRight_toLeftOf="@+id/brightness"
-                >
-            </android.support.v7.widget.AppCompatButton>
-
-            <TextView
-
-                android:id="@+id/back_to_original_text"
-                style="@style/ImageText"
-                app:layout_constraintLeft_toLeftOf="@+id/back_to_original"
-                app:layout_constraintRight_toRightOf="@+id/back_to_original"
-                app:layout_constraintTop_toBottomOf="@+id/back_to_original"/>
-
-            <TextView
-
-                android:id="@+id/saturation_text"
-                style="@style/ImageText"
-                android:text="@string/saturation"
-                app:layout_constraintTop_toBottomOf="@id/saturation"
-                app:layout_constraintLeft_toLeftOf="@+id/saturation"
-                app:layout_constraintRight_toRightOf="@+id/saturation"
-                />
-
-            <TextView
-                android:id="@+id/brightness_text"
-                style="@style/ImageText"
-                android:text="@string/brightness"
-                app:layout_constraintBottom_toBottomOf="@+id/saturation_text"
-                app:layout_constraintLeft_toLeftOf="@+id/brightness"
-                app:layout_constraintRight_toRightOf="@+id/brightness"
-                />
-
-            <TextView
-                android:id="@+id/contrast_text"
-                style="@style/ImageText"
-                android:text="@string/contrast"
-                app:layout_constraintBottom_toBottomOf="@+id/brightness_text"
-                app:layout_constraintLeft_toLeftOf="@+id/contrast"
-                app:layout_constraintRight_toRightOf="@+id/contrast"
-                />
-
-            <TextView
-                android:id="@+id/details_text"
-                style="@style/ImageText"
-                android:text="@string/details"
-                app:layout_constraintBottom_toBottomOf="@+id/contrast_text"
-                app:layout_constraintLeft_toLeftOf="@+id/details"
-                app:layout_constraintRight_toRightOf="@+id/details"
-                />
-
-            <TextView
-                android:id="@+id/blur_text"
-                style="@style/ImageText"
-                android:text="@string/blur"
-                app:layout_constraintBottom_toBottomOf="@+id/details_text"
-                app:layout_constraintLeft_toLeftOf="@+id/blur"
-                app:layout_constraintRight_toRightOf="@+id/blur"
-                />
-
-            <TextView
-                android:id="@+id/harshness_text"
-                style="@style/ImageText"
-                android:text="@string/harshness"
-                app:layout_constraintBottom_toBottomOf="@+id/blur_text"
-                app:layout_constraintLeft_toLeftOf="@+id/harshness"
-                app:layout_constraintRight_toRightOf="@+id/harshness"
-                />
-
-            <TextView
-                android:id="@+id/warm_text"
-                style="@style/ImageText"
-                android:text="@string/warm"
-                app:layout_constraintBottom_toBottomOf="@+id/harshness_text"
-                app:layout_constraintLeft_toLeftOf="@+id/warm"
-                app:layout_constraintRight_toRightOf="@+id/warm"
-                />
-
-            <TextView
-                android:id="@+id/align_text"
-                style="@style/ImageText"
-                android:text="@string/align"
-                app:layout_constraintBottom_toBottomOf="@+id/contrast_text"
-                app:layout_constraintLeft_toLeftOf="@+id/align"
-                app:layout_constraintRight_toRightOf="@+id/align"
-                />
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/brightness"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_brightness"
-                app:layout_constraintBottom_toBottomOf="@+id/saturation"
-                app:layout_constraintLeft_toRightOf="@+id/saturation"
-                app:layout_constraintRight_toLeftOf="@+id/contrast"
-                >
-            </android.support.v7.widget.AppCompatButton>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/contrast"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_contrast"
-                app:layout_constraintBottom_toBottomOf="@+id/brightness"
-                app:layout_constraintLeft_toRightOf="@+id/brightness"
-                app:layout_constraintRight_toLeftOf="@+id/align"
-                >
-            </android.support.v7.widget.AppCompatButton>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/align"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_align"
-                app:layout_constraintBottom_toBottomOf="@+id/contrast"
-                app:layout_constraintLeft_toRightOf="@+id/contrast"
-                app:layout_constraintRight_toLeftOf="@+id/details">
-            </android.support.v7.widget.AppCompatButton>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/details"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_details"
-                app:layout_constraintBottom_toBottomOf="@+id/align"
-                app:layout_constraintLeft_toRightOf="@+id/align"
-                app:layout_constraintRight_toLeftOf="@+id/blur"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/blur"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_blur"
-                app:layout_constraintBottom_toBottomOf="@+id/details"
-                app:layout_constraintLeft_toRightOf="@+id/details"
-                app:layout_constraintRight_toLeftOf="@+id/harshness"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/harshness"
-                style="@style/ImageProperties"
-                android:background="@drawable/ic_harshness"
-                app:layout_constraintBottom_toBottomOf="@+id/blur"
-                app:layout_constraintLeft_toRightOf="@+id/blur"
-                app:layout_constraintRight_toLeftOf="@+id/warm"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/warm"
-                style="@style/ImageProperties"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/ic_warm"
-                app:layout_constraintBottom_toBottomOf="@+id/contrast"
-                app:layout_constraintRight_toRightOf="parent"
-                >
-            </android.support.v7.widget.AppCompatButton>
-
-
-        </android.support.constraint.ConstraintLayout>
-    </HorizontalScrollView>
+        android:layout_marginBottom="93dp"
+        app:layout_constraintBottom_toBottomOf="parent"></android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>
