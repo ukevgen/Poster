@@ -10,13 +10,9 @@ import com.agilie.poster.R
 import com.bumptech.glide.Glide
 
 
-class IconsAdapter(val context: Context, var filters: List<Int>) : RecyclerView.Adapter<IconsAdapter.ViewHolder>() {
+class PhotoIconsAdapter(val context: Context, var filters: List<Int>) : RecyclerView.Adapter<PhotoIconsAdapter.ViewHolder>() {
 
-	interface OnItemClickListener {
-		fun onItemClick(position: Int)
-	}
-
-	var itemListener: OnItemClickListener? = null
+	var itemListener: AdapterBehavior.OnIconsClickListener? = null
 
 	override fun getItemCount(): Int {
 		return filters.size

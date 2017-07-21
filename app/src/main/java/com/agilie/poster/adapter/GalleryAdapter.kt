@@ -14,11 +14,7 @@ import java.io.File
 
 class GalleryAdapter(val context: Context, var photos: List<String>) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
-	interface OnItemClickListener {
-		fun onItemClick(path: String?)
-	}
-
-	var itemListener: OnItemClickListener? = null
+	var itemListener: AdapterBehavior.OnItemClickListener? = null
 
 	override fun getItemCount() = photos.size
 

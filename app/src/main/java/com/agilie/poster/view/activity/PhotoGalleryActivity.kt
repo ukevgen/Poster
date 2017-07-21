@@ -3,10 +3,10 @@ package com.agilie.poster.view.activity
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
-import android.util.Log
 import android.widget.ImageView
 import com.agilie.poster.ImageLoader
 import com.agilie.poster.R
+import com.agilie.poster.adapter.AdapterBehavior
 import com.agilie.poster.adapter.GalleryAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_photo_gallery.*
 import java.io.File
 
 
-class PhotoGalleryActivity : BaseActivity(), GalleryAdapter.OnItemClickListener {
+class PhotoGalleryActivity : BaseActivity(), AdapterBehavior.OnItemClickListener {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
