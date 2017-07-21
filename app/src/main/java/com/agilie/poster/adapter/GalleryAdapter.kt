@@ -1,53 +1,52 @@
 package com.agilie.poster.adapter
 
 import android.content.Context
-import android.graphics.drawable.Drawable
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
-import android.widget.BaseAdapter
 import android.widget.ImageView
 import com.agilie.poster.R
-import com.agilie.poster.utils.dpToPx
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import java.io.File
 
 
-class GalleryAdapter(val context: Context) : BaseAdapter() {
+class GalleryAdapter(val context: Context, var photos: List<String>) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
-	var imageList = ArrayList<Drawable>()
+	interface OnItemClickListener {
+		fun onItemClick(path: String?)
+	}
 
-	override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+	var itemListener: OnItemClickListener? = null
 
-		var imageView = ImageView(context)
+	override fun getItemCount() = photos.size
 
-		val width = dpToPx(context, R.dimen.gallery_image_width)
-		val height = dpToPx(context, R.dimen.gallery_image_height)
-		val padding = dpToPx(context, R.dimen.gallery_image_padding)
-		val params = AbsListView.LayoutParams(width, height)
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+		holder.path = photos[position]
+		holder.bindHolder(photos[position])
+	}
 
-		if (convertView == null) {
-			imageView.apply {
-				layoutParams = params
-				scaleType = ImageView.ScaleType.CENTER_CROP
-				  //setPadding(padding, padding, padding, padding)
-			}
-		} else {
-			imageView = convertView as ImageView
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+		val itemView = LayoutInflater.from(parent.context)
+				.inflate(R.layout.gallery_item, parent, false)
+		return ViewHolder(itemView)
+	}
+
+	inner class ViewHolder : RecyclerView.ViewHolder {
+
+		var path: String? = null
+
+		constructor(itemView: View) : super(itemView) {
+			itemView.setOnClickListener { itemListener?.onItemClick(path) }
 		}
 
-		imageView.setImageDrawable(imageList[position])
-		return imageView
+		fun bindHolder(path: String) {
+			Glide.with(context).load(File(path))
+					.crossFade()
+					.placeholder(R.drawable.ic_load_image)
+					.diskCacheStrategy(DiskCacheStrategy.ALL)
+					.into(itemView as ImageView)
+		}
 	}
-
-	override fun getCount(): Int {
-		return imageList.size
-	}
-
-	override fun getItem(position: Int): Any? {
-		return null
-	}
-
-	override fun getItemId(position: Int): Long {
-		return 0
-	}
-
 }

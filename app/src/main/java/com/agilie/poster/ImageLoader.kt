@@ -72,4 +72,38 @@ class ImageLoader private constructor() {
 		}
 		return imageLocation
 	}
+
+	fun getAllPhotoLocations(context: Context): List<String> {
+		var photosLocation = ArrayList<String>()
+
+		val projection = arrayOf(
+				MediaStore.Images.ImageColumns.DATA,
+				MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+				MediaStore.Images.Media.DATE_TAKEN)
+
+		// content:// style URI for the "primary" external storage volume
+		val images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+
+		val orderBy = MediaStore.Images.Media.DATE_TAKEN + " DESC "
+
+		val cursor = context.contentResolver.query(images,
+				projection, // Selection arguments (none)
+				null,
+				null,
+				orderBy // Ordering
+		)
+
+		var imageLocation: String? = null
+		if (cursor.moveToFirst()) {
+
+			val imageColumn = cursor.getColumnIndex(
+					MediaStore.Images.ImageColumns.DATA)
+
+			do {
+				imageLocation = cursor.getString(imageColumn)
+				photosLocation.add(imageLocation)
+			} while (cursor.moveToNext())
+		}
+		return photosLocation
+	}
 }

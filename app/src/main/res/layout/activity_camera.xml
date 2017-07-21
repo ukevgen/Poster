@@ -9,8 +9,9 @@
     android:focusableInTouchMode="true"
     >
 
-    <include layout="@layout/toolbar"
-             android:id="@+id/toolbar_camera"
+    <include
+        android:id="@+id/toolbar_camera"
+        layout="@layout/toolbar"
         ></include>
 
     <com.agilie.camera.CameraView
@@ -62,9 +63,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_camera"
         app:layout_constraintLeft_toRightOf="@+id/close"
         app:layout_constraintRight_toLeftOf="@+id/flash_auto_view"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar_camera"
         app:layout_constraintTop_toTopOf="@+id/toolbar_camera">
 
         <android.support.v7.widget.AppCompatTextView
@@ -117,12 +118,12 @@
         android:background="@drawable/snap_icon"
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/gallery"
+        app:layout_constraintLeft_toRightOf="@+id/gallery_icon"
         app:layout_constraintRight_toLeftOf="@+id/change_cam"
         />
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/gallery"
+    <com.agilie.poster.view.custom.SquareImageView
+        android:id="@+id/gallery_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginBottom="30dp"
@@ -135,9 +136,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="40dp"
-        app:layout_constraintBottom_toBottomOf="@+id/gallery"
+        app:layout_constraintBottom_toBottomOf="@+id/gallery_icon"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/gallery"
+        app:layout_constraintTop_toTopOf="@+id/gallery_icon"
         app:srcCompat="@drawable/ic_change_cam"
         />
 

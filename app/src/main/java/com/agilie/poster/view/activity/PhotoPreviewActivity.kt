@@ -13,6 +13,8 @@ import com.agilie.poster.Constants
 import com.agilie.poster.ImageLoader
 import com.agilie.poster.R
 import kotlinx.android.synthetic.main.activity_photo_preview.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
 import java.io.File
 
 class PhotoPreviewActivity : BaseActivity() {
@@ -116,11 +118,13 @@ class PhotoPreviewActivity : BaseActivity() {
 		dir.mkdirs()
 		val fileName = String.format(Constants.PHOTO_FORMAT, System.currentTimeMillis())
 
-		val path = ImageLoader.instance.saveImage(dir, fileName, bitmap)
-		// Update user gallery
-		path?.let {
-			MediaScannerConnection.scanFile(this, arrayOf(path),
-					null) { _, _ ->
+		async(CommonPool) {
+			val path = ImageLoader.instance.saveImage(dir, fileName, bitmap)
+			// Update user gallery
+			path?.let {
+				MediaScannerConnection.scanFile(this@PhotoPreviewActivity, arrayOf(path),
+						null) { _, _ ->
+				}
 			}
 		}
 	}

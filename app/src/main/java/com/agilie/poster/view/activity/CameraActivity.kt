@@ -2,7 +2,6 @@ package com.agilie.poster.view.activity
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.os.Build
@@ -55,7 +54,7 @@ class CameraActivity : BaseActivity() {
 		camera?.addCallback(cameraCallback)
 		button_snap.setOnClickListener { takePicture() }
 		change_cam.setOnClickListener { changeCamera() }
-		gallery.setOnClickListener { showUserGallery() }
+		gallery_icon.setOnClickListener { showUserGallery() }
 
 		initFlashSupportLogic()
 
@@ -102,13 +101,12 @@ class CameraActivity : BaseActivity() {
 			Glide.with(this@CameraActivity)
 					.load(File(imagePath))
 					.fitCenter()
-					.into(this@CameraActivity.gallery)
-
+					.into(this@CameraActivity.gallery_icon)
 		}
 	}
 
 	private fun showUserGallery() {
-
+		startActivity(getCallingIntent(this, PhotoGalleryActivity::class.java))
 	}
 
 	private fun changeCamera() {
@@ -181,8 +179,9 @@ class CameraActivity : BaseActivity() {
 				rotation = windowManager.defaultDisplay.rotation
 			}
 
-			val intent = Intent(this@CameraActivity, PhotoPreviewActivity::class.java)
-			startActivity(intent)
+			startActivity(getCallingIntent(this@CameraActivity, PhotoPreviewActivity::class.java))
+			/*val intent = Intent(this@CameraActivity, PhotoPreviewActivity::class.java)
+			startActivity(intent)*/
 			//disableSound()
 		}
 	}
