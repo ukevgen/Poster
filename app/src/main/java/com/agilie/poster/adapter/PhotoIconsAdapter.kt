@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 
 class PhotoIconsAdapter(val context: Context, var filters: List<Int>) : RecyclerView.Adapter<PhotoIconsAdapter.ViewHolder>() {
 
-	var itemListener: AdapterBehavior.OnIconsClickListener? = null
+	var itemListener: AdapterBehavior.OnItemClickListener? = null
 
 	override fun getItemCount(): Int {
 		return filters.size

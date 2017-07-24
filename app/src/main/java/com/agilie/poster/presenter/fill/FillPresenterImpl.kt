@@ -1,10 +1,34 @@
 package com.agilie.poster.presenter.fill
 
 import com.agilie.poster.view.fragments.fill.FillView
-import com.arellomobile.mvp.InjectViewState
-import com.arellomobile.mvp.MvpPresenter
 
-@InjectViewState
-class FillPresenterImpl : MvpPresenter<FillView>(), FillPresenter {
+class FillPresenterImpl(val view: FillView) : FillPresenter {
+
+	override fun onProgressOk() {
+		view.onAnimationAllNavigation()
+	}
+
+	override fun onProgressCancel() {
+		view.onAnimationAllNavigation()
+	}
+
+	override fun onItemClick() {
+	}
+
+	override fun resume() {
+		// Empty
+	}
+
+	override fun pause() {
+		// Empty
+	}
+
+	override fun destroy() {
+		// Empty
+	}
+
+	override fun stop() {
+		// Empty
+	}
 
 }

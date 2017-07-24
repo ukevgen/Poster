@@ -17,7 +17,6 @@ import java.lang.reflect.Field
 
 open class BaseFragment : Fragment(), AdapterBehavior {
 
-
 	protected var colorViewsAdapter = ViewsPagerAdapter()
 	protected var fontViewsAdapter = ViewsPagerAdapter()
 
@@ -44,6 +43,14 @@ open class BaseFragment : Fragment(), AdapterBehavior {
 		}
 
 	}
+
+	/*protected open fun animateViewElement(view: View, toYPosition: Float, duration: Long) {
+		view.animate()
+				.translationY(toYPosition)
+				.duration = duration
+	}*/
+
+
 
 	private fun createColorViews() {
 		val colors = context.resources.getIntArray(R.array.colorsArray)

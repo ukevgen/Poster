@@ -9,4 +9,6 @@ public interface Constants {
 
     String PHOTO_FOLDER = "/poster";
     String PHOTO_FORMAT = "%d.jpg";
+
+    Long DURATION = 400L;
 }

@@ -14,6 +14,7 @@
         android:background="@drawable/michele_spinnato_77283">
 
         <RelativeLayout
+            android:id="@+id/setting_container"
             android:layout_width="match_parent"
             android:layout_height="211dp"
             android:layout_alignParentBottom="true"

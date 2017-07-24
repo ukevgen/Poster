@@ -1,11 +1,17 @@
 package com.agilie.poster.presenter
 
 interface Presenter {
-    fun resume()
+	fun resume()
 
-    fun pause()
+	fun pause()
 
-    fun destroy()
+	fun destroy()
 
-    fun stop()
+	fun stop()
+
+	fun onItemClick()
+
+	fun onProgressOk()
+
+	fun onProgressCancel()
 }

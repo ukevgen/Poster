@@ -16,7 +16,7 @@ class PhotoSettingsAdapter(val context: Context,
                            var textList: Array<String>,
                            var imagesArray: TypedArray) : RecyclerView.Adapter<PhotoSettingsAdapter.ViewHolder>() {
 
-	var itemListener: AdapterBehavior.OnIconsClickListener? = null
+	var itemListener: AdapterBehavior.OnItemClickListener? = null
 
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		holder.apply {

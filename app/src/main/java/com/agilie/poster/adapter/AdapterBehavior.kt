@@ -5,11 +5,11 @@ import android.support.v7.widget.RecyclerView
 interface AdapterBehavior {
 	fun <VH : RecyclerView.ViewHolder?> getAdapter(): RecyclerView.Adapter<VH>?
 
-	interface OnIconsClickListener {
+	interface OnItemClickListener {
 		fun onItemClick(position: Int)
 	}
 
-	interface OnItemClickListener {
-		fun onItemClick(path: String?)
+	interface OnPhotoClickListener {
+		fun onPhotoItemClick(path: String?)
 	}
 }

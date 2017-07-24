@@ -14,14 +14,14 @@ import kotlinx.android.synthetic.main.activity_photo_gallery.*
 import java.io.File
 
 
-class PhotoGalleryActivity : BaseActivity(), AdapterBehavior.OnItemClickListener {
+class PhotoGalleryActivity : BaseActivity(), AdapterBehavior.OnPhotoClickListener {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_photo_gallery)
 
 		val adapter = GalleryAdapter(this, getUserImages())
-		adapter.itemListener = this
+		adapter.photoListener = this
 		setImage(adapter.photos[0], photo_preview)
 
 		gallery_recycler.apply {
@@ -37,7 +37,7 @@ class PhotoGalleryActivity : BaseActivity(), AdapterBehavior.OnItemClickListener
 		}
 	}
 
-	override fun onItemClick(path: String?) {
+	override fun onPhotoItemClick(path: String?) {
 		setImage(path, photo_preview)
 	}
 

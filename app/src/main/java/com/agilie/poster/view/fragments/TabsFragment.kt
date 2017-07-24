@@ -20,13 +20,15 @@ import com.agilie.poster.view.fragments.text.TextIconFragment
 
 class TabsFragment : Fragment() {
 
+	lateinit var adapter: TabsFragmentAdapter
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val rootView = inflater.inflate(R.layout.fragment_tab, container, false)
 
-		val adapter = TabsFragmentAdapter(childFragmentManager)
+		adapter = TabsFragmentAdapter(childFragmentManager)
 		val viewPager = rootView.findViewById(R.id.view_pager_main) as ViewPager
 		val tabLayout = activity.findViewById(R.id.tab_layout) as TabLayout
+
 		//Add fragments
 		adapter.apply {
 			addFragment(FillFragment(), getString(R.string.fill))
