@@ -29,7 +29,7 @@ interface FragmentContract {
 
 						override fun onAnimationEnd(animation: Animator?) {
 							hiddenView.visibility = visible
-
+							animation?.cancel()
 						}
 
 						override fun onAnimationCancel(animation: Animator?) {

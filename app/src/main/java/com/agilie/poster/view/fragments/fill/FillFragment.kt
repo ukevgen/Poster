@@ -59,7 +59,6 @@ class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListen
 		fillPresenter.onItemClick()
 	}
 
-
 	override fun <VH : RecyclerView.ViewHolder?> getAdapter(): RecyclerView.Adapter<VH>? {
 		val settingsImage = context.resources.obtainTypedArray(R.array.settingImages)
 		val settingsText = context.resources.getStringArray(R.array.settingsText)

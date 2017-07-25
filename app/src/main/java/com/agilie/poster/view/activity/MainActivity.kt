@@ -24,7 +24,11 @@ class MainActivity : BaseActivity(), MainView {
 		tab_layout.addOnTabSelectedListener(tabSelectorListener)
 
 		setSupportActionBar(toolbar_main)
-		supportActionBar?.setDisplayHomeAsUpEnabled(true)
+		supportActionBar?.apply {
+			setDisplayHomeAsUpEnabled(true)
+			setDisplayShowTitleEnabled(false)
+			setHomeAsUpIndicator(R.drawable.ic_back_to_cam_icon)
+		}
 
 		addFragment(R.id.fragment_container, TabsFragment())
 		/*supportFragmentManager

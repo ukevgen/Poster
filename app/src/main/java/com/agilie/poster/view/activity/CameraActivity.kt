@@ -96,10 +96,11 @@ class CameraActivity : BaseActivity() {
 	}
 
 	private fun loadImageAsync() {
-		val imagePath = ImageLoader.instance.getLastPhotoPath(this@CameraActivity)
+		val imagePath = ImageLoader.instance.getLastPhotoPath(this@CameraActivity) ?: return
 		launch(UI) {
 			Glide.with(this@CameraActivity)
 					.load(File(imagePath))
+					.placeholder(R.drawable.ic_load_image)
 					.fitCenter()
 					.into(this@CameraActivity.gallery_icon)
 		}
