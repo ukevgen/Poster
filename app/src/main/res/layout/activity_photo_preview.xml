@@ -25,23 +25,30 @@
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/back_to_cam"
         android:layout_width="32dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ic_back_to_cam_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/done"
-        app:layout_constraintTop_toTopOf="@+id/done"
+        android:layout_height="8dp"
         android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="@+id/tt"/>
+        android:background="@drawable/ic_back_to_cam_icon"
+        android:paddingBottom="10dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/done"
+        app:layout_constraintLeft_toLeftOf="@+id/tt"
+        app:layout_constraintTop_toTopOf="@+id/done"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/done"
         style="@style/ButtonDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:text="@string/done"
-        app:layout_constraintBottom_toBottomOf="@+id/tt"
-        app:layout_constraintTop_toTopOf="@+id/tt"
         android:layout_marginRight="16dp"
-        app:layout_constraintRight_toRightOf="@+id/tt"/>
+        android:background="@android:color/transparent"
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:text="@string/done"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/tt"
+        app:layout_constraintRight_toRightOf="@+id/tt"
+        app:layout_constraintTop_toTopOf="@+id/tt"/>
 
 </android.support.constraint.ConstraintLayout>

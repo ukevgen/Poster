@@ -7,6 +7,7 @@ import android.hardware.Camera
 import android.media.MediaScannerConnection
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.Surface
 import android.view.ViewTreeObserver
 import com.agilie.poster.Constants
@@ -14,7 +15,9 @@ import com.agilie.poster.ImageLoader
 import com.agilie.poster.R
 import kotlinx.android.synthetic.main.activity_photo_preview.*
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import java.io.File
 
 class PhotoPreviewActivity : BaseActivity() {
@@ -47,6 +50,10 @@ class PhotoPreviewActivity : BaseActivity() {
 			val bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
 			onPreparePicture(bitmap, cameraId, rotation, preview = false)
 		}
+	}
+
+	override fun onBackPressed() {
+		super.onBackPressed()
 	}
 
 	private fun resizingImage(data: ByteArray): Bitmap {
@@ -118,14 +125,25 @@ class PhotoPreviewActivity : BaseActivity() {
 		dir.mkdirs()
 		val fileName = String.format(Constants.PHOTO_FORMAT, System.currentTimeMillis())
 
+		val path = ImageLoader.instance.saveImage(dir, fileName, bitmap)
+		// Start Photo Editor
 		async(CommonPool) {
-			val path = ImageLoader.instance.saveImage(dir, fileName, bitmap)
-			// Update user gallery
+			launch(UI) {
+				launchPhotoEditor(path)
+			}
 			path?.let {
 				MediaScannerConnection.scanFile(this@PhotoPreviewActivity, arrayOf(path),
 						null) { _, _ ->
+					Log.d("TAG", "media")
 				}
 			}
 		}
+	}
+
+	private fun launchPhotoEditor(path: String?) {
+		val intent = getCallingIntent(this, MainActivity::class.java)
+		intent.putExtra(Constants.PHOTO_PATH, path)
+		startActivity(intent)
+		finish()
 	}
 }

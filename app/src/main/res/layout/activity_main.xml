@@ -11,7 +11,15 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/michele_spinnato_77283">
+        android:background="@android:color/transparent"
+        >
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/user_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"
+            />
 
         <RelativeLayout
             android:id="@+id/setting_container"

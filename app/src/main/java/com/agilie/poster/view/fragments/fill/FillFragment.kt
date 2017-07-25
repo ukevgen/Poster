@@ -1,5 +1,6 @@
 package com.agilie.poster.view.fragments.fill
 
+import android.animation.Animator
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -102,11 +103,27 @@ class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListen
 				animateViewElement(fill_recycler, fill_recycler.bottom.toFloat(), Constants.DURATION)
 				animateViewElement(activity.setting_container, activity.setting_container.bottom.toFloat(), Constants.DURATION)
 				animateViewElement(tabLayout, fill_progress_container, View.VISIBLE, tabLayout.bottom.toFloat(), Constants.DURATION)
+				tabLayout.clearAnimation()
 				this.show = true
 			}
 		}
 	}
 
+	private var animationListener = object : Animator.AnimatorListener {
+		override fun onAnimationRepeat(animation: Animator?) {
+			// Empty
+		}
 
+		override fun onAnimationEnd(animation: Animator?) {
+			fill_progress_container.visibility = View.VISIBLE
+		}
 
+		override fun onAnimationCancel(animation: Animator?) {
+			// Empty
+		}
+
+		override fun onAnimationStart(animation: Animator?) {
+			// Empty
+		}
+	}
 }

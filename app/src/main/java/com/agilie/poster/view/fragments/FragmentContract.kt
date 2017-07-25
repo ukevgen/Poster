@@ -1,6 +1,7 @@
 package com.agilie.poster.view.fragments
 
 import android.animation.Animator
+import android.util.Log
 
 interface FragmentContract {
 
@@ -29,7 +30,6 @@ interface FragmentContract {
 
 						override fun onAnimationEnd(animation: Animator?) {
 							hiddenView.visibility = visible
-							animation?.cancel()
 						}
 
 						override fun onAnimationCancel(animation: Animator?) {

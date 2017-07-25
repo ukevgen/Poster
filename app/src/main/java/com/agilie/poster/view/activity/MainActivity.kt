@@ -1,12 +1,16 @@
 package com.agilie.poster.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import com.agilie.poster.Constants
 import com.agilie.poster.R
 import com.agilie.poster.view.fragments.FragmentContract
 import com.agilie.poster.view.fragments.TabsFragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
 
 class MainActivity : BaseActivity(), MainView {
 
@@ -16,7 +20,27 @@ class MainActivity : BaseActivity(), MainView {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
+
+		intent.extras?.let {
+			val photoPath = it.getString(Constants.PHOTO_PATH)
+			setUserPhoto(photoPath)
+		}
 		initViews()
+	}
+
+	override fun onBackPressed() {
+		val intent = getCallingIntent(this, PhotoGalleryActivity::class.java)
+		intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+		startActivity(intent)
+		finish()
+	}
+
+	private fun setUserPhoto(photoPath: String?) {
+		Glide.with(this).load(File(photoPath))
+				.crossFade()
+				.placeholder(R.drawable.ic_load_image)
+				.diskCacheStrategy(DiskCacheStrategy.ALL)
+				.into(user_photo)
 	}
 
 	private fun initViews() {
@@ -29,6 +53,8 @@ class MainActivity : BaseActivity(), MainView {
 			setDisplayShowTitleEnabled(false)
 			setHomeAsUpIndicator(R.drawable.ic_back_to_cam_icon)
 		}
+
+		toolbar_main.setNavigationOnClickListener { onBackPressed() }
 
 		addFragment(R.id.fragment_container, TabsFragment())
 		/*supportFragmentManager

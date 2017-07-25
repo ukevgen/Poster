@@ -1,12 +1,10 @@
 package com.agilie.poster.view.activity
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
+import android.content.Intent
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.Toast
@@ -14,7 +12,6 @@ import com.agilie.camera.CameraView
 import com.agilie.poster.Constants
 import com.agilie.poster.ImageLoader
 import com.agilie.poster.R
-import com.agilie.poster.dialog.ErrorDialog
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_camera.*
 import kotlinx.coroutines.experimental.CommonPool
@@ -28,11 +25,6 @@ import java.lang.ref.WeakReference
 class CameraActivity : BaseActivity() {
 
 	companion object {
-		val TAG = "CameraActivity"
-		val REQUEST_CAMERA_PERMISSION = 1
-		val REQUEST_STORAGE_PERMISSION = 2
-		val FRAGMENT_DIALOG = "dialog"
-
 		object CameraResult {
 			var imageData: WeakReference<ByteArray>? = null
 			var cameraId: Int? = null
@@ -45,11 +37,6 @@ class CameraActivity : BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_camera)
-		if (savedInstanceState == null) {
-			requestStoragePermission()
-		}
-
-		async(CommonPool) { loadImageAsync() }
 
 		camera?.addCallback(cameraCallback)
 		button_snap.setOnClickListener { takePicture() }
@@ -64,35 +51,13 @@ class CameraActivity : BaseActivity() {
 
 	override fun onResume() {
 		super.onResume()
+		async(CommonPool) { loadImageAsync() }
 		camera.start()
 	}
 
 	override fun onPause() {
 		camera.stop()
 		super.onPause()
-	}
-
-	override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-
-		when (requestCode) {
-			REQUEST_CAMERA_PERMISSION -> {
-				if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					showCamera()
-				} else {
-					ErrorDialog.newInstance(getString(R.string.request_camera_permission))
-							.show(fragmentManager, FRAGMENT_DIALOG)
-				}
-			}
-			REQUEST_STORAGE_PERMISSION -> {
-				if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					showCamera()
-				} else {
-					ErrorDialog.newInstance(getString(R.string.request_storage_permission))
-							.show(fragmentManager, FRAGMENT_DIALOG)
-				}
-			}
-			else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-		}
 	}
 
 	private fun loadImageAsync() {
@@ -107,7 +72,9 @@ class CameraActivity : BaseActivity() {
 	}
 
 	private fun showUserGallery() {
-		startActivity(getCallingIntent(this, PhotoGalleryActivity::class.java))
+		val intent = getCallingIntent(this, PhotoGalleryActivity::class.java)
+		intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+		startActivity(intent)
 	}
 
 	private fun changeCamera() {
@@ -135,28 +102,6 @@ class CameraActivity : BaseActivity() {
 		camera.takePicture()
 	}
 
-	private fun requestStoragePermission() {
-		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-				PackageManager.PERMISSION_GRANTED) {
-			ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_STORAGE_PERMISSION)
-		} else {
-			showCamera()
-		}
-	}
-
-	private fun showCamera() {
-		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-				== PackageManager.PERMISSION_GRANTED) {
-			return
-		} else {
-			requestCameraPermission()
-		}
-	}
-
-	private fun requestCameraPermission() {
-		ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
-	}
-
 	private val cameraCallback = object : CameraView.Callback() {
 		override
 		fun onCameraOpened(cameraView: CameraView) {
@@ -181,8 +126,6 @@ class CameraActivity : BaseActivity() {
 			}
 
 			startActivity(getCallingIntent(this@CameraActivity, PhotoPreviewActivity::class.java))
-			/*val intent = Intent(this@CameraActivity, PhotoPreviewActivity::class.java)
-			startActivity(intent)*/
 			//disableSound()
 		}
 	}
