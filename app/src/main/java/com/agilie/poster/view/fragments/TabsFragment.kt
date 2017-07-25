@@ -2,13 +2,14 @@ package com.agilie.poster.view.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.agilie.poster.R
 import com.agilie.poster.adapter.TabsFragmentAdapter
 import com.agilie.poster.view.fragments.fill.FillFragment
@@ -56,8 +57,9 @@ class TabsFragment : Fragment() {
 	}
 
 	private fun getTabIndicator(context: Context, icon: Int): View {
-		val view = LayoutInflater.from(context).inflate(R.layout.tab_header, null) as TextView
-		view.setCompoundDrawablesWithIntrinsicBounds(0, icon, 0, 0)
+		val view = LayoutInflater.from(context).inflate(R.layout.tab_header, null) as ConstraintLayout
+		view.findViewById(R.id.header_image).background = ContextCompat.getDrawable(context, icon)
+		//view.setCompoundDrawablesWithIntrinsicBounds(0, icon, 0, 0)
 		return view
 	}
 
