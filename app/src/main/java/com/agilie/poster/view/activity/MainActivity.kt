@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.support.design.widget.TabLayout
+import android.support.transition.AutoTransition
+import android.support.transition.Transition
 import android.support.transition.TransitionManager
+import android.util.Log
 import android.view.View
 import com.agilie.poster.Constants
 import com.agilie.poster.R
@@ -70,67 +73,102 @@ class MainActivity : BaseActivity(), MainView {
 
 	private var tabSelectorListener = object : TabLayout.OnTabSelectedListener {
 		override fun onTabReselected(tab: TabLayout.Tab) {
-			val layout = tab.customView
-			hideTabIndicator(layout)
-
-			val tabsContainer = supportFragmentManager.findFragmentById(R.id.fragment_container)
-			when (tabsContainer) {
-				is TabsFragment -> {
-					val fragment = tabsContainer.adapter.getItem(tab.position) as FragmentContract.View
-					onAnimateContainer(fragment)
-				}
-			}
+			onTabClick(tab)
+			Log.d(TAG, "reselected")
 		}
 
 		override fun onTabUnselected(tab: TabLayout.Tab) {
-			val layout = tab.customView
-			hideTabIndicator(layout)
+
+			onTabClick(tab)
+			//val layout = tab.customView
+
+			//hideTabIndicator(layout)
 		}
 
 		override fun onTabSelected(tab: TabLayout.Tab) {
 
+			Log.d(TAG, "selected")
+		}
+	}
 
+	private fun onTabClick(tab: TabLayout.Tab) {
+		val layout = tab.customView
+		val fragment = getCurrentFragment(tab)
+
+		when (show) {
+			true -> showTabIndicator(layout)
+			false -> hideTabIndicator(layout)
+		}
+
+		onAnimateContainer(fragment)
+	}
+
+	private fun getCurrentFragment(tab: TabLayout.Tab): FragmentContract.View? {
+		val tabsContainer = supportFragmentManager.findFragmentById(R.id.fragment_container)
+		when (tabsContainer) {
+			is TabsFragment -> {
+				val fragment = tabsContainer.adapter.getItem(tab.position) as FragmentContract.View
+				return fragment
+			}
+			else -> return null
 		}
 	}
 
 	private fun showTabIndicator(layout: View?) {
-		/*val set = ConstraintSet()
-		layout?.let {
-			it as ConstraintLayout
-			TransitionManager.beginDelayedTransition(it)
-			set.clone(it)
-			set.setMargin(R.id.line_view, ConstraintSet.START, 0)
-			set.setMargin(R.id.line_view, ConstraintSet.END, 0)
-			set.applyTo(it)
-		}*/
-	}
-
-	private fun hideTabIndicator(layout: View?) {
 		val set = ConstraintSet()
 		layout?.let {
 			it as ConstraintLayout
-
 			set.clone(it)
 			set.setVisibility(R.id.line_view, View.VISIBLE)
-
 			set.applyTo(it)
 			TransitionManager.beginDelayedTransition(it)
 			set.constrainWidth(R.id.line_view, 0)
-			/*set.setMargin(R.id.line_view, ConstraintSet.START, 0)
-			set.setMargin(R.id.line_view, ConstraintSet.END, 0)*/
 			set.applyTo(it)
 		}
 	}
 
-	private fun onAnimateContainer(fragment: FragmentContract.View) {
+	private fun hideTabIndicator(layout: View?) {
+
+		val set = ConstraintSet()
+		layout?.let {
+			it as ConstraintLayout
+			set.clone(it)
+			val transition = AutoTransition()
+			transition.addListener(object : Transition.TransitionListener {
+				override fun onTransitionEnd(transition: Transition) {
+					set.setVisibility(R.id.line_view, View.INVISIBLE)
+					set.applyTo(it)
+				}
+
+				override fun onTransitionResume(transition: Transition) {
+				}
+
+				override fun onTransitionPause(transition: Transition) {
+				}
+
+				override fun onTransitionCancel(transition: Transition) {
+				}
+
+				override fun onTransitionStart(transition: Transition) {
+
+				}
+			})
+
+			TransitionManager.beginDelayedTransition(it, transition)
+			set.constrainWidth(R.id.line_view, 1)
+			set.applyTo(it)
+		}
+	}
+
+	private fun onAnimateContainer(fragment: FragmentContract.View?) {
 
 		when (show) {
 			true -> {
-				fragment.onAnimationSettings(show)
+				fragment?.onAnimationSettings(show)
 				this.show = false
 			}
 			false -> {
-				fragment.onAnimationSettings(show)
+				fragment?.onAnimationSettings(show)
 				this.show = true
 			}
 		}
