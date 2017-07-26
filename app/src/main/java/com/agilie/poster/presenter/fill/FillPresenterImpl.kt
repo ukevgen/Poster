@@ -13,6 +13,7 @@ class FillPresenterImpl(val view: FillView) : FillPresenter {
 	}
 
 	override fun onItemClick() {
+		view.onAnimationAllNavigation()
 	}
 
 	override fun resume() {
@@ -20,7 +21,7 @@ class FillPresenterImpl(val view: FillView) : FillPresenter {
 	}
 
 	override fun pause() {
-		// Empty
+		view.onAnimationAllNavigation()
 	}
 
 	override fun destroy() {
@@ -29,6 +30,14 @@ class FillPresenterImpl(val view: FillView) : FillPresenter {
 
 	override fun stop() {
 		// Empty
+	}
+
+	fun onHideSeekBar() {
+		view.hideSeekBar()
+	}
+
+	fun onHideRecycler() {
+		view.hideRecycler()
 	}
 
 }

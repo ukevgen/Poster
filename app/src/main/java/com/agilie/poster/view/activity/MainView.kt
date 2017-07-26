@@ -6,4 +6,8 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(SkipStrategy::class)
 interface MainView : MvpView {
+
+
+
+
 }

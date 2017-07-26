@@ -2,7 +2,11 @@ package com.agilie.poster.view.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
+import android.support.constraint.ConstraintSet
 import android.support.design.widget.TabLayout
+import android.support.transition.TransitionManager
+import android.view.View
 import com.agilie.poster.Constants
 import com.agilie.poster.R
 import com.agilie.poster.view.fragments.FragmentContract
@@ -26,6 +30,10 @@ class MainActivity : BaseActivity(), MainView {
 			setUserPhoto(photoPath)
 		}
 		initViews()
+	}
+
+	override fun onResume() {
+		super.onResume()
 	}
 
 	override fun onBackPressed() {
@@ -57,14 +65,14 @@ class MainActivity : BaseActivity(), MainView {
 		toolbar_main.setNavigationOnClickListener { onBackPressed() }
 
 		addFragment(R.id.fragment_container, TabsFragment())
-		/*supportFragmentManager
-				.beginTransaction()
-				.replace(R.id.fragment_container, TabsFragment())
-				.commit()*/
+
 	}
 
 	private var tabSelectorListener = object : TabLayout.OnTabSelectedListener {
 		override fun onTabReselected(tab: TabLayout.Tab) {
+			val layout = tab.customView
+			hideTabIndicator(layout)
+
 			val tabsContainer = supportFragmentManager.findFragmentById(R.id.fragment_container)
 			when (tabsContainer) {
 				is TabsFragment -> {
@@ -75,28 +83,54 @@ class MainActivity : BaseActivity(), MainView {
 		}
 
 		override fun onTabUnselected(tab: TabLayout.Tab) {
-			// Empty
+			val layout = tab.customView
+			hideTabIndicator(layout)
 		}
 
 		override fun onTabSelected(tab: TabLayout.Tab) {
-			// Empty
+
+
+		}
+	}
+
+	private fun showTabIndicator(layout: View?) {
+		/*val set = ConstraintSet()
+		layout?.let {
+			it as ConstraintLayout
+			TransitionManager.beginDelayedTransition(it)
+			set.clone(it)
+			set.setMargin(R.id.line_view, ConstraintSet.START, 0)
+			set.setMargin(R.id.line_view, ConstraintSet.END, 0)
+			set.applyTo(it)
+		}*/
+	}
+
+	private fun hideTabIndicator(layout: View?) {
+		val set = ConstraintSet()
+		layout?.let {
+			it as ConstraintLayout
+
+			set.clone(it)
+			set.setVisibility(R.id.line_view, View.VISIBLE)
+
+			set.applyTo(it)
+			TransitionManager.beginDelayedTransition(it)
+			set.constrainWidth(R.id.line_view, 0)
+			/*set.setMargin(R.id.line_view, ConstraintSet.START, 0)
+			set.setMargin(R.id.line_view, ConstraintSet.END, 0)*/
+			set.applyTo(it)
 		}
 	}
 
 	private fun onAnimateContainer(fragment: FragmentContract.View) {
+
 		when (show) {
 			true -> {
-				setting_container.animate()
-						.translationY(0f)
-						.duration = Constants.DURATION
-				fragment.onAnimationSettings(Constants.DURATION, show)
+				fragment.onAnimationSettings(show)
 				this.show = false
 			}
 			false -> {
-				setting_container.animate()
-						.translationY(setting_container.bottom.toFloat())
-						.duration = Constants.DURATION
-				fragment.onAnimationSettings(Constants.DURATION, show)
+				fragment.onAnimationSettings(show)
 				this.show = true
 			}
 		}

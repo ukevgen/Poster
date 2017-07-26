@@ -21,17 +21,8 @@
             android:background="@android:color/black"
             />
 
-        <RelativeLayout
-            android:id="@+id/setting_container"
-            android:layout_width="match_parent"
-            android:layout_height="211dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:background="@drawable/gradient_background">
-
-        </RelativeLayout>
-
     </RelativeLayout>
+
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_main"
@@ -45,7 +36,7 @@
         android:layout_height="69dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        app:tabIndicatorColor="@android:color/white"
+        app:tabIndicatorColor="@android:color/transparent"
         app:tabMode="fixed">
 
     </android.support.design.widget.TabLayout>

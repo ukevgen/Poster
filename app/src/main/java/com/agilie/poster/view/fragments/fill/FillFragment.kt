@@ -1,8 +1,8 @@
 package com.agilie.poster.view.fragments.fill
 
-import android.animation.Animator
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.support.constraint.ConstraintSet
+import android.support.transition.TransitionManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,7 +13,8 @@ import com.agilie.poster.R
 import com.agilie.poster.adapter.AdapterBehavior
 import com.agilie.poster.adapter.PhotoSettingsAdapter
 import com.agilie.poster.presenter.fill.FillPresenterImpl
-import com.agilie.poster.view.activity.MainActivity
+import com.agilie.poster.utils.dpToPx
+import com.agilie.poster.view.activity.MainView
 import com.agilie.poster.view.fragments.BaseFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_fill.*
@@ -24,6 +25,7 @@ class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListen
 	private val TAG = "FillFragment"
 	private var show = false
 	lateinit var fillPresenter: FillPresenterImpl
+	private val resetConstraintSet = ConstraintSet()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = inflater.inflate(R.layout.fragment_fill, container, false)
@@ -37,6 +39,18 @@ class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListen
 		initView()
 
 		fillPresenter = FillPresenterImpl(this)
+	}
+
+	override fun onResume() {
+		super.onResume()
+		fillPresenter.onHideSeekBar()
+		fillPresenter.onHideRecycler()
+	}
+
+	override fun onPause() {
+		show = true
+		fillPresenter.pause()
+		super.onPause()
 	}
 
 	override fun initView() {
@@ -53,10 +67,11 @@ class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListen
 		fill_progress_cancel.setOnClickListener {
 			fillPresenter.onProgressCancel()
 		}
+
+		resetConstraintSet.clone(fill_constraintLayout)
 	}
 
 	override fun onItemClick(position: Int) {
-		onAnimationAllNavigation()
 		fillPresenter.onItemClick()
 	}
 
@@ -69,61 +84,83 @@ class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListen
 		return adapter as RecyclerView.Adapter<VH>
 	}
 
-	override fun onAnimationSettings(duration: Long, show: Boolean) {
+	override fun onAnimationSettings(show: Boolean) {
 		when (show) {
 			true -> {
-				animateViewElement(fill_recycler, 0f, duration)
+				showRecycler()
 			}
 			false -> {
-				animateViewElement(fill_recycler, fill_recycler.bottom.toFloat(), duration)
+				hideRecycler()
 			}
 		}
+	}
+
+	override fun showSeekBar() {
+		val layout = fill_constraintLayout
+		TransitionManager.beginDelayedTransition(fill_constraintLayout)
+		val margin = dpToPx(context, R.dimen.progress_margin_bottom)
+
+		val set = ConstraintSet()
+		set.clone(layout)
+		set.clear(R.id.fill_progress_container, ConstraintSet.TOP)
+		set.connect(R.id.fill_progress_container, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+		set.setMargin(R.id.fill_progress_container, ConstraintSet.BOTTOM, margin)
+		set.applyTo(layout)
+	}
+
+	override fun hideSeekBar() {
+		val layout = fill_constraintLayout
+		resetConstraintSet.applyTo(layout)
+	}
+
+	override fun showRecycler() {
+
+		val layout = fill_constraintLayout
+		TransitionManager.beginDelayedTransition(fill_constraintLayout)
+		val set = ConstraintSet()
+		set.clone(layout)
+		set.clear(R.id.fill_recycler_container, ConstraintSet.TOP)
+		set.connect(R.id.fill_recycler_container, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+		set.applyTo(layout)
+	}
+
+	override fun hideRecycler() {
+		val layout = fill_constraintLayout ?: return
+		TransitionManager.beginDelayedTransition(fill_constraintLayout)
+		val set = ConstraintSet()
+		set.clone(layout)
+		set.clear(R.id.fill_recycler_container, ConstraintSet.BOTTOM)
+		set.connect(R.id.fill_recycler_container, ConstraintSet.TOP, R.id.fill_progress_container, ConstraintSet.BOTTOM)
+		set.applyTo(layout)
 	}
 
 	override fun onAnimationAllNavigation() {
 
-		if (activity !is MainActivity) {
+		if (activity !is MainView) {
 			return
 		}
-		activity as AppCompatActivity
-		val toolBar = activity.toolbar_main
+
 		val tabLayout = activity.tab_layout
+		val toolBar = activity.toolbar_main
 		when (show) {
 			true -> {
+				showRecycler()
 				// Show toolbar and setting container
-				fill_progress_container.visibility = View.GONE
 				animateViewElement(view = toolBar, toYPosition = 0f, duration = Constants.DURATION)
-				animateViewElement(fill_recycler, 0f, Constants.DURATION)
-				animateViewElement(activity.setting_container, 0f, Constants.DURATION)
 				animateViewElement(tabLayout, 0f, Constants.DURATION)
+				// Hide progress container
+				hideSeekBar()
 				this.show = false
 			}
 			false -> {
+				hideRecycler()
 				animateViewElement(view = toolBar, toYPosition = (-toolBar.bottom).toFloat(), duration = Constants.DURATION)
-				animateViewElement(fill_recycler, fill_recycler.bottom.toFloat(), Constants.DURATION)
-				animateViewElement(activity.setting_container, activity.setting_container.bottom.toFloat(), Constants.DURATION)
-				animateViewElement(tabLayout, fill_progress_container, View.VISIBLE, tabLayout.bottom.toFloat(), Constants.DURATION)
-				tabLayout.clearAnimation()
+				animateViewElement(tabLayout, tabLayout.bottom.toFloat(), Constants.DURATION)
+				// Show progress container
+				showSeekBar()
+
 				this.show = true
 			}
-		}
-	}
-
-	private var animationListener = object : Animator.AnimatorListener {
-		override fun onAnimationRepeat(animation: Animator?) {
-			// Empty
-		}
-
-		override fun onAnimationEnd(animation: Animator?) {
-			fill_progress_container.visibility = View.VISIBLE
-		}
-
-		override fun onAnimationCancel(animation: Animator?) {
-			// Empty
-		}
-
-		override fun onAnimationStart(animation: Animator?) {
-			// Empty
 		}
 	}
 }

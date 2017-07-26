@@ -48,19 +48,31 @@ class FilterFragment : BaseFragment(),
 		return adapter as RecyclerView.Adapter<VH>
 	}
 
-	override fun onAnimationSettings(duration: Long, show: Boolean) {
+	override fun onAnimationSettings(show: Boolean) {
 		when (show) {
 			true -> {
-				fill_recycler.animate()
-						.translationY(0f)
-						.duration = duration
+
 			}
 			false -> {
-				fill_recycler.animate()
-						.translationY(fill_recycler.bottom.toFloat())
-						.duration = duration
+
 			}
 		}
+	}
+
+	override fun showRecycler() {
+		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	}
+
+	override fun hideRecycler() {
+		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	}
+
+	override fun showSeekBar() {
+		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	}
+
+	override fun hideSeekBar() {
+		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
 	override fun onAnimationAllNavigation() {

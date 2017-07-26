@@ -17,6 +17,8 @@
     <dimen name="gallery_image_height">90dp</dimen>
     <dimen name="gallery_image_padding">4dp</dimen>
     <dimen name="flash_button_size">27dp</dimen>
+    <dimen name="progress_margin_bottom">20dp</dimen>
+    <dimen name="recycler_margin_bottom">85dp</dimen>
 
 
 </resources>
