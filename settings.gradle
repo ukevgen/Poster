@@ -1,1 +1,1 @@
-include ':app', ':paint-code', ':camera'
+include ':app', ':image-controls', ':camera'

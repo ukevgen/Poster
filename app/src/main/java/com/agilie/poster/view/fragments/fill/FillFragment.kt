@@ -1,5 +1,9 @@
 package com.agilie.poster.view.fragments.fill
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.support.constraint.ConstraintSet
 import android.support.transition.TransitionManager
@@ -8,6 +12,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
+import com.agilie.imagecontrols.settings.ImageSettings
 import com.agilie.poster.Constants
 import com.agilie.poster.R
 import com.agilie.poster.adapter.AdapterBehavior
@@ -23,10 +29,12 @@ import kotlinx.android.synthetic.main.fragment_fill.*
 
 class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListener {
 
+
 	private val TAG = "FillFragment"
 	private var itemSelected = false
 	private var visibleRecycler = false
-	lateinit var fillPresenter: FillPresenterImpl
+	private lateinit var fillPresenter: FillPresenterImpl
+	private lateinit var canvas: Canvas
 	private val resetConstraintSet = ConstraintSet()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -35,12 +43,19 @@ class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListen
 		return view
 	}
 
+
 	override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
 		initView()
+		val userPhoto = (activity.user_photo.drawable) as BitmapDrawable
+		val immutableBitmap = userPhoto.bitmap
+		val mutableBitmap = immutableBitmap.copy(Bitmap.Config.ARGB_8888, true)
+		canvas = Canvas(mutableBitmap)
 
-		fillPresenter = FillPresenterImpl(this)
+		fillPresenter = FillPresenterImpl(this, ImageSettings(mutableBitmap))
+
+		activity.user_photo.setImageBitmap(mutableBitmap)
 	}
 
 	override fun onResume() {
@@ -71,9 +86,25 @@ class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListen
 		}
 
 		resetConstraintSet.clone(fill_constraintLayout)
+
+		seek_bar_fill.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+			override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+				val value = progress / 100f
+				fillPresenter.onProgressChanged(value)
+			}
+
+			override fun onStartTrackingTouch(seekBar: SeekBar?) {
+				// Empty
+			}
+
+			override fun onStopTrackingTouch(seekBar: SeekBar?) {
+				// Empty
+			}
+		})
 	}
 
 	override fun onItemClick(position: Int) {
+		//TODO set image properties
 		onAnimationSettings()
 	}
 
@@ -168,6 +199,11 @@ class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListen
 				setRecyclerVisibleStatus()
 			}
 		}
+	}
+
+	override fun updateImage(paint: Paint, bitmap: Bitmap?) {
+		canvas.drawBitmap(bitmap, 0f, 0f, paint)
+		activity.user_photo.setImageBitmap(bitmap)
 	}
 
 	private fun setRecyclerVisibleStatus() {

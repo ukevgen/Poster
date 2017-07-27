@@ -35,7 +35,7 @@
             android:layout_marginLeft="82dp"
             android:layout_marginRight="82dp"
             android:max="100"
-            android:progress="50"
+            android:progress="0"
             android:progressDrawable="@drawable/progress_properties"
             android:thumb="@drawable/progress_pointer"
             >

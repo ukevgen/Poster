@@ -1,4 +1,4 @@
-package com.agilie.paintcode;
+package com.agilie.imagecontrols;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

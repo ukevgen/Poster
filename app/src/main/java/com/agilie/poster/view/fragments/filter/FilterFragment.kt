@@ -1,5 +1,7 @@
 package com.agilie.poster.view.fragments.filter
 
+import android.graphics.Bitmap
+import android.graphics.Paint
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -16,6 +18,9 @@ import kotlinx.android.synthetic.main.fragment_filter.*
 class FilterFragment : BaseFragment(),
 		FilterView,
 		AdapterBehavior.OnItemClickListener {
+	override fun updateImage(paint: Paint, bitmap: Bitmap?) {
+		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	}
 
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

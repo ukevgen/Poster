@@ -1,8 +1,9 @@
 package com.agilie.poster.presenter.fill
 
+import com.agilie.imagecontrols.settings.ImageSettings
 import com.agilie.poster.view.fragments.fill.FillView
 
-class FillPresenterImpl(val view: FillView) : FillPresenter {
+class FillPresenterImpl(val view: FillView, val imageSettings: ImageSettings) : FillPresenter {
 
 	override fun onProgressOk() {
 		view.onAnimationSettings()
@@ -31,6 +32,11 @@ class FillPresenterImpl(val view: FillView) : FillPresenter {
 
 	override fun stop() {
 		// Empty
+	}
+
+	fun onProgressChanged(value: Float) {
+		val paint = imageSettings.saturation(value)
+		view.updateImage(paint, imageSettings.bitmap)
 	}
 
 }

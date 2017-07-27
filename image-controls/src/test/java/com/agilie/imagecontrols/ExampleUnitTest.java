@@ -1,4 +1,4 @@
-package com.agilie.paintcode;
+package com.agilie.imagecontrols;
 
 import org.junit.Test;
 
