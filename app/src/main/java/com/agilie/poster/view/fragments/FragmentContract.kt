@@ -1,11 +1,13 @@
 package com.agilie.poster.view.fragments
 
+import com.agilie.poster.view.activity.MainActivity
+
 interface FragmentContract {
 
 	interface View {
 		fun initView()
 
-		fun onAnimationSettings(show: Boolean)
+		fun onAnimationSettings()
 
 		fun showRecycler()
 
@@ -15,12 +17,13 @@ interface FragmentContract {
 
 		fun hideSeekBar()
 
-		fun onAnimationAllNavigation()
 
 		fun animateViewElement(view: android.view.View, toYPosition: Float, duration: Long) {
 			view.animate()
 					.translationY(toYPosition)
 					.duration = duration
 		}
+
+		fun onAnimationFragment(selected: MainActivity.TabSelectedStatus)
 	}
 }

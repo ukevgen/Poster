@@ -14,6 +14,7 @@ import com.agilie.poster.adapter.AdapterBehavior
 import com.agilie.poster.adapter.PhotoSettingsAdapter
 import com.agilie.poster.presenter.fill.FillPresenterImpl
 import com.agilie.poster.utils.dpToPx
+import com.agilie.poster.view.activity.MainActivity
 import com.agilie.poster.view.activity.MainView
 import com.agilie.poster.view.fragments.BaseFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,7 +24,8 @@ import kotlinx.android.synthetic.main.fragment_fill.*
 class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListener {
 
 	private val TAG = "FillFragment"
-	private var show = false
+	private var itemSelected = false
+	private var visibleRecycler = false
 	lateinit var fillPresenter: FillPresenterImpl
 	private val resetConstraintSet = ConstraintSet()
 
@@ -43,13 +45,13 @@ class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListen
 
 	override fun onResume() {
 		super.onResume()
-		fillPresenter.onHideSeekBar()
-		fillPresenter.onHideRecycler()
+		fillPresenter.resume()
 	}
 
 	override fun onPause() {
-		show = true
-		fillPresenter.pause()
+		//fillPresenter.pause()
+		visibleRecycler = false
+		onAnimationSettings()
 		super.onPause()
 	}
 
@@ -72,7 +74,7 @@ class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListen
 	}
 
 	override fun onItemClick(position: Int) {
-		fillPresenter.onItemClick()
+		onAnimationSettings()
 	}
 
 	override fun <VH : RecyclerView.ViewHolder?> getAdapter(): RecyclerView.Adapter<VH>? {
@@ -84,13 +86,30 @@ class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListen
 		return adapter as RecyclerView.Adapter<VH>
 	}
 
-	override fun onAnimationSettings(show: Boolean) {
-		when (show) {
+	override fun onAnimationSettings() {
+		if (activity !is MainView) {
+			return
+		}
+		val tabLayout = activity.tab_layout
+		val toolBar = activity.toolbar_main
+
+		when (itemSelected) {
 			true -> {
 				showRecycler()
+				// Show toolbar and setting container
+				animateViewElement(view = toolBar, toYPosition = 0f, duration = Constants.DURATION)
+				animateViewElement(tabLayout, 0f, Constants.DURATION)
+				// Hide progress container
+				hideSeekBar()
+				itemSelected = false
 			}
 			false -> {
 				hideRecycler()
+				animateViewElement(view = toolBar, toYPosition = (-toolBar.bottom).toFloat(), duration = Constants.DURATION)
+				animateViewElement(tabLayout, tabLayout.bottom.toFloat(), Constants.DURATION)
+				// Show progress container
+				showSeekBar()
+				itemSelected = true
 			}
 		}
 	}
@@ -134,32 +153,32 @@ class FillFragment : BaseFragment(), FillView, AdapterBehavior.OnItemClickListen
 		set.applyTo(layout)
 	}
 
-	override fun onAnimationAllNavigation() {
-
-		if (activity !is MainView) {
-			return
+	override fun onAnimationFragment(selected: MainActivity.TabSelectedStatus) {
+		when (selected) {
+			MainActivity.TabSelectedStatus.SELECTED -> {
+				// Empty
+			}
+			MainActivity.TabSelectedStatus.UNSELECTED -> {
+				// Hide recycler
+				hideRecycler()
+				visibleRecycler = false
+			}
+			MainActivity.TabSelectedStatus.RESELECTED -> {
+				// Hide or show recycler
+				setRecyclerVisibleStatus()
+			}
 		}
+	}
 
-		val tabLayout = activity.tab_layout
-		val toolBar = activity.toolbar_main
-		when (show) {
+	private fun setRecyclerVisibleStatus() {
+		when (visibleRecycler) {
 			true -> {
-				showRecycler()
-				// Show toolbar and setting container
-				animateViewElement(view = toolBar, toYPosition = 0f, duration = Constants.DURATION)
-				animateViewElement(tabLayout, 0f, Constants.DURATION)
-				// Hide progress container
-				hideSeekBar()
-				this.show = false
+				hideRecycler()
+				visibleRecycler = false
 			}
 			false -> {
-				hideRecycler()
-				animateViewElement(view = toolBar, toYPosition = (-toolBar.bottom).toFloat(), duration = Constants.DURATION)
-				animateViewElement(tabLayout, tabLayout.bottom.toFloat(), Constants.DURATION)
-				// Show progress container
-				showSeekBar()
-
-				this.show = true
+				showRecycler()
+				visibleRecycler = true
 			}
 		}
 	}

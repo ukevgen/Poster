@@ -8,7 +8,6 @@ import android.support.design.widget.TabLayout
 import android.support.transition.AutoTransition
 import android.support.transition.Transition
 import android.support.transition.TransitionManager
-import android.util.Log
 import android.view.View
 import com.agilie.poster.Constants
 import com.agilie.poster.R
@@ -22,7 +21,14 @@ import java.io.File
 class MainActivity : BaseActivity(), MainView {
 
 	private var TAG = "MainActivity"
-	private var show = false
+	private var visibleTabIndicator = false
+	private var tabLayout: View? = null
+
+	enum class TabSelectedStatus {
+		SELECTED,
+		RESELECTED,
+		UNSELECTED
+	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -37,6 +43,11 @@ class MainActivity : BaseActivity(), MainView {
 
 	override fun onResume() {
 		super.onResume()
+	}
+
+	override fun onPause() {
+		hideTabIndicator(tabLayout)
+		super.onPause()
 	}
 
 	override fun onBackPressed() {
@@ -73,34 +84,43 @@ class MainActivity : BaseActivity(), MainView {
 
 	private var tabSelectorListener = object : TabLayout.OnTabSelectedListener {
 		override fun onTabReselected(tab: TabLayout.Tab) {
-			onTabClick(tab)
-			Log.d(TAG, "reselected")
+			onTabClick(tab, TabSelectedStatus.RESELECTED)
 		}
 
 		override fun onTabUnselected(tab: TabLayout.Tab) {
-
-			onTabClick(tab)
-			//val layout = tab.customView
-
-			//hideTabIndicator(layout)
+			onTabClick(tab, TabSelectedStatus.UNSELECTED)
 		}
 
 		override fun onTabSelected(tab: TabLayout.Tab) {
-
-			Log.d(TAG, "selected")
+			onTabClick(tab, TabSelectedStatus.SELECTED)
 		}
 	}
 
-	private fun onTabClick(tab: TabLayout.Tab) {
-		val layout = tab.customView
+	private fun onTabClick(tab: TabLayout.Tab, selected: TabSelectedStatus) {
+		val layout = tab.customView ?: return
+		tabLayout = layout
 		val fragment = getCurrentFragment(tab)
 
-		when (show) {
-			true -> showTabIndicator(layout)
-			false -> hideTabIndicator(layout)
+		when (selected) {
+			TabSelectedStatus.SELECTED -> {
+				hideTabIndicator(layout)
+			}
+			TabSelectedStatus.RESELECTED -> {
+				when (visibleTabIndicator) {
+					true -> {
+						hideTabIndicator(layout)
+					}
+					false -> {
+						showTabIndicator(layout)
+					}
+				}
+				onAnimateFragment(fragment, selected)
+			}
+			TabSelectedStatus.UNSELECTED -> {
+				hideTabIndicator(layout)
+				onAnimateFragment(fragment, selected)
+			}
 		}
-
-		onAnimateContainer(fragment)
 	}
 
 	private fun getCurrentFragment(tab: TabLayout.Tab): FragmentContract.View? {
@@ -125,6 +145,7 @@ class MainActivity : BaseActivity(), MainView {
 			set.constrainWidth(R.id.line_view, 0)
 			set.applyTo(it)
 		}
+		visibleTabIndicator = true
 	}
 
 	private fun hideTabIndicator(layout: View?) {
@@ -158,19 +179,10 @@ class MainActivity : BaseActivity(), MainView {
 			set.constrainWidth(R.id.line_view, 1)
 			set.applyTo(it)
 		}
+		visibleTabIndicator = false
 	}
 
-	private fun onAnimateContainer(fragment: FragmentContract.View?) {
-
-		when (show) {
-			true -> {
-				fragment?.onAnimationSettings(show)
-				this.show = false
-			}
-			false -> {
-				fragment?.onAnimationSettings(show)
-				this.show = true
-			}
-		}
+	private fun onAnimateFragment(fragment: FragmentContract.View?, selected: TabSelectedStatus) {
+		fragment?.onAnimationFragment(selected)
 	}
 }

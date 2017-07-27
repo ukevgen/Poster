@@ -5,23 +5,24 @@ import com.agilie.poster.view.fragments.fill.FillView
 class FillPresenterImpl(val view: FillView) : FillPresenter {
 
 	override fun onProgressOk() {
-		view.onAnimationAllNavigation()
+		view.onAnimationSettings()
 	}
 
 	override fun onProgressCancel() {
-		view.onAnimationAllNavigation()
+		view.onAnimationSettings()
 	}
 
 	override fun onItemClick() {
-		view.onAnimationAllNavigation()
+		//view.onAnimationAllNavigation()
 	}
 
 	override fun resume() {
-		// Empty
+		view.hideSeekBar()
+		view.hideRecycler()
 	}
 
 	override fun pause() {
-		view.onAnimationAllNavigation()
+		//view.onAnimationAllNavigation()
 	}
 
 	override fun destroy() {
@@ -30,14 +31,6 @@ class FillPresenterImpl(val view: FillView) : FillPresenter {
 
 	override fun stop() {
 		// Empty
-	}
-
-	fun onHideSeekBar() {
-		view.hideSeekBar()
-	}
-
-	fun onHideRecycler() {
-		view.hideRecycler()
 	}
 
 }

@@ -9,13 +9,14 @@ import android.view.ViewGroup
 import com.agilie.poster.R
 import com.agilie.poster.adapter.AdapterBehavior
 import com.agilie.poster.adapter.PhotoIconsAdapter
+import com.agilie.poster.view.activity.MainActivity
 import com.agilie.poster.view.fragments.BaseFragment
-import kotlinx.android.synthetic.main.fragment_fill.*
 import kotlinx.android.synthetic.main.fragment_filter.*
 
 class FilterFragment : BaseFragment(),
 		FilterView,
 		AdapterBehavior.OnItemClickListener {
+
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		val view = inflater.inflate(R.layout.fragment_filter, container, false)
@@ -48,34 +49,23 @@ class FilterFragment : BaseFragment(),
 		return adapter as RecyclerView.Adapter<VH>
 	}
 
-	override fun onAnimationSettings(show: Boolean) {
-		when (show) {
-			true -> {
+	override fun onAnimationSettings() {
+	}
 
-			}
-			false -> {
-
-			}
-		}
+	override fun onAnimationFragment(selected: MainActivity.TabSelectedStatus) {
 	}
 
 	override fun showRecycler() {
-		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
 	override fun hideRecycler() {
-		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
 	override fun showSeekBar() {
-		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
 	override fun hideSeekBar() {
-		TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
 	}
 
-	override fun onAnimationAllNavigation() {
-		// Empty
-	}
+
 }

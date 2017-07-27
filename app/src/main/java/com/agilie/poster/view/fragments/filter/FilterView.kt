@@ -5,6 +5,5 @@ import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
-@StateStrategyType(SkipStrategy::class)
-interface FilterView : MvpView, FragmentContract.View {
+interface FilterView :  FragmentContract.View {
 }
